@@ -1,0 +1,1482 @@
+{
+  "variant": "sym",
+  "contrasts_source": "alignn.inverse.ablations",
+  "extract_source": "atombench.tables.extract_metrics",
+  "tier2_ran": true,
+  "n_distinct_tests": 6,
+  "arms": {
+    "A0": {
+      "n_seeds": 3,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "match_rate": {
+        "mean": 0.462783,
+        "sd": 0.01483,
+        "n": 3,
+        "values": [
+          0.446602,
+          0.466019,
+          0.475728
+        ]
+      },
+      "rmsd": {
+        "mean": 0.042644,
+        "sd": 0.007548,
+        "n": 3,
+        "values": [
+          0.050077,
+          0.042868,
+          0.034986
+        ]
+      },
+      "ccrmsd": {
+        "mean": 0.493409,
+        "sd": 0.00531,
+        "n": 3,
+        "values": [
+          0.49494308085397454,
+          0.4875007550264038,
+          0.497782896699912
+        ]
+      },
+      "mae_abc": {
+        "mean": 0.484807,
+        "sd": 0.021555,
+        "n": 3,
+        "values": [
+          0.4804110885109692,
+          0.5082212555350251,
+          0.4657878883439072
+        ]
+      },
+      "mae_ang": {
+        "mean": 10.387374,
+        "sd": 1.480553,
+        "n": 3,
+        "values": [
+          10.569930087531247,
+          11.768183762051715,
+          8.824008093502853
+        ]
+      },
+      "kld": {
+        "mean": 0.022093,
+        "sd": 0.00239,
+        "n": 3,
+        "values": [
+          0.021400931923206024,
+          0.024752033466130554,
+          0.0201250464623398
+        ]
+      },
+      "val_loss": {
+        "mean": 6.304069,
+        "sd": 0.07334,
+        "n": 3,
+        "values": [
+          6.2702882289886475,
+          6.388211488723755,
+          6.253706455230713
+        ]
+      }
+    },
+    "A1": {
+      "n_seeds": 3,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "match_rate": {
+        "mean": 0.462783,
+        "sd": 0.024433,
+        "n": 3,
+        "values": [
+          0.466019,
+          0.485437,
+          0.436893
+        ]
+      },
+      "rmsd": {
+        "mean": 0.040347,
+        "sd": 0.010785,
+        "n": 3,
+        "values": [
+          0.030817,
+          0.052054,
+          0.03817
+        ]
+      },
+      "ccrmsd": {
+        "mean": 0.497884,
+        "sd": 0.022044,
+        "n": 3,
+        "values": [
+          0.4824350738025283,
+          0.48808751384450405,
+          0.5231279634038719
+        ]
+      },
+      "mae_abc": {
+        "mean": 0.501583,
+        "sd": 0.008278,
+        "n": 3,
+        "values": [
+          0.49214871845059555,
+          0.5076322585012353,
+          0.5049666818983617
+        ]
+      },
+      "mae_ang": {
+        "mean": 10.089791,
+        "sd": 0.580815,
+        "n": 3,
+        "values": [
+          10.220674484543375,
+          9.45470275729061,
+          10.593997253757149
+        ]
+      },
+      "kld": {
+        "mean": 0.022582,
+        "sd": 0.000772,
+        "n": 3,
+        "values": [
+          0.023200692618804447,
+          0.02171662132092483,
+          0.022829101878632796
+        ]
+      },
+      "val_loss": {
+        "mean": 6.592857,
+        "sd": 0.027535,
+        "n": 3,
+        "values": [
+          6.616580963134766,
+          6.599325656890869,
+          6.562663316726685
+        ]
+      }
+    },
+    "A2": {
+      "n_seeds": 3,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "match_rate": {
+        "mean": 0.462783,
+        "sd": 0.040421,
+        "n": 3,
+        "values": [
+          0.417476,
+          0.495146,
+          0.475728
+        ]
+      },
+      "rmsd": {
+        "mean": 0.03853,
+        "sd": 0.017941,
+        "n": 3,
+        "values": [
+          0.036026,
+          0.057591,
+          0.021972
+        ]
+      },
+      "ccrmsd": {
+        "mean": 0.509594,
+        "sd": 0.012206,
+        "n": 3,
+        "values": [
+          0.5235499564055341,
+          0.5009103677081491,
+          0.5043202603866475
+        ]
+      },
+      "mae_abc": {
+        "mean": 0.53226,
+        "sd": 0.043886,
+        "n": 3,
+        "values": [
+          0.582533060138254,
+          0.5126359813216627,
+          0.5016100112327909
+        ]
+      },
+      "mae_ang": {
+        "mean": 11.269323,
+        "sd": 0.265997,
+        "n": 3,
+        "values": [
+          11.573845394485991,
+          11.082365262551837,
+          11.151758552225708
+        ]
+      },
+      "kld": {
+        "mean": 0.025122,
+        "sd": 0.00139,
+        "n": 3,
+        "values": [
+          0.026676056019593542,
+          0.024693793190246838,
+          0.023996307166470564
+        ]
+      },
+      "val_loss": {
+        "mean": 6.255638,
+        "sd": 0.04486,
+        "n": 3,
+        "values": [
+          6.293765068054199,
+          6.266941070556641,
+          6.206207275390625
+        ]
+      }
+    },
+    "A3": {
+      "n_seeds": 3,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "match_rate": {
+        "mean": 0.478964,
+        "sd": 0.029661,
+        "n": 3,
+        "values": [
+          0.446602,
+          0.504854,
+          0.485437
+        ]
+      },
+      "rmsd": {
+        "mean": 0.037622,
+        "sd": 0.020164,
+        "n": 3,
+        "values": [
+          0.02967,
+          0.022647,
+          0.06055
+        ]
+      },
+      "ccrmsd": {
+        "mean": 0.496267,
+        "sd": 0.009427,
+        "n": 3,
+        "values": [
+          0.48627612092749417,
+          0.49752058504678376,
+          0.5050037970337685
+        ]
+      },
+      "mae_abc": {
+        "mean": 0.503206,
+        "sd": 0.001677,
+        "n": 3,
+        "values": [
+          0.5038889831355294,
+          0.5044334282392601,
+          0.5012958379699556
+        ]
+      },
+      "mae_ang": {
+        "mean": 9.927673,
+        "sd": 0.535369,
+        "n": 3,
+        "values": [
+          10.544591261295594,
+          9.65354308188933,
+          9.584884017109763
+        ]
+      },
+      "kld": {
+        "mean": 0.022162,
+        "sd": 0.00016,
+        "n": 3,
+        "values": [
+          0.022279068453711807,
+          0.021979295728551385,
+          0.022226426324236246
+        ]
+      },
+      "val_loss": {
+        "mean": 6.59551,
+        "sd": 0.044326,
+        "n": 3,
+        "values": [
+          6.63856315612793,
+          6.597955226898193,
+          6.550013065338135
+        ]
+      }
+    },
+    "A3_nogate": {
+      "n_seeds": 3,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "match_rate": {
+        "mean": 0.488673,
+        "sd": 0.044843,
+        "n": 3,
+        "values": [
+          0.514563,
+          0.514563,
+          0.436893
+        ]
+      },
+      "rmsd": {
+        "mean": 0.035275,
+        "sd": 0.005243,
+        "n": 3,
+        "values": [
+          0.040684,
+          0.034924,
+          0.030216
+        ]
+      },
+      "ccrmsd": {
+        "mean": 0.49945,
+        "sd": 0.012035,
+        "n": 3,
+        "values": [
+          0.5012362705219684,
+          0.5104924372472874,
+          0.4866226113648273
+        ]
+      },
+      "mae_abc": {
+        "mean": 0.489774,
+        "sd": 0.056794,
+        "n": 3,
+        "values": [
+          0.4395659495829718,
+          0.4783409586398982,
+          0.5514144766494137
+        ]
+      },
+      "mae_ang": {
+        "mean": 10.210451,
+        "sd": 0.706151,
+        "n": 3,
+        "values": [
+          9.917529148988622,
+          9.697900188341206,
+          11.015924342864972
+        ]
+      },
+      "kld": {
+        "mean": 0.022444,
+        "sd": 0.003122,
+        "n": 3,
+        "values": [
+          0.019214979856987748,
+          0.02267189974644374,
+          0.025445851539077215
+        ]
+      },
+      "val_loss": {
+        "mean": 6.54244,
+        "sd": 0.036527,
+        "n": 3,
+        "values": [
+          6.500598192214966,
+          6.558758735656738,
+          6.567962408065796
+        ]
+      }
+    },
+    "A4": {
+      "n_seeds": 3,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "match_rate": {
+        "mean": 0.446602,
+        "sd": 0.025687,
+        "n": 3,
+        "values": [
+          0.475728,
+          0.436893,
+          0.427184
+        ]
+      },
+      "rmsd": {
+        "mean": 0.034035,
+        "sd": 0.016484,
+        "n": 3,
+        "values": [
+          0.030461,
+          0.019631,
+          0.052013
+        ]
+      },
+      "ccrmsd": {
+        "mean": 0.524284,
+        "sd": 0.019243,
+        "n": 3,
+        "values": [
+          0.5105538982732054,
+          0.5160184091348387,
+          0.5462789053394863
+        ]
+      },
+      "mae_abc": {
+        "mean": 0.530624,
+        "sd": 0.061442,
+        "n": 3,
+        "values": [
+          0.4788510129079131,
+          0.5144997797132177,
+          0.5985200479659915
+        ]
+      },
+      "mae_ang": {
+        "mean": 10.613223,
+        "sd": 0.117905,
+        "n": 3,
+        "values": [
+          10.661456024462494,
+          10.699364308148816,
+          10.478849639657204
+        ]
+      },
+      "kld": {
+        "mean": 0.022746,
+        "sd": 0.001364,
+        "n": 3,
+        "values": [
+          0.02194146851379236,
+          0.021974361535002495,
+          0.024320957596499243
+        ]
+      },
+      "val_loss": {
+        "mean": 7.461075,
+        "sd": 0.028283,
+        "n": 3,
+        "values": [
+          7.431412220001221,
+          7.487739324569702,
+          7.464073896408081
+        ]
+      }
+    },
+    "A6": {
+      "n_seeds": 3,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "match_rate": {
+        "mean": 0.475728,
+        "sd": 0.048544,
+        "n": 3,
+        "values": [
+          0.475728,
+          0.524272,
+          0.427184
+        ]
+      },
+      "rmsd": {
+        "mean": 0.025531,
+        "sd": 0.011569,
+        "n": 3,
+        "values": [
+          0.013888,
+          0.037025,
+          0.025679
+        ]
+      },
+      "ccrmsd": {
+        "mean": 0.508907,
+        "sd": 0.04344,
+        "n": 3,
+        "values": [
+          0.46269762164884937,
+          0.5489101194149727,
+          0.5151119720368912
+        ]
+      },
+      "mae_abc": {
+        "mean": 0.521199,
+        "sd": 0.014795,
+        "n": 3,
+        "values": [
+          0.520507019424541,
+          0.5363287987019628,
+          0.506762422151878
+        ]
+      },
+      "mae_ang": {
+        "mean": 10.771165,
+        "sd": 0.456461,
+        "n": 3,
+        "values": [
+          11.22253965215098,
+          10.30978281518464,
+          10.781171678621314
+        ]
+      },
+      "kld": {
+        "mean": 0.024239,
+        "sd": 0.001298,
+        "n": 3,
+        "values": [
+          0.0257305200033862,
+          0.023621465100603728,
+          0.023365397109235787
+        ]
+      },
+      "val_loss": {
+        "mean": 6.619415,
+        "sd": 0.046344,
+        "n": 3,
+        "values": [
+          6.6488659381866455,
+          6.565994739532471,
+          6.643383741378784
+        ]
+      }
+    },
+    "nolg": {
+      "n_seeds": 3,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "match_rate": {
+        "mean": 0.459547,
+        "sd": 0.031209,
+        "n": 3,
+        "values": [
+          0.446602,
+          0.495146,
+          0.436893
+        ]
+      },
+      "rmsd": {
+        "mean": 0.037486,
+        "sd": 0.018932,
+        "n": 3,
+        "values": [
+          0.030941,
+          0.058822,
+          0.022696
+        ]
+      },
+      "ccrmsd": {
+        "mean": 0.510652,
+        "sd": 0.01291,
+        "n": 3,
+        "values": [
+          0.5088267463318635,
+          0.5243774648213245,
+          0.4987507146341224
+        ]
+      },
+      "mae_abc": {
+        "mean": 0.559809,
+        "sd": 0.011244,
+        "n": 3,
+        "values": [
+          0.5472809255159375,
+          0.5690256735474323,
+          0.563119003911415
+        ]
+      },
+      "mae_ang": {
+        "mean": 9.941476,
+        "sd": 1.249001,
+        "n": 3,
+        "values": [
+          10.111440133031852,
+          8.61619604416645,
+          11.096790506646691
+        ]
+      },
+      "kld": {
+        "mean": 0.02296,
+        "sd": 0.002044,
+        "n": 3,
+        "values": [
+          0.021570184016394902,
+          0.022001948147502833,
+          0.025307131867515893
+        ]
+      },
+      "val_loss": {
+        "mean": 7.178009,
+        "sd": 0.034948,
+        "n": 3,
+        "values": [
+          7.14884352684021,
+          7.216745376586914,
+          7.168437719345093
+        ]
+      }
+    }
+  },
+  "contrasts": {
+    "does explicit angular denoising help": {
+      "ref": "A0",
+      "test": "A1",
+      "preregistered": true,
+      "metrics": {
+        "match_rate": {
+          "label": "match rate",
+          "lower_is_better": false,
+          "ref_mean": 0.462783,
+          "test_mean": 0.462783,
+          "delta": 0.0,
+          "welch_p": 1.0,
+          "hedges_g": 0.0
+        },
+        "rmsd": {
+          "label": "coordinate RMSD",
+          "lower_is_better": true,
+          "ref_mean": 0.042644,
+          "test_mean": 0.040347,
+          "delta": -0.002297,
+          "welch_p": 0.7792326819429767,
+          "hedges_g": -0.19739199789030348
+        },
+        "ccrmsd": {
+          "label": "ccRMSD",
+          "lower_is_better": true,
+          "ref_mean": 0.493409,
+          "test_mean": 0.497884,
+          "delta": 0.004475,
+          "welch_p": 0.7620476551290917,
+          "hedges_g": 0.22326313401136924
+        },
+        "mae_abc": {
+          "label": "lattice MAE abc",
+          "lower_is_better": true,
+          "ref_mean": 0.484807,
+          "test_mean": 0.501583,
+          "delta": 0.016776,
+          "welch_p": 0.3101883521407592,
+          "hedges_g": 0.8219745066270786
+        },
+        "mae_ang": {
+          "label": "lattice MAE angles",
+          "lower_is_better": true,
+          "ref_mean": 10.387374,
+          "test_mean": 10.089791,
+          "delta": -0.297582,
+          "welch_p": 0.7701439354074526,
+          "hedges_g": -0.21169227766393278
+        },
+        "kld": {
+          "label": "KLD",
+          "lower_is_better": true,
+          "ref_mean": 0.022093,
+          "test_mean": 0.022582,
+          "delta": 0.000489,
+          "welch_p": 0.7628512312146499,
+          "hedges_g": 0.22049615802087108
+        }
+      },
+      "paired_match": {
+        "per_seed": [
+          {
+            "n_discordant": 14,
+            "p": 0.79052734375,
+            "only_a": 6,
+            "only_b": 8,
+            "both": 40,
+            "neither": 49
+          },
+          {
+            "n_discordant": 16,
+            "p": 0.803619384765625,
+            "only_a": 7,
+            "only_b": 9,
+            "both": 41,
+            "neither": 46
+          },
+          {
+            "n_discordant": 20,
+            "p": 0.5034446716308594,
+            "only_a": 12,
+            "only_b": 8,
+            "both": 37,
+            "neither": 46
+          }
+        ],
+        "pooled_cmh": {
+          "chi2": 0.02,
+          "p": 0.887537083981715,
+          "n_strata": 3
+        },
+        "n_targets_shared": 3
+      },
+      "paired_rmsd": {
+        "n_pairs": 118,
+        "mean_diff": -0.000871,
+        "wilcoxon_p": 0.9432049112485302,
+        "bca": {
+          "mean": -0.0008711295618926371,
+          "lo": -0.013168458906125217,
+          "hi": 0.011280884644195296,
+          "method": "BCa",
+          "n": 118,
+          "z0": 0.0002506628300880075,
+          "a": -0.004187283314598761
+        }
+      },
+      "holm": {
+        "match_rate": 1.0,
+        "rmsd": 1.0,
+        "ccrmsd": 1.0,
+        "mae_abc": 1.0,
+        "mae_ang": 1.0,
+        "kld": 1.0,
+        "paired_match": 1.0,
+        "paired_rmsd": 1.0
+      }
+    },
+    "does smooth topology alone help": {
+      "ref": "A0",
+      "test": "A2",
+      "preregistered": true,
+      "metrics": {
+        "match_rate": {
+          "label": "match rate",
+          "lower_is_better": false,
+          "ref_mean": 0.462783,
+          "test_mean": 0.462783,
+          "delta": 0.0,
+          "welch_p": 0.9999902862783995,
+          "hedges_g": 8.759036987167107e-06
+        },
+        "rmsd": {
+          "label": "coordinate RMSD",
+          "lower_is_better": true,
+          "ref_mean": 0.042644,
+          "test_mean": 0.03853,
+          "delta": -0.004114,
+          "welch_p": 0.7411954735100696,
+          "hedges_g": -0.23913027187462893
+        },
+        "ccrmsd": {
+          "label": "ccRMSD",
+          "lower_is_better": true,
+          "ref_mean": 0.493409,
+          "test_mean": 0.509594,
+          "delta": 0.016185,
+          "welch_p": 0.13473994047050544,
+          "hedges_g": 1.3755896074190548
+        },
+        "mae_abc": {
+          "label": "lattice MAE abc",
+          "lower_is_better": true,
+          "ref_mean": 0.484807,
+          "test_mean": 0.53226,
+          "delta": 0.047453,
+          "welch_p": 0.1940989782610556,
+          "hedges_g": 1.0980331392956222
+        },
+        "mae_ang": {
+          "label": "lattice MAE angles",
+          "lower_is_better": true,
+          "ref_mean": 10.387374,
+          "test_mean": 11.269323,
+          "delta": 0.881949,
+          "welch_p": 0.411145446017391,
+          "hedges_g": 0.6633247386620345
+        },
+        "kld": {
+          "label": "KLD",
+          "lower_is_better": true,
+          "ref_mean": 0.022093,
+          "test_mean": 0.025122,
+          "delta": 0.003029,
+          "welch_p": 0.14779167618713623,
+          "hedges_g": 1.2396529779332486
+        }
+      },
+      "paired_match": {
+        "per_seed": [
+          {
+            "n_discordant": 15,
+            "p": 0.6072387695312499,
+            "only_a": 9,
+            "only_b": 6,
+            "both": 37,
+            "neither": 51
+          },
+          {
+            "n_discordant": 15,
+            "p": 0.6072387695312499,
+            "only_a": 6,
+            "only_b": 9,
+            "both": 42,
+            "neither": 46
+          },
+          {
+            "n_discordant": 18,
+            "p": 1.0,
+            "only_a": 9,
+            "only_b": 9,
+            "both": 40,
+            "neither": 45
+          }
+        ],
+        "pooled_cmh": {
+          "chi2": 0.020833333333333332,
+          "p": 0.8852339144732015,
+          "n_strata": 3
+        },
+        "n_targets_shared": 3
+      },
+      "paired_rmsd": {
+        "n_pairs": 119,
+        "mean_diff": 0.001734,
+        "wilcoxon_p": 0.751921707006456,
+        "bca": {
+          "mean": 0.0017339028490483967,
+          "lo": -0.0037543441379895696,
+          "hi": 0.015333015683486714,
+          "method": "BCa",
+          "n": 119,
+          "z0": 0.10522156413190162,
+          "a": 0.09477708473226538
+        }
+      },
+      "holm": {
+        "match_rate": 1.0,
+        "rmsd": 1.0,
+        "ccrmsd": 0.6736997023525272,
+        "mae_abc": 1.0,
+        "mae_ang": 1.0,
+        "kld": 0.7389583809356812,
+        "paired_match": 1.0,
+        "paired_rmsd": 1.0
+      },
+      "same_test_as": [
+        "A5: hard kNN vs smooth radius, with angles off"
+      ]
+    },
+    "do the two together help": {
+      "ref": "A0",
+      "test": "A3",
+      "preregistered": false,
+      "metrics": {
+        "match_rate": {
+          "label": "match rate",
+          "lower_is_better": false,
+          "ref_mean": 0.462783,
+          "test_mean": 0.478964,
+          "delta": 0.016181,
+          "welch_p": 0.46122229517600877,
+          "hedges_g": 0.5520597582570801
+        },
+        "rmsd": {
+          "label": "coordinate RMSD",
+          "lower_is_better": true,
+          "ref_mean": 0.042644,
+          "test_mean": 0.037622,
+          "delta": -0.005021,
+          "welch_p": 0.71768995640402,
+          "hedges_g": -0.26385809217631373
+        },
+        "ccrmsd": {
+          "label": "ccRMSD",
+          "lower_is_better": true,
+          "ref_mean": 0.493409,
+          "test_mean": 0.496267,
+          "delta": 0.002858,
+          "welch_p": 0.6769909191940074,
+          "hedges_g": 0.2988534539918195
+        },
+        "mae_abc": {
+          "label": "lattice MAE abc",
+          "lower_is_better": true,
+          "ref_mean": 0.484807,
+          "test_mean": 0.503206,
+          "delta": 0.018399,
+          "welch_p": 0.27699932343941724,
+          "hedges_g": 0.962807969197699
+        },
+        "mae_ang": {
+          "label": "lattice MAE angles",
+          "lower_is_better": true,
+          "ref_mean": 10.387374,
+          "test_mean": 9.927673,
+          "delta": -0.459701,
+          "welch_p": 0.6539770790530096,
+          "hedges_g": -0.33034851595480574
+        },
+        "kld": {
+          "label": "KLD",
+          "lower_is_better": true,
+          "ref_mean": 0.022093,
+          "test_mean": 0.022162,
+          "delta": 6.9e-05,
+          "welch_p": 0.9647411763681387,
+          "hedges_g": 0.03255791497604487
+        }
+      },
+      "paired_match": {
+        "per_seed": [
+          {
+            "n_discordant": 14,
+            "p": 1.0,
+            "only_a": 7,
+            "only_b": 7,
+            "both": 39,
+            "neither": 50
+          },
+          {
+            "n_discordant": 22,
+            "p": 0.5234670639038086,
+            "only_a": 9,
+            "only_b": 13,
+            "both": 39,
+            "neither": 42
+          },
+          {
+            "n_discordant": 23,
+            "p": 1.0,
+            "only_a": 11,
+            "only_b": 12,
+            "both": 38,
+            "neither": 42
+          }
+        ],
+        "pooled_cmh": {
+          "chi2": 0.2711864406779661,
+          "p": 0.602537006105314,
+          "n_strata": 3
+        },
+        "n_targets_shared": 3
+      },
+      "paired_rmsd": {
+        "n_pairs": 116,
+        "mean_diff": -0.002781,
+        "wilcoxon_p": 0.9885750025639534,
+        "bca": {
+          "mean": -0.0027812590291858468,
+          "lo": -0.01629534919657344,
+          "hi": 0.006830228103222934,
+          "method": "BCa",
+          "n": 116,
+          "z0": -0.04764395595447656,
+          "a": -0.02841580409482612
+        }
+      },
+      "holm": {
+        "match_rate": 1.0,
+        "rmsd": 1.0,
+        "ccrmsd": 1.0,
+        "mae_abc": 1.0,
+        "mae_ang": 1.0,
+        "kld": 1.0,
+        "paired_match": 1.0,
+        "paired_rmsd": 1.0
+      }
+    },
+    "is the coupling doing the work (not just auxiliary loss)": {
+      "ref": "A4",
+      "test": "A3",
+      "preregistered": true,
+      "metrics": {
+        "match_rate": {
+          "label": "match rate",
+          "lower_is_better": false,
+          "ref_mean": 0.446602,
+          "test_mean": 0.478964,
+          "delta": 0.032363,
+          "welch_p": 0.22770907740337254,
+          "hedges_g": 0.9331462071491287
+        },
+        "rmsd": {
+          "label": "coordinate RMSD",
+          "lower_is_better": true,
+          "ref_mean": 0.034035,
+          "test_mean": 0.037622,
+          "delta": 0.003587,
+          "welch_p": 0.8236025257643892,
+          "hedges_g": 0.1558332616795148
+        },
+        "ccrmsd": {
+          "label": "ccRMSD",
+          "lower_is_better": true,
+          "ref_mean": 0.524284,
+          "test_mean": 0.496267,
+          "delta": -0.028017,
+          "welch_p": 0.11127278026794596,
+          "hedges_g": -1.4792452418258952
+        },
+        "mae_abc": {
+          "label": "lattice MAE abc",
+          "lower_is_better": true,
+          "ref_mean": 0.530624,
+          "test_mean": 0.503206,
+          "delta": -0.027418,
+          "welch_p": 0.5204602099049952,
+          "hedges_g": -0.5046664312153685
+        },
+        "mae_ang": {
+          "label": "lattice MAE angles",
+          "lower_is_better": true,
+          "ref_mean": 10.613223,
+          "test_mean": 9.927673,
+          "delta": -0.685551,
+          "welch_p": 0.1513453684953342,
+          "hedges_g": -1.4148383879832565
+        },
+        "kld": {
+          "label": "KLD",
+          "lower_is_better": true,
+          "ref_mean": 0.022746,
+          "test_mean": 0.022162,
+          "delta": -0.000584,
+          "welch_p": 0.5364021401157667,
+          "hedges_g": -0.4809575904153085
+        }
+      },
+      "paired_match": {
+        "per_seed": [
+          {
+            "n_discordant": 15,
+            "p": 0.6072387695312499,
+            "only_a": 9,
+            "only_b": 6,
+            "both": 40,
+            "neither": 48
+          },
+          {
+            "n_discordant": 15,
+            "p": 0.11846923828124999,
+            "only_a": 4,
+            "only_b": 11,
+            "both": 41,
+            "neither": 47
+          },
+          {
+            "n_discordant": 16,
+            "p": 0.210113525390625,
+            "only_a": 5,
+            "only_b": 11,
+            "both": 39,
+            "neither": 48
+          }
+        ],
+        "pooled_cmh": {
+          "chi2": 1.7608695652173914,
+          "p": 0.18451609080340636,
+          "n_strata": 3
+        },
+        "n_targets_shared": 3
+      },
+      "paired_rmsd": {
+        "n_pairs": 120,
+        "mean_diff": 0.000714,
+        "wilcoxon_p": 0.5135711070769351,
+        "bca": {
+          "mean": 0.0007136021883361053,
+          "lo": -0.010991272059579966,
+          "hi": 0.014458229195034363,
+          "method": "BCa",
+          "n": 120,
+          "z0": 0.016544501343174756,
+          "a": 0.021488457825470056
+        }
+      },
+      "holm": {
+        "match_rate": 1.0,
+        "rmsd": 1.0,
+        "ccrmsd": 0.6676366816076758,
+        "mae_abc": 1.0,
+        "mae_ang": 0.756726842476671,
+        "kld": 1.0,
+        "paired_match": 1.0,
+        "paired_rmsd": 1.0
+      }
+    },
+    "A5: hard kNN vs smooth radius, with angles on": {
+      "ref": "A1",
+      "test": "A3",
+      "preregistered": false,
+      "metrics": {
+        "match_rate": {
+          "label": "match rate",
+          "lower_is_better": false,
+          "ref_mean": 0.462783,
+          "test_mean": 0.478964,
+          "delta": 0.016181,
+          "welch_p": 0.50759916386974,
+          "hedges_g": 0.4763968257614131
+        },
+        "rmsd": {
+          "label": "coordinate RMSD",
+          "lower_is_better": true,
+          "ref_mean": 0.040347,
+          "test_mean": 0.037622,
+          "delta": -0.002725,
+          "welch_p": 0.8494751978863612,
+          "hedges_g": -0.13480644750680967
+        },
+        "ccrmsd": {
+          "label": "ccRMSD",
+          "lower_is_better": true,
+          "ref_mean": 0.497884,
+          "test_mean": 0.496267,
+          "delta": -0.001617,
+          "welch_p": 0.9151369946906026,
+          "hedges_g": -0.07629003581339
+        },
+        "mae_abc": {
+          "label": "lattice MAE abc",
+          "lower_is_better": true,
+          "ref_mean": 0.501583,
+          "test_mean": 0.503206,
+          "delta": 0.001624,
+          "welch_p": 0.7686981774043796,
+          "hedges_g": 0.21747713937897428
+        },
+        "mae_ang": {
+          "label": "lattice MAE angles",
+          "lower_is_better": true,
+          "ref_mean": 10.089791,
+          "test_mean": 9.927673,
+          "delta": -0.162119,
+          "welch_p": 0.7402972497725343,
+          "hedges_g": -0.2321976468823261
+        },
+        "kld": {
+          "label": "KLD",
+          "lower_is_better": true,
+          "ref_mean": 0.022582,
+          "test_mean": 0.022162,
+          "delta": -0.000421,
+          "welch_p": 0.44650784035765145,
+          "hedges_g": -0.6032906177531503
+        }
+      },
+      "paired_match": {
+        "per_seed": [
+          {
+            "n_discordant": 16,
+            "p": 0.803619384765625,
+            "only_a": 9,
+            "only_b": 7,
+            "both": 39,
+            "neither": 48
+          },
+          {
+            "n_discordant": 22,
+            "p": 0.8318119049072266,
+            "only_a": 10,
+            "only_b": 12,
+            "both": 40,
+            "neither": 41
+          },
+          {
+            "n_discordant": 17,
+            "p": 0.332305908203125,
+            "only_a": 6,
+            "only_b": 11,
+            "both": 39,
+            "neither": 47
+          }
+        ],
+        "pooled_cmh": {
+          "chi2": 0.2909090909090909,
+          "p": 0.5896385516265671,
+          "n_strata": 3
+        },
+        "n_targets_shared": 3
+      },
+      "paired_rmsd": {
+        "n_pairs": 118,
+        "mean_diff": 0.002757,
+        "wilcoxon_p": 0.568719443873376,
+        "bca": {
+          "mean": 0.002757342967707457,
+          "lo": -0.011379130747987987,
+          "hi": 0.01795563812525317,
+          "method": "BCa",
+          "n": 118,
+          "z0": -0.0007519885532626153,
+          "a": 0.005514221112606688
+        }
+      },
+      "holm": {
+        "match_rate": 1.0,
+        "rmsd": 1.0,
+        "ccrmsd": 1.0,
+        "mae_abc": 1.0,
+        "mae_ang": 1.0,
+        "kld": 1.0,
+        "paired_match": 1.0,
+        "paired_rmsd": 1.0
+      }
+    },
+    "A5: hard kNN vs smooth radius, with angles off": {
+      "ref": "A0",
+      "test": "A2",
+      "preregistered": true,
+      "metrics": {
+        "match_rate": {
+          "label": "match rate",
+          "lower_is_better": false,
+          "ref_mean": 0.462783,
+          "test_mean": 0.462783,
+          "delta": 0.0,
+          "welch_p": 0.9999902862783995,
+          "hedges_g": 8.759036987167107e-06
+        },
+        "rmsd": {
+          "label": "coordinate RMSD",
+          "lower_is_better": true,
+          "ref_mean": 0.042644,
+          "test_mean": 0.03853,
+          "delta": -0.004114,
+          "welch_p": 0.7411954735100696,
+          "hedges_g": -0.23913027187462893
+        },
+        "ccrmsd": {
+          "label": "ccRMSD",
+          "lower_is_better": true,
+          "ref_mean": 0.493409,
+          "test_mean": 0.509594,
+          "delta": 0.016185,
+          "welch_p": 0.13473994047050544,
+          "hedges_g": 1.3755896074190548
+        },
+        "mae_abc": {
+          "label": "lattice MAE abc",
+          "lower_is_better": true,
+          "ref_mean": 0.484807,
+          "test_mean": 0.53226,
+          "delta": 0.047453,
+          "welch_p": 0.1940989782610556,
+          "hedges_g": 1.0980331392956222
+        },
+        "mae_ang": {
+          "label": "lattice MAE angles",
+          "lower_is_better": true,
+          "ref_mean": 10.387374,
+          "test_mean": 11.269323,
+          "delta": 0.881949,
+          "welch_p": 0.411145446017391,
+          "hedges_g": 0.6633247386620345
+        },
+        "kld": {
+          "label": "KLD",
+          "lower_is_better": true,
+          "ref_mean": 0.022093,
+          "test_mean": 0.025122,
+          "delta": 0.003029,
+          "welch_p": 0.14779167618713623,
+          "hedges_g": 1.2396529779332486
+        }
+      },
+      "paired_match": {
+        "per_seed": [
+          {
+            "n_discordant": 15,
+            "p": 0.6072387695312499,
+            "only_a": 9,
+            "only_b": 6,
+            "both": 37,
+            "neither": 51
+          },
+          {
+            "n_discordant": 15,
+            "p": 0.6072387695312499,
+            "only_a": 6,
+            "only_b": 9,
+            "both": 42,
+            "neither": 46
+          },
+          {
+            "n_discordant": 18,
+            "p": 1.0,
+            "only_a": 9,
+            "only_b": 9,
+            "both": 40,
+            "neither": 45
+          }
+        ],
+        "pooled_cmh": {
+          "chi2": 0.020833333333333332,
+          "p": 0.8852339144732015,
+          "n_strata": 3
+        },
+        "n_targets_shared": 3
+      },
+      "paired_rmsd": {
+        "n_pairs": 119,
+        "mean_diff": 0.001734,
+        "wilcoxon_p": 0.751921707006456,
+        "bca": {
+          "mean": 0.0017339028490483967,
+          "lo": -0.0037543441379895696,
+          "hi": 0.015333015683486714,
+          "method": "BCa",
+          "n": 119,
+          "z0": 0.10522156413190162,
+          "a": 0.09477708473226538
+        }
+      },
+      "holm": {
+        "match_rate": 1.0,
+        "rmsd": 1.0,
+        "ccrmsd": 0.6736997023525272,
+        "mae_abc": 1.0,
+        "mae_ang": 1.0,
+        "kld": 0.7389583809356812,
+        "paired_match": 1.0,
+        "paired_rmsd": 1.0
+      },
+      "same_test_as": [
+        "does smooth topology alone help"
+      ]
+    },
+    "A6: does the angular basis matter": {
+      "ref": "A3",
+      "test": "A6",
+      "preregistered": false,
+      "metrics": {
+        "match_rate": {
+          "label": "match rate",
+          "lower_is_better": false,
+          "ref_mean": 0.478964,
+          "test_mean": 0.475728,
+          "delta": -0.003236,
+          "welch_p": 0.9271754900228428,
+          "hedges_g": -0.06436298360527941
+        },
+        "rmsd": {
+          "label": "coordinate RMSD",
+          "lower_is_better": true,
+          "ref_mean": 0.037622,
+          "test_mean": 0.025531,
+          "delta": -0.012092,
+          "welch_p": 0.43046384138476457,
+          "hedges_g": -0.5884629382808826
+        },
+        "ccrmsd": {
+          "label": "ccRMSD",
+          "lower_is_better": true,
+          "ref_mean": 0.496267,
+          "test_mean": 0.508907,
+          "delta": 0.01264,
+          "welch_p": 0.6673845873312857,
+          "hedges_g": 0.32170788422481444
+        },
+        "mae_abc": {
+          "label": "lattice MAE abc",
+          "lower_is_better": true,
+          "ref_mean": 0.503206,
+          "test_mean": 0.521199,
+          "delta": 0.017993,
+          "welch_p": 0.1682118826370601,
+          "hedges_g": 1.367164789773895
+        },
+        "mae_ang": {
+          "label": "lattice MAE angles",
+          "lower_is_better": true,
+          "ref_mean": 9.927673,
+          "test_mean": 10.771165,
+          "delta": 0.843492,
+          "welch_p": 0.10817341606962615,
+          "hedges_g": 1.3564186854866789
+        },
+        "kld": {
+          "label": "KLD",
+          "lower_is_better": true,
+          "ref_mean": 0.022162,
+          "test_mean": 0.024239,
+          "delta": 0.002078,
+          "welch_p": 0.10705726166707578,
+          "hedges_g": 1.7973348545932322
+        }
+      },
+      "paired_match": {
+        "per_seed": [
+          {
+            "n_discordant": 9,
+            "p": 0.5078125,
+            "only_a": 3,
+            "only_b": 6,
+            "both": 43,
+            "neither": 51
+          },
+          {
+            "n_discordant": 16,
+            "p": 0.803619384765625,
+            "only_a": 7,
+            "only_b": 9,
+            "both": 45,
+            "neither": 42
+          },
+          {
+            "n_discordant": 18,
+            "p": 0.237884521484375,
+            "only_a": 12,
+            "only_b": 6,
+            "both": 38,
+            "neither": 47
+          }
+        ],
+        "pooled_cmh": {
+          "chi2": 0.0,
+          "p": 1.0,
+          "n_strata": 3
+        },
+        "n_targets_shared": 3
+      },
+      "paired_rmsd": {
+        "n_pairs": 126,
+        "mean_diff": -0.001506,
+        "wilcoxon_p": 0.3753300546142361,
+        "bca": {
+          "mean": -0.001506288016726981,
+          "lo": -0.017944707510617625,
+          "hi": 0.01535844065297056,
+          "method": "BCa",
+          "n": 126,
+          "z0": 0.023313754740585505,
+          "a": -0.0002739981967510855
+        }
+      },
+      "holm": {
+        "match_rate": 1.0,
+        "rmsd": 1.0,
+        "ccrmsd": 1.0,
+        "mae_abc": 1.0,
+        "mae_ang": 0.6490404964177569,
+        "kld": 0.6423435700024547,
+        "paired_match": 1.0,
+        "paired_rmsd": 1.0
+      }
+    }
+  },
+  "descriptions": {
+    "A0": "baseline: current ALIGNN 2.0 diffusion, angles as features only",
+    "A1": "explicit angular denoising, baseline kNN line-graph topology",
+    "A2": "smooth radius topology, no angular denoising objective",
+    "A3": "proposed: explicit angular denoising + smooth topology",
+    "A4": "control: angular objective with the angle->bond coupling removed",
+    "A6": "A3 with the Fourier angular basis instead of ALIGNN's cosine RBF"
+  }
+}

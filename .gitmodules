@@ -1,0 +1,4 @@
+[submodule "alignn"]
+	path = alignn
+	url = https://github.com/crhysc/alignn.git
+	branch = angle-diffusion

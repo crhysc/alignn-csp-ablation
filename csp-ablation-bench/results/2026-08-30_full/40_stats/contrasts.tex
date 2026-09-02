@@ -1,0 +1,20 @@
+% Requires: \usepackage{booktabs}
+\begin{table}[htbp]
+\centering
+\small
+\caption{Declared contrasts. $\Delta$ is the second arm minus the first. Paired $p$ is the per-target test (exact McNemar pooled by Cochran--Mantel--Haenszel for match rate); Holm is adjusted across the contrasts within each metric family.}
+\begin{tabular}{llrrrr}
+\toprule
+Question & Arms & $\Delta$ match & Welch $p$ & Paired $p$ & Holm \\
+\midrule
+does explicit angular denoising help$^{\dagger}$ & A0$\to$A1 & 0.0000 & 1.000 & 0.888 & 1.000 \\
+does smooth topology alone help$^{\dagger}$ & A0$\to$A2 & 0.0000 & 1.000 & 0.885 & 1.000 \\
+do the two together help & A0$\to$A3 & 0.0162 & 0.461 & 0.603 & 1.000 \\
+is the coupling doing the work (not just auxiliary loss)$^{\dagger}$ & A4$\to$A3 & 0.0324 & 0.228 & 0.185 & 1.000 \\
+A5: hard kNN vs smooth radius, with angles on & A1$\to$A3 & 0.0162 & 0.508 & 0.590 & 1.000 \\
+A5: hard kNN vs smooth radius, with angles off$^{\dagger}$ & A0$\to$A2 & 0.0000 & 1.000 & 0.885 & 1.000 \\
+A6: does the angular basis matter & A3$\to$A6 & -0.0032 & 0.927 & 1.000 & 1.000 \\
+\bottomrule
+\end{tabular}
+\\[2pt]\footnotesize $\dagger$ pre-registered primary question.
+\end{table}

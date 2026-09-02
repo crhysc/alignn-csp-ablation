@@ -1,0 +1,22 @@
+% Requires: \usepackage{booktabs}
+% Schema matches atombench/scripts/harvest_compute_times.py so these
+% rows drop into the same table as the published baselines.
+\begin{table}[htbp]
+\centering
+\small
+\caption{Computational cost of the angular-diffusion ablations. Train/step is normalised by configured epochs and steps per epoch; Infer/struct by the number of test structures. Mean $\pm$ s.d. over seeds.}
+\begin{tabular}{lrrrrrr}
+\toprule
+Arm & Params (M) & Train (h) & Train/step (s) & $\times$ base & Infer/struct (s) & Peak GPU (GiB) \\
+\midrule
+A0 & 3.79 & 0.37 & 0.0319 $\pm$ 0.0008 & 1.00 & 13.09 & 3.9 \\
+A1 & 3.86 & 0.42 & 0.0359 $\pm$ 0.0017 & 1.13 & 12.37 & 7.2 \\
+A2 & 3.79 & 0.36 & 0.0309 $\pm$ 0.0002 & 0.97 & 12.29 & 8.2 \\
+A3 & 3.86 & 0.41 & 0.0352 $\pm$ 0.0002 & 1.10 & 13.01 & 7.3 \\
+A3\_nogate & 3.86 & 0.42 & 0.0359 $\pm$ 0.0001 & 1.13 & 11.69 & --- \\
+A4 & 3.86 & 0.42 & 0.0357 $\pm$ 0.0015 & 1.12 & 12.62 & 8.2 \\
+A6 & 3.86 & 0.42 & 0.0357 $\pm$ 0.0005 & 1.12 & 12.35 & 5.9 \\
+nolg & 3.75 & 0.34 & 0.0293 $\pm$ 0.0006 & 0.92 & 7.72 & 2.1 \\
+\bottomrule
+\end{tabular}
+\end{table}

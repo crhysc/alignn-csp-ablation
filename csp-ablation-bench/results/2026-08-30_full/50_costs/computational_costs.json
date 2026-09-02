@@ -1,0 +1,1323 @@
+{
+  "per_run": {
+    "A0_seed0": {
+      "arm": "A0",
+      "seed": 0,
+      "benchmark_name": "A0_seed0",
+      "n_parameters": 3789894,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1305.6,
+        "generate": 1341.4,
+        "symmetrize": 3.1,
+        "score-nosym": 9.8,
+        "score-sym": 6.8
+      },
+      "hosts": [
+        "dscog003",
+        "dscog007"
+      ],
+      "train_s": 1305.6,
+      "train_h": 0.3627,
+      "infer_s": 1361.1,
+      "infer_h": 0.3781,
+      "total_s": 2666.7,
+      "total_h": 0.7407,
+      "train_s_per_epoch": 0.44,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03109,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 13.2146,
+      "n_matched": 46,
+      "match_rate": 0.446602,
+      "gpu_s_per_match": 58.0,
+      "peak_gpu_mem_mib": 4031.0,
+      "mean_gpu_util_pct": 52.9,
+      "median_gpu_util_pct": 55.5,
+      "mean_power_w": 90.1,
+      "n_samples": 84,
+      "est_energy_kwh": 0.0667,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A0_seed1": {
+      "arm": "A0",
+      "seed": 1,
+      "benchmark_name": "A0_seed1",
+      "n_parameters": 3789894,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1340.0,
+        "generate": 1337.5,
+        "symmetrize": 2.9,
+        "score-nosym": 7.7,
+        "score-sym": 6.8
+      },
+      "hosts": [
+        "dscog003",
+        "dscog007"
+      ],
+      "train_s": 1340.0,
+      "train_h": 0.3722,
+      "infer_s": 1354.9,
+      "infer_h": 0.3764,
+      "total_s": 2694.9,
+      "total_h": 0.7486,
+      "train_s_per_epoch": 0.45,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.0319,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 13.1544,
+      "n_matched": 48,
+      "match_rate": 0.466019,
+      "gpu_s_per_match": 56.1,
+      "peak_gpu_mem_mib": 4031.0,
+      "mean_gpu_util_pct": 52.9,
+      "median_gpu_util_pct": 55.5,
+      "mean_power_w": 90.1,
+      "n_samples": 84,
+      "est_energy_kwh": 0.0674,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A0_seed2": {
+      "arm": "A0",
+      "seed": 2,
+      "benchmark_name": "A0_seed2",
+      "n_parameters": 3789894,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1368.8,
+        "generate": 1309.4,
+        "symmetrize": 3.1,
+        "score-nosym": 7.7,
+        "score-sym": 7.1
+      },
+      "hosts": [
+        "dscog003",
+        "dscog010"
+      ],
+      "train_s": 1368.8,
+      "train_h": 0.3802,
+      "infer_s": 1327.3,
+      "infer_h": 0.3687,
+      "total_s": 2696.1,
+      "total_h": 0.7489,
+      "train_s_per_epoch": 0.46,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03259,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 12.8864,
+      "n_matched": 49,
+      "match_rate": 0.475728,
+      "gpu_s_per_match": 55.0,
+      "peak_gpu_mem_mib": 4031.0,
+      "mean_gpu_util_pct": 54.3,
+      "median_gpu_util_pct": 52.0,
+      "mean_power_w": 97.1,
+      "n_samples": 82,
+      "est_energy_kwh": 0.0727,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A1_seed0": {
+      "arm": "A1",
+      "seed": 0,
+      "benchmark_name": "A1_seed0",
+      "n_parameters": 3855943,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1475.5,
+        "generate": 1335.4,
+        "symmetrize": 3.0,
+        "score-nosym": 9.9,
+        "score-sym": 6.8
+      },
+      "hosts": [
+        "dscog003"
+      ],
+      "train_s": 1475.5,
+      "train_h": 0.4099,
+      "infer_s": 1355.1000000000001,
+      "infer_h": 0.3764,
+      "total_s": 2830.6000000000004,
+      "total_h": 0.7863,
+      "train_s_per_epoch": 0.49,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03513,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 13.1563,
+      "n_matched": 48,
+      "match_rate": 0.466019,
+      "gpu_s_per_match": 59.0,
+      "peak_gpu_mem_mib": 4031.0,
+      "mean_gpu_util_pct": 50.3,
+      "median_gpu_util_pct": 54.0,
+      "mean_power_w": 90.4,
+      "n_samples": 89,
+      "est_energy_kwh": 0.0711,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A1_seed1": {
+      "arm": "A1",
+      "seed": 1,
+      "benchmark_name": "A1_seed1",
+      "n_parameters": 3855943,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1585.9,
+        "generate": 1157.4,
+        "symmetrize": 3.2,
+        "score-nosym": 10.3,
+        "score-sym": 7.2
+      },
+      "hosts": [
+        "dscog004"
+      ],
+      "train_s": 1585.9,
+      "train_h": 0.4405,
+      "infer_s": 1178.1000000000001,
+      "infer_h": 0.3273,
+      "total_s": 2764.0,
+      "total_h": 0.7678,
+      "train_s_per_epoch": 0.53,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03776,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 11.4379,
+      "n_matched": 50,
+      "match_rate": 0.485437,
+      "gpu_s_per_match": 55.3,
+      "peak_gpu_mem_mib": 9757.0,
+      "mean_gpu_util_pct": 51.3,
+      "median_gpu_util_pct": 49.0,
+      "mean_power_w": 91.2,
+      "n_samples": 93,
+      "est_energy_kwh": 0.07,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A1_seed2": {
+      "arm": "A1",
+      "seed": 2,
+      "benchmark_name": "A1_seed2",
+      "n_parameters": 3855943,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1456.8,
+        "generate": 1271.3,
+        "symmetrize": 3.1,
+        "score-nosym": 7.7,
+        "score-sym": 7.0
+      },
+      "hosts": [
+        "dscog006"
+      ],
+      "train_s": 1456.8,
+      "train_h": 0.4047,
+      "infer_s": 1289.1,
+      "infer_h": 0.3581,
+      "total_s": 2745.8999999999996,
+      "total_h": 0.7627,
+      "train_s_per_epoch": 0.49,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03469,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 12.5155,
+      "n_matched": 45,
+      "match_rate": 0.436893,
+      "gpu_s_per_match": 61.0,
+      "peak_gpu_mem_mib": 8403.0,
+      "mean_gpu_util_pct": 50.8,
+      "median_gpu_util_pct": 51.0,
+      "mean_power_w": 92.6,
+      "n_samples": 93,
+      "est_energy_kwh": 0.0706,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A2_seed0": {
+      "arm": "A2",
+      "seed": 0,
+      "benchmark_name": "A2_seed0",
+      "n_parameters": 3789894,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1302.4,
+        "generate": 1269.7,
+        "symmetrize": 2.9,
+        "score-nosym": 7.5,
+        "score-sym": 7.0
+      },
+      "hosts": [
+        "dscog006"
+      ],
+      "train_s": 1302.4,
+      "train_h": 0.3618,
+      "infer_s": 1287.1000000000001,
+      "infer_h": 0.3575,
+      "total_s": 2589.5,
+      "total_h": 0.7193,
+      "train_s_per_epoch": 0.43,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03101,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 12.4961,
+      "n_matched": 43,
+      "match_rate": 0.417476,
+      "gpu_s_per_match": 60.2,
+      "peak_gpu_mem_mib": 8403.0,
+      "mean_gpu_util_pct": 50.8,
+      "median_gpu_util_pct": 51.0,
+      "mean_power_w": 92.6,
+      "n_samples": 93,
+      "est_energy_kwh": 0.0666,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A2_seed1": {
+      "arm": "A2",
+      "seed": 1,
+      "benchmark_name": "A2_seed1",
+      "n_parameters": 3789894,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1304.6,
+        "generate": 1234.9,
+        "symmetrize": 3.1,
+        "score-nosym": 10.3,
+        "score-sym": 7.2
+      },
+      "hosts": [
+        "dscog006"
+      ],
+      "train_s": 1304.6,
+      "train_h": 0.3624,
+      "infer_s": 1255.5,
+      "infer_h": 0.3488,
+      "total_s": 2560.1,
+      "total_h": 0.7111,
+      "train_s_per_epoch": 0.43,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03106,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 12.1893,
+      "n_matched": 51,
+      "match_rate": 0.495146,
+      "gpu_s_per_match": 50.2,
+      "peak_gpu_mem_mib": 8403.0,
+      "mean_gpu_util_pct": 50.8,
+      "median_gpu_util_pct": 51.0,
+      "mean_power_w": 92.6,
+      "n_samples": 93,
+      "est_energy_kwh": 0.0659,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A2_seed2": {
+      "arm": "A2",
+      "seed": 2,
+      "benchmark_name": "A2_seed2",
+      "n_parameters": 3789894,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1285.9,
+        "generate": 1236.3,
+        "symmetrize": 3.0,
+        "score-nosym": 7.8,
+        "score-sym": 7.0
+      },
+      "hosts": [
+        "dscog006"
+      ],
+      "train_s": 1285.9,
+      "train_h": 0.3572,
+      "infer_s": 1254.1,
+      "infer_h": 0.3484,
+      "total_s": 2540.0,
+      "total_h": 0.7056,
+      "train_s_per_epoch": 0.43,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03062,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 12.1757,
+      "n_matched": 49,
+      "match_rate": 0.475728,
+      "gpu_s_per_match": 51.8,
+      "peak_gpu_mem_mib": 8403.0,
+      "mean_gpu_util_pct": 50.8,
+      "median_gpu_util_pct": 51.0,
+      "mean_power_w": 92.6,
+      "n_samples": 93,
+      "est_energy_kwh": 0.0653,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A3_seed0": {
+      "arm": "A3",
+      "seed": 0,
+      "benchmark_name": "A3_seed0",
+      "n_parameters": 3855943,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1481.2,
+        "generate": 1290.5,
+        "symmetrize": 3.0,
+        "score-nosym": 7.7,
+        "score-sym": 7.0
+      },
+      "hosts": [
+        "dscog006"
+      ],
+      "train_s": 1481.2,
+      "train_h": 0.4114,
+      "infer_s": 1308.2,
+      "infer_h": 0.3634,
+      "total_s": 2789.4,
+      "total_h": 0.7748,
+      "train_s_per_epoch": 0.49,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03527,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 12.701,
+      "n_matched": 46,
+      "match_rate": 0.446602,
+      "gpu_s_per_match": 60.6,
+      "peak_gpu_mem_mib": 8403.0,
+      "mean_gpu_util_pct": 50.8,
+      "median_gpu_util_pct": 51.0,
+      "mean_power_w": 92.6,
+      "n_samples": 93,
+      "est_energy_kwh": 0.0717,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A3_seed1": {
+      "arm": "A3",
+      "seed": 1,
+      "benchmark_name": "A3_seed1",
+      "n_parameters": 3855943,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1468.5,
+        "generate": 1319.0,
+        "symmetrize": 3.3,
+        "score-nosym": 8.6,
+        "score-sym": 7.7
+      },
+      "hosts": [
+        "dscog003"
+      ],
+      "train_s": 1468.5,
+      "train_h": 0.4079,
+      "infer_s": 1338.6,
+      "infer_h": 0.3718,
+      "total_s": 2807.1,
+      "total_h": 0.7797,
+      "train_s_per_epoch": 0.49,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03496,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 12.9961,
+      "n_matched": 52,
+      "match_rate": 0.504854,
+      "gpu_s_per_match": 54.0,
+      "peak_gpu_mem_mib": 7023.0,
+      "mean_gpu_util_pct": 49.1,
+      "median_gpu_util_pct": 51.0,
+      "mean_power_w": 87.8,
+      "n_samples": 94,
+      "est_energy_kwh": 0.0685,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A3_seed2": {
+      "arm": "A3",
+      "seed": 2,
+      "benchmark_name": "A3_seed2",
+      "n_parameters": 3855943,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1480.0,
+        "generate": 1356.4,
+        "symmetrize": 2.9,
+        "score-nosym": 7.2,
+        "score-sym": 6.5
+      },
+      "hosts": [
+        "dscog003"
+      ],
+      "train_s": 1480.0,
+      "train_h": 0.4111,
+      "infer_s": 1373.0000000000002,
+      "infer_h": 0.3814,
+      "total_s": 2853.0,
+      "total_h": 0.7925,
+      "train_s_per_epoch": 0.49,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03524,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 13.3301,
+      "n_matched": 50,
+      "match_rate": 0.485437,
+      "gpu_s_per_match": 57.1,
+      "peak_gpu_mem_mib": 7023.0,
+      "mean_gpu_util_pct": 49.1,
+      "median_gpu_util_pct": 51.0,
+      "mean_power_w": 87.8,
+      "n_samples": 94,
+      "est_energy_kwh": 0.0696,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A3_nogate_seed0": {
+      "arm": "A3_nogate",
+      "seed": 0,
+      "benchmark_name": "A3_nogate_seed0",
+      "n_parameters": 3855943,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1506,
+        "generate": 1199
+      },
+      "hosts": [
+        "dscog011"
+      ],
+      "train_s": 1506,
+      "train_h": 0.4183,
+      "infer_s": 1199,
+      "infer_h": 0.3331,
+      "total_s": 2705,
+      "total_h": 0.7514,
+      "train_s_per_epoch": 0.5,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03586,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 11.6408,
+      "n_matched": 53,
+      "match_rate": 0.514563,
+      "gpu_s_per_match": 51.0,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A3_nogate_seed1": {
+      "arm": "A3_nogate",
+      "seed": 1,
+      "benchmark_name": "A3_nogate_seed1",
+      "n_parameters": 3855943,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1508,
+        "generate": 1216
+      },
+      "hosts": [
+        "dscog012"
+      ],
+      "train_s": 1508,
+      "train_h": 0.4189,
+      "infer_s": 1216,
+      "infer_h": 0.3378,
+      "total_s": 2724,
+      "total_h": 0.7567,
+      "train_s_per_epoch": 0.5,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.0359,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 11.8058,
+      "n_matched": 53,
+      "match_rate": 0.514563,
+      "gpu_s_per_match": 51.4,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A3_nogate_seed2": {
+      "arm": "A3_nogate",
+      "seed": 2,
+      "benchmark_name": "A3_nogate_seed2",
+      "n_parameters": 3855943,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1511,
+        "generate": 1198
+      },
+      "hosts": [
+        "dscog012"
+      ],
+      "train_s": 1511,
+      "train_h": 0.4197,
+      "infer_s": 1198,
+      "infer_h": 0.3328,
+      "total_s": 2709,
+      "total_h": 0.7525,
+      "train_s_per_epoch": 0.5,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03598,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 11.6311,
+      "n_matched": 45,
+      "match_rate": 0.436893,
+      "gpu_s_per_match": 60.2,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A4_seed0": {
+      "arm": "A4",
+      "seed": 0,
+      "benchmark_name": "A4_seed0",
+      "n_parameters": 3855943,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1448.2,
+        "generate": 1371.3,
+        "symmetrize": 2.9,
+        "score-nosym": 7.3,
+        "score-sym": 6.9
+      },
+      "hosts": [
+        "dscog003"
+      ],
+      "train_s": 1448.2,
+      "train_h": 0.4023,
+      "infer_s": 1388.4,
+      "infer_h": 0.3857,
+      "total_s": 2836.6000000000004,
+      "total_h": 0.7879,
+      "train_s_per_epoch": 0.48,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03448,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 13.4796,
+      "n_matched": 49,
+      "match_rate": 0.475728,
+      "gpu_s_per_match": 57.9,
+      "peak_gpu_mem_mib": 7023.0,
+      "mean_gpu_util_pct": 49.1,
+      "median_gpu_util_pct": 51.0,
+      "mean_power_w": 87.8,
+      "n_samples": 94,
+      "est_energy_kwh": 0.0692,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A4_seed1": {
+      "arm": "A4",
+      "seed": 1,
+      "benchmark_name": "A4_seed1",
+      "n_parameters": 3855943,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1480.4,
+        "generate": 1280.2,
+        "symmetrize": 3.0,
+        "score-nosym": 7.7,
+        "score-sym": 7.0
+      },
+      "hosts": [
+        "dscog006"
+      ],
+      "train_s": 1480.4,
+      "train_h": 0.4112,
+      "infer_s": 1297.9,
+      "infer_h": 0.3605,
+      "total_s": 2778.3,
+      "total_h": 0.7718,
+      "train_s_per_epoch": 0.49,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03525,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 12.601,
+      "n_matched": 45,
+      "match_rate": 0.436893,
+      "gpu_s_per_match": 61.7,
+      "peak_gpu_mem_mib": 8403.0,
+      "mean_gpu_util_pct": 50.8,
+      "median_gpu_util_pct": 51.0,
+      "mean_power_w": 92.6,
+      "n_samples": 93,
+      "est_energy_kwh": 0.0715,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A4_seed2": {
+      "arm": "A4",
+      "seed": 2,
+      "benchmark_name": "A4_seed2",
+      "n_parameters": 3855943,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1571.8,
+        "generate": 1194.7,
+        "symmetrize": 3.2,
+        "score-nosym": 7.9,
+        "score-sym": 7.2
+      },
+      "hosts": [
+        "dscog004"
+      ],
+      "train_s": 1571.8,
+      "train_h": 0.4366,
+      "infer_s": 1213.0000000000002,
+      "infer_h": 0.3369,
+      "total_s": 2784.8,
+      "total_h": 0.7736,
+      "train_s_per_epoch": 0.52,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03742,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 11.7767,
+      "n_matched": 44,
+      "match_rate": 0.427184,
+      "gpu_s_per_match": 63.3,
+      "peak_gpu_mem_mib": 9757.0,
+      "mean_gpu_util_pct": 51.3,
+      "median_gpu_util_pct": 49.0,
+      "mean_power_w": 91.2,
+      "n_samples": 93,
+      "est_energy_kwh": 0.0705,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A6_seed0": {
+      "arm": "A6",
+      "seed": 0,
+      "benchmark_name": "A6_seed0",
+      "n_parameters": 3855834,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1516.6,
+        "generate": 1326.5,
+        "symmetrize": 2.8,
+        "score-nosym": 7.1,
+        "score-sym": 6.3
+      },
+      "hosts": [
+        "dscog003"
+      ],
+      "train_s": 1516.6,
+      "train_h": 0.4213,
+      "infer_s": 1342.6999999999998,
+      "infer_h": 0.373,
+      "total_s": 2859.2999999999997,
+      "total_h": 0.7942,
+      "train_s_per_epoch": 0.51,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03611,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 13.0359,
+      "n_matched": 49,
+      "match_rate": 0.475728,
+      "gpu_s_per_match": 58.4,
+      "peak_gpu_mem_mib": 7023.0,
+      "mean_gpu_util_pct": 49.1,
+      "median_gpu_util_pct": 51.0,
+      "mean_power_w": 87.8,
+      "n_samples": 94,
+      "est_energy_kwh": 0.0697,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A6_seed1": {
+      "arm": "A6",
+      "seed": 1,
+      "benchmark_name": "A6_seed1",
+      "n_parameters": 3855834,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1474.8,
+        "generate": 1204.1,
+        "symmetrize": 3.0,
+        "score-nosym": 7.9,
+        "score-sym": 7.0
+      },
+      "hosts": [
+        "dscog006"
+      ],
+      "train_s": 1474.8,
+      "train_h": 0.4097,
+      "infer_s": 1222.0,
+      "infer_h": 0.3394,
+      "total_s": 2696.8,
+      "total_h": 0.7491,
+      "train_s_per_epoch": 0.49,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03511,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 11.8641,
+      "n_matched": 54,
+      "match_rate": 0.524272,
+      "gpu_s_per_match": 49.9,
+      "peak_gpu_mem_mib": 5487.0,
+      "mean_gpu_util_pct": 52.9,
+      "median_gpu_util_pct": 52.0,
+      "mean_power_w": 91.3,
+      "n_samples": 90,
+      "est_energy_kwh": 0.0684,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "A6_seed2": {
+      "arm": "A6",
+      "seed": 2,
+      "benchmark_name": "A6_seed2",
+      "n_parameters": 3855834,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1502.8,
+        "generate": 1232.3,
+        "symmetrize": 3.0,
+        "score-nosym": 7.8,
+        "score-sym": 7.1
+      },
+      "hosts": [
+        "dscog006"
+      ],
+      "train_s": 1502.8,
+      "train_h": 0.4174,
+      "infer_s": 1250.1999999999998,
+      "infer_h": 0.3473,
+      "total_s": 2753.0,
+      "total_h": 0.7647,
+      "train_s_per_epoch": 0.5,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.03578,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 12.1379,
+      "n_matched": 44,
+      "match_rate": 0.427184,
+      "gpu_s_per_match": 62.6,
+      "peak_gpu_mem_mib": 5487.0,
+      "mean_gpu_util_pct": 52.9,
+      "median_gpu_util_pct": 52.0,
+      "mean_power_w": 91.3,
+      "n_samples": 90,
+      "est_energy_kwh": 0.0698,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "nolg_seed0": {
+      "arm": "nolg",
+      "seed": 0,
+      "benchmark_name": "nolg_seed0",
+      "n_parameters": 3750854,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1244.9,
+        "generate": 718.1,
+        "symmetrize": 3.3,
+        "score-nosym": 10.9,
+        "score-sym": 7.0
+      },
+      "hosts": [
+        "dscog010"
+      ],
+      "train_s": 1244.9,
+      "train_h": 0.3458,
+      "infer_s": 739.3,
+      "infer_h": 0.2054,
+      "total_s": 1984.2,
+      "total_h": 0.5512,
+      "train_s_per_epoch": 0.41,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.02964,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 7.1777,
+      "n_matched": 46,
+      "match_rate": 0.446602,
+      "gpu_s_per_match": 43.1,
+      "peak_gpu_mem_mib": 4031.0,
+      "mean_gpu_util_pct": 54.3,
+      "median_gpu_util_pct": 52.0,
+      "mean_power_w": 97.1,
+      "n_samples": 82,
+      "est_energy_kwh": 0.0535,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "nolg_seed1": {
+      "arm": "nolg",
+      "seed": 1,
+      "benchmark_name": "nolg_seed1",
+      "n_parameters": 3750854,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1246.5,
+        "generate": 806.9,
+        "symmetrize": 2.8,
+        "score-nosym": 7.3,
+        "score-sym": 6.7
+      },
+      "hosts": [
+        "dscog011"
+      ],
+      "train_s": 1246.5,
+      "train_h": 0.3463,
+      "infer_s": 823.6999999999999,
+      "infer_h": 0.2288,
+      "total_s": 2070.2,
+      "total_h": 0.5751,
+      "train_s_per_epoch": 0.42,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.02968,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 7.9971,
+      "n_matched": 51,
+      "match_rate": 0.495146,
+      "gpu_s_per_match": 40.6,
+      "peak_gpu_mem_mib": 1181.0,
+      "mean_gpu_util_pct": 35.4,
+      "median_gpu_util_pct": 39.0,
+      "mean_power_w": 68.7,
+      "n_samples": 70,
+      "est_energy_kwh": 0.0395,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    },
+    "nolg_seed2": {
+      "arm": "nolg",
+      "seed": 2,
+      "benchmark_name": "nolg_seed2",
+      "n_parameters": 3750854,
+      "num_epochs": 3000,
+      "batch_size": 64,
+      "stage_s": {
+        "train": 1202.6,
+        "generate": 802.4,
+        "symmetrize": 3.0,
+        "score-nosym": 9.8,
+        "score-sym": 6.7
+      },
+      "hosts": [
+        "dscog011"
+      ],
+      "train_s": 1202.6,
+      "train_h": 0.3341,
+      "infer_s": 821.9,
+      "infer_h": 0.2283,
+      "total_s": 2024.5,
+      "total_h": 0.5624,
+      "train_s_per_epoch": 0.4,
+      "steps_per_epoch": 14,
+      "train_s_per_step": 0.02863,
+      "num_test_structures": 103,
+      "infer_s_per_structure": 7.9796,
+      "n_matched": 45,
+      "match_rate": 0.436893,
+      "gpu_s_per_match": 45.0,
+      "peak_gpu_mem_mib": 1181.0,
+      "mean_gpu_util_pct": 35.4,
+      "median_gpu_util_pct": 39.0,
+      "mean_power_w": 68.7,
+      "n_samples": 70,
+      "est_energy_kwh": 0.0386,
+      "energy_j_slurm": "unavailable (AcctGatherEnergyType=null)",
+      "_n_train": 847,
+      "_n_train_source": "split_meta.json"
+    }
+  },
+  "per_arm": {
+    "A0": {
+      "n_seeds": 3,
+      "n_parameters": 3789894,
+      "train_s": [
+        1338.13333,
+        31.64132
+      ],
+      "train_s_per_step": [
+        0.03186,
+        0.00075
+      ],
+      "infer_s": [
+        1347.76667,
+        17.9937
+      ],
+      "infer_s_per_structure": [
+        13.08513,
+        0.17472
+      ],
+      "total_h": [
+        0.74607,
+        0.00465
+      ],
+      "peak_gpu_mem_mib": [
+        4031.0,
+        0.0
+      ],
+      "mean_gpu_util_pct": [
+        53.36667,
+        0.80829
+      ],
+      "gpu_s_per_match": [
+        56.36667,
+        1.51767
+      ],
+      "hosts": [
+        "dscog003",
+        "dscog007",
+        "dscog010"
+      ],
+      "devices": []
+    },
+    "A1": {
+      "n_seeds": 3,
+      "n_parameters": 3855943,
+      "train_s": [
+        1506.06667,
+        69.76706
+      ],
+      "train_s_per_step": [
+        0.03586,
+        0.00166
+      ],
+      "infer_s": [
+        1274.1,
+        89.44831
+      ],
+      "infer_s_per_structure": [
+        12.3699,
+        0.8684
+      ],
+      "total_h": [
+        0.77227,
+        0.01242
+      ],
+      "peak_gpu_mem_mib": [
+        7397.0,
+        2992.6236
+      ],
+      "mean_gpu_util_pct": [
+        50.8,
+        0.5
+      ],
+      "gpu_s_per_match": [
+        58.43333,
+        2.89194
+      ],
+      "hosts": [
+        "dscog003",
+        "dscog004",
+        "dscog006"
+      ],
+      "devices": []
+    },
+    "A2": {
+      "n_seeds": 3,
+      "n_parameters": 3789894,
+      "train_s": [
+        1297.63333,
+        10.22073
+      ],
+      "train_s_per_step": [
+        0.0309,
+        0.00024
+      ],
+      "infer_s": [
+        1265.56667,
+        18.66155
+      ],
+      "infer_s_per_structure": [
+        12.28703,
+        0.18118
+      ],
+      "total_h": [
+        0.712,
+        0.00689
+      ],
+      "peak_gpu_mem_mib": [
+        8403.0,
+        0.0
+      ],
+      "mean_gpu_util_pct": [
+        50.8,
+        0.0
+      ],
+      "gpu_s_per_match": [
+        54.06667,
+        5.37153
+      ],
+      "hosts": [
+        "dscog006"
+      ],
+      "devices": []
+    },
+    "A3": {
+      "n_seeds": 3,
+      "n_parameters": 3855943,
+      "train_s": [
+        1476.56667,
+        7.01166
+      ],
+      "train_s_per_step": [
+        0.03516,
+        0.00017
+      ],
+      "infer_s": [
+        1339.93333,
+        32.42057
+      ],
+      "infer_s_per_structure": [
+        13.00907,
+        0.31475
+      ],
+      "total_h": [
+        0.78233,
+        0.00914
+      ],
+      "peak_gpu_mem_mib": [
+        7483.0,
+        796.74337
+      ],
+      "mean_gpu_util_pct": [
+        49.66667,
+        0.9815
+      ],
+      "gpu_s_per_match": [
+        57.23333,
+        3.30202
+      ],
+      "hosts": [
+        "dscog003",
+        "dscog006"
+      ],
+      "devices": []
+    },
+    "A3_nogate": {
+      "n_seeds": 3,
+      "n_parameters": 3855943,
+      "train_s": [
+        1508.33333,
+        2.51661
+      ],
+      "train_s_per_step": [
+        0.03591,
+        6e-05
+      ],
+      "infer_s": [
+        1204.33333,
+        10.11599
+      ],
+      "infer_s_per_structure": [
+        11.69257,
+        0.09818
+      ],
+      "total_h": [
+        0.75353,
+        0.0028
+      ],
+      "peak_gpu_mem_mib": [
+        null,
+        null
+      ],
+      "mean_gpu_util_pct": [
+        null,
+        null
+      ],
+      "gpu_s_per_match": [
+        54.2,
+        5.2
+      ],
+      "hosts": [
+        "dscog011",
+        "dscog012"
+      ],
+      "devices": []
+    },
+    "A4": {
+      "n_seeds": 3,
+      "n_parameters": 3855943,
+      "train_s": [
+        1500.13333,
+        64.11937
+      ],
+      "train_s_per_step": [
+        0.03572,
+        0.00152
+      ],
+      "infer_s": [
+        1299.76667,
+        87.7149
+      ],
+      "infer_s_per_structure": [
+        12.6191,
+        0.85159
+      ],
+      "total_h": [
+        0.77777,
+        0.00882
+      ],
+      "peak_gpu_mem_mib": [
+        8394.33333,
+        1367.0206
+      ],
+      "mean_gpu_util_pct": [
+        50.4,
+        1.15326
+      ],
+      "gpu_s_per_match": [
+        60.96667,
+        2.77369
+      ],
+      "hosts": [
+        "dscog003",
+        "dscog004",
+        "dscog006"
+      ],
+      "devices": []
+    },
+    "A6": {
+      "n_seeds": 3,
+      "n_parameters": 3855834,
+      "train_s": [
+        1498.06667,
+        21.2982
+      ],
+      "train_s_per_step": [
+        0.03567,
+        0.00051
+      ],
+      "infer_s": [
+        1271.63333,
+        63.14003
+      ],
+      "infer_s_per_structure": [
+        12.34597,
+        0.61298
+      ],
+      "total_h": [
+        0.76933,
+        0.0229
+      ],
+      "peak_gpu_mem_mib": [
+        5999.0,
+        886.81001
+      ],
+      "mean_gpu_util_pct": [
+        51.63333,
+        2.19393
+      ],
+      "gpu_s_per_match": [
+        56.96667,
+        6.47019
+      ],
+      "hosts": [
+        "dscog003",
+        "dscog006"
+      ],
+      "devices": []
+    },
+    "nolg": {
+      "n_seeds": 3,
+      "n_parameters": 3750854,
+      "train_s": [
+        1231.33333,
+        24.89665
+      ],
+      "train_s_per_step": [
+        0.02932,
+        0.0006
+      ],
+      "infer_s": [
+        794.96667,
+        48.21715
+      ],
+      "infer_s_per_structure": [
+        7.71813,
+        0.46811
+      ],
+      "total_h": [
+        0.5629,
+        0.01196
+      ],
+      "peak_gpu_mem_mib": [
+        2131.0,
+        1645.44827
+      ],
+      "mean_gpu_util_pct": [
+        41.7,
+        10.91192
+      ],
+      "gpu_s_per_match": [
+        42.9,
+        2.20681
+      ],
+      "hosts": [
+        "dscog010",
+        "dscog011"
+      ],
+      "devices": []
+    }
+  },
+  "audit": [
+    "no GPU device recorded (sampler did not run); hardware homogeneity is unverified.",
+    "jarvis_A0/seed0: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A0/seed1: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A0/seed2: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A1/seed0: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A1/seed1: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A1/seed2: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A2/seed0: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A2/seed1: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A2/seed2: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A3/seed0: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A3/seed1: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A3/seed2: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A3_nogate/seed0: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A3_nogate/seed1: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A3_nogate/seed2: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A4/seed0: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A4/seed1: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A4/seed2: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A6/seed0: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A6/seed1: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_A6/seed2: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_nolg/seed0: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_nolg/seed1: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable",
+    "jarvis_nolg/seed2: 0/412 null energies, 4 worker errors -- relaxation degraded, treat these metrics as unreliable"
+  ]
+}

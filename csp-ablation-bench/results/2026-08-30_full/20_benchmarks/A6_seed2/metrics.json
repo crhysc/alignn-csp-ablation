@@ -1,0 +1,78 @@
+{
+  "benchmark_name": "A6_seed2",
+  "KLD": {
+    "a": 0.010412381518875755,
+    "b": 0.011883608830772547,
+    "c": 0.04520913122408393,
+    "alpha": 0.022720885410760023,
+    "beta": 0.020932842148529654,
+    "gamma": 0.02903353352239283
+  },
+  "MAE": {
+    "average_mae": {
+      "a": 0.31412447333666543,
+      "b": 0.359061549614927,
+      "c": 0.8471012435040411,
+      "alpha": 11.50301266017923,
+      "beta": 9.109392178180093,
+      "gamma": 11.731110197504623
+    }
+  },
+  "RMSE": {
+    "AtomGen": {
+      "mean_normalized_cartesian_rms": 0.006702,
+      "mean_cartesian_rms_angstrom": 0.025679,
+      "match_rate": 0.427184,
+      "stol": 0.5,
+      "n_matched": 44,
+      "n_total": 103
+    }
+  },
+  "ccRMSD": {
+    "value": 0.5151119720368912,
+    "amd_k": 100,
+    "n_eval": 103
+  },
+  "crystal_system_mae": {
+    "by_system": [
+      {
+        "crystal_system": "cubic",
+        "n_reconstructions": 46,
+        "mae": {
+          "a": 0.239256,
+          "b": 0.133051,
+          "c": 0.20778,
+          "alpha": 11.347513,
+          "beta": 10.572993,
+          "gamma": 7.93302
+        }
+      },
+      {
+        "crystal_system": "hexagonal",
+        "n_reconstructions": 18,
+        "mae": {
+          "a": 0.330424,
+          "b": 0.450774,
+          "c": 1.718209,
+          "alpha": 10.094686,
+          "beta": 4.109512,
+          "gamma": 11.101733
+        }
+      },
+      {
+        "crystal_system": "tetragonal",
+        "n_reconstructions": 23,
+        "mae": {
+          "a": 0.45952,
+          "b": 0.60284,
+          "c": 1.374235,
+          "alpha": 10.674428,
+          "beta": 8.558869,
+          "gamma": 13.367802
+        }
+      }
+    ],
+    "symprec": 0.1,
+    "kmin": 10
+  }
+}

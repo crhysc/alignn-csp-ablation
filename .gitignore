@@ -1,0 +1,17 @@
+# ---------------------------------------------------------------------------
+# Workspace-level ignores.
+#
+# Everything genuinely heavy in this project lives outside the tree already:
+# run trees, conda envs, the AtomBench checkout and the prepared datasets are
+# all under $CSP_RUNS / $TRAIN_ENV / $ATOMBENCH_REPO (see csp-ablation-bench/
+# env.sh).  Nothing here needs to exclude them; they were never in the repo.
+# ---------------------------------------------------------------------------
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# Scheduler droppings, if anything is ever launched from the workspace root.
+slurm-*.out
+*.err

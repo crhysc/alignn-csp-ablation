@@ -1,0 +1,24 @@
+# ---------------------------------------------------------------------------
+# Which parts of results/<RUN_ID>/ travel with the code.
+#
+# Tracked: the analysis tiers -- small, and the only thing worth comparing a
+# new dataset's numbers against (40_stats, 50_costs, 60_report, and the two
+# 20_benchmarks staging trees that produced them).
+#
+# Ignored: the bulk tiers.  10_runs alone is ~30 MB of per-seed run trees and
+# 30_atombench* another ~5 MB of per-target metric dumps; both are outputs of
+# a run on THIS cluster against the JARVIS Supercon-3D split, so they are dead
+# weight to a clone that is about to regenerate them from a different dataset.
+#
+# Patterns are RUN_ID-agnostic on purpose: a new run under a new RUN_ID gets
+# the same treatment without editing this file.
+# ---------------------------------------------------------------------------
+
+results/*/10_runs/
+results/*/00_provenance/
+results/*/30_atombench/
+results/*/30_atombench_raw/
+results/*/_gputrace/
+
+__pycache__/
+*.py[cod]
