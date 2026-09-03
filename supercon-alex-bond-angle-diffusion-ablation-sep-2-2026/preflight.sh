@@ -20,14 +20,14 @@ hdr()  { printf "\n=== %s\n" "$*"; }
 
 # ---------------------------------------------------------------------------
 hdr "environments"
-"$TRAIN_ENV/bin/python" - <<'PY' && ok "training env: torch, jarvis-tools, alignn.inverse" || bad "training env incomplete"
+train_py - <<'PY' && ok "training env: torch, jarvis-tools, alignn.inverse" || bad "training env incomplete"
 import torch, jarvis, alignn.inverse.train_csp, alignn.inverse.ablations
 PY
-"$SCORE_ENV_PATH/bin/python" - <<'PY' && ok "scoring env: pymatgen, amd, atombench, scipy, sklearn" || bad "scoring env incomplete"
+score_py - <<'PY' && ok "scoring env: pymatgen, amd, atombench, scipy, sklearn" || bad "scoring env incomplete"
 import pymatgen.core, amd, atombench.cli, atombench.tables, atombench.plots
 import scipy, sklearn, matplotlib, jarvis, numpy
 PY
-ver="$("$SCORE_ENV_PATH/bin/python" -c 'import importlib.metadata as m;print(m.version("atombench"))' 2>/dev/null || echo NONE)"
+ver="$(score_py -c 'import importlib.metadata as m;print(m.version("atombench"))' 2>/dev/null || echo NONE)"
 case "$ver" in
     2022.*) bad "atombench is the PyPI STUB ($ver) -- no metric code" ;;
     NONE)   bad "atombench not installed in the scoring env" ;;
@@ -43,6 +43,16 @@ test -f "$ATOMBENCH_REPO/scripts/scripts_consolidated/compute_metrics.py" \
 hdr "site configuration"
 CE="$ALIGNN_REPO/task_runners/cluster.env"
 if [ -f "$CE" ]; then
+    # cluster.env is shared with the sibling line-graph-matrix harness, and the
+    # two point CSP_RUNS at different run roots.  Check whose it is before
+    # trusting anything else in it.
+    if grep -q "^# HARNESS=$HARNESS_ID\$" "$CE"; then
+        ok "cluster.env belongs to this harness ($HARNESS_ID)"
+    else
+        bad "cluster.env was written by a DIFFERENT harness ($(grep -m1 '^# HARNESS=' "$CE" || echo 'unstamped')) -- run: bash env.sh --write"
+    fi
+    grep -q "CSP_RUNS=\"$CSP_RUNS\"" "$CE" && ok "cluster.env run root: $CSP_RUNS" \
+        || bad "cluster.env CSP_RUNS differs -- run: bash env.sh --write"
     grep -q "CSP_GPU_GRES=\"$CSP_GPU_GRES\"" "$CE" && ok "cluster.env GPU pin: $CSP_GPU_GRES" \
         || bad "cluster.env GPU pin differs from env.sh -- run: bash env.sh --write"
     grep -q "CSP_ACCOUNT=\"$CSP_ACCOUNT\"" "$CE" && ok "cluster.env account: $CSP_ACCOUNT" \
@@ -57,9 +67,18 @@ fi
 
 # ---------------------------------------------------------------------------
 hdr "scheduler"
-sacctmgr -n show assoc where user="$USER" account="$CSP_ACCOUNT" format=Account 2>/dev/null \
-    | grep -q "$CSP_ACCOUNT" && ok "account '$CSP_ACCOUNT' is ours" \
-    || bad "no association for account '$CSP_ACCOUNT'"
+# This cluster runs no accounting associations for this user and every
+# partition is AllowAccounts=ALL (see env.sh), so CSP_ACCOUNT is deliberately
+# empty here.  Querying sacctmgr for an empty account name always returns
+# nothing and always failed this check for a reason that is not a problem --
+# skip it rather than report a false negative every time.
+if [ -z "${CSP_ACCOUNT:-}" ]; then
+    ok "no --account, as this cluster requires (no accounting associations)"
+else
+    sacctmgr -n show assoc where user="$USER" account="$CSP_ACCOUNT" format=Account 2>/dev/null \
+        | grep -q "$CSP_ACCOUNT" && ok "account '$CSP_ACCOUNT' is ours" \
+        || bad "no association for account '$CSP_ACCOUNT'"
+fi
 sinfo -h -p "$PART_FULL" -o %P >/dev/null 2>&1 && ok "partition '$PART_FULL' exists" \
     || bad "partition '$PART_FULL' not found"
 gputype="${CSP_GPU_GRES#gpu:}"; gputype="${gputype%:*}"
@@ -84,19 +103,23 @@ avail=$(df -BG --output=avail "$CSP_RUNS" 2>/dev/null | tail -1 | tr -dc 0-9)
 # ---------------------------------------------------------------------------
 hdr "data"
 for s in train val test; do
-    f="$CSP_RUNS/data/jarvis/$s.json"
+    f="$CSP_RUNS/data/$SPLIT/$s.json"
     if [ -f "$f" ]; then
-        n=$("$SCORE_ENV_PATH/bin/python" -c "import json;print(len(json.load(open('$f'))))")
-        ok "data/jarvis/$s.json  n=$n"
+        n=$(python3 -c "import json;print(len(json.load(open('$f'))))")
+        ok "data/$SPLIT/$s.json  n=$n"
     else
-        bad "missing $f -- run: source env.sh && run_task_data data-jarvis"
+        bad "missing $f -- run: bash 30_full.sh train (submits $DATA_TASK)"
     fi
 done
 
 # ---------------------------------------------------------------------------
-hdr "offline readiness (compute nodes have NO internet)"
-# Measured: dscog001 cannot reach ndownloader.figshare.com.  Anything that
-# lazily downloads on first use must therefore be warmed on the login node.
+hdr "offline readiness"
+# On THIS cluster the GPU nodes do have outbound network (the environments were
+# pip-installed from one), so a lazy first-use download will not simply fail as
+# it did on the old site.  It is still warmed ahead of time, because the
+# parallel relax workers race on os.makedirs when the cache directory is
+# absent -- a concurrency bug, not a connectivity one, and it does not care
+# whether the node has internet.
 # ALIGNN-FF is the one that bites: generate_benchmark.py uses it for energy
 # ranking and relaxation, ff.py fetches it from figshare on a cache miss, and
 # the parallel relax workers race on os.makedirs when the directory is absent.
@@ -107,7 +130,7 @@ if [ -n "$ffmodel" ] && [ -s "$ffmodel" ]; then
 else
     bad "ALIGNN-FF weights NOT cached -- every generate stage would try to"
     echo "      download on a compute node and fail.  Fix on the LOGIN node:"
-    echo "      $TRAIN_ENV/bin/python -c \"from alignn.ff.ff import get_figshare_model_ff;"
+    echo "      source env.sh && train_py -c \"from alignn.ff.ff import get_figshare_model_ff;"
     echo "        get_figshare_model_ff(model_name='matpes_r2scan')\""
 fi
 # An empty cache dir is worse than none: it satisfies the exists() check that
@@ -123,7 +146,7 @@ jd="$HOME/.cache/atomgptlab/jarvis_data"
 
 # ---------------------------------------------------------------------------
 hdr "tasks: units and blocked stages"
-for t in angle-ablation ablation-linegraph symprec-sweep pipeline-ablation; do
+for t in "$ABLATION_TASK" "$LINEGRAPH_TASK" symprec-sweep pipeline-ablation; do
     n=$(run_task "$t" --count 2>/dev/null)
     blocked=$(run_task "$t" --dry-run 2>&1 | grep -ci "BLOCKED" || true)
     if [ "${blocked:-0}" -gt 0 ]; then
@@ -136,17 +159,17 @@ done
 # ---------------------------------------------------------------------------
 hdr "analysis chain"
 for s in collect.py stage_benchmarks.py costs.py; do
-    "$TRAIN_ENV/bin/python" -c "import ast;ast.parse(open('$s').read())" \
+    python3 -c "import ast;ast.parse(open('$s').read())" \
         && ok "$s parses" || bad "$s does not parse"
 done
-"$SCORE_ENV_PATH/bin/python" -c "
+score_py -c "
 import ast; ast.parse(open('analyze.py').read())
 import atombench.tables, pymatgen.analysis.structure_matcher, scipy.stats, numpy
 from alignn.inverse.ablations import COMPARISONS
 assert len(COMPARISONS) >= 6
 " && ok "analyze.py imports resolve in the scoring env" \
   || bad "analyze.py dependencies missing in the scoring env"
-"$SCORE_ENV_PATH/bin/python" -c "
+score_py -c "
 from alignn.inverse.ablations import COMPARISONS
 print('      contrasts:', len(COMPARISONS), '->', len(set(COMPARISONS.values())), 'distinct arm pairs')"
 

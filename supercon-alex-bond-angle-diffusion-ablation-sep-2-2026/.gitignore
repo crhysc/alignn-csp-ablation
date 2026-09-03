@@ -12,13 +12,19 @@
 #
 # Patterns are RUN_ID-agnostic on purpose: a new run under a new RUN_ID gets
 # the same treatment without editing this file.
+#
+# The tree is results/<dataset>/<run id>/, one level per benchmark, so that the
+# JARVIS Supercon-3D run and the Alexandria DS-A/B run cannot collide:
+#
+#     results/jarvis/2026-08-30_full/
+#     results/alex/2026-09_alex_dsab/
 # ---------------------------------------------------------------------------
 
-results/*/10_runs/
-results/*/00_provenance/
-results/*/30_atombench/
-results/*/30_atombench_raw/
-results/*/_gputrace/
+results/*/*/10_runs/
+results/*/*/00_provenance/
+results/*/*/30_atombench/
+results/*/*/30_atombench_raw/
+results/*/*/_gputrace/
 
 __pycache__/
 *.py[cod]

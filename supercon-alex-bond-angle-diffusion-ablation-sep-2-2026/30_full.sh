@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
-# Phase 4 -- the real run, on gpu_7day with A30 pinned.
+# Phase 4 -- the real run, on the `gpu` partition with a whole GB10 pinned.
+#
+# Which benchmark this runs is set entirely by DATASET in env.sh:
+#   DATASET=alex   bash 30_full.sh all    # Alexandria DS-A/B, 1 seed
+#   DATASET=jarvis bash 30_full.sh all    # JARVIS Supercon-3D, 3 seeds
 #
 #   bash 30_full.sh all        # everything, chained with --dependency=afterok
-#   bash 30_full.sh train      # data-jarvis, angle-ablation, linegraph, confound
+#   bash 30_full.sh train      # data task, angle ablation, linegraph, confound
 #   bash 30_full.sh symprec    # the tolerance sweep (needs the A0 checkpoint)
 #   bash 30_full.sh choose     # read the sweep back, pick the tolerance
 #   bash 30_full.sh pipeline   # pipeline-ablation, per arm, per root
@@ -47,24 +51,39 @@ dep_flag() {
 
 # ---------------------------------------------------------------------------
 do_train() {
-    echo "=== data-jarvis (CPU, minutes; runs in the scoring env, see env.sh)"
-    run_task_data data-jarvis
+    # The data task is CPU-only but still needs the aarch64 scoring env, which
+    # cannot run on the x86_64 login node -- so it is submitted, not run here.
+    # Its sbatch file declares no --gres, so it does not hold a GPU.
+    echo "=== $DATA_TASK (CPU-only; submitted to $PART_FULL, no GPU held)"
+    csp_submit "$PART_FULL" "04:00:00" "$DATA_TASK" $DRYFLAG \
+        | record_jobs "$DATA_TASK"
+    # Every training arm reads the split this task writes, so they MUST wait on
+    # it.  The old code ran the data task synchronously on the login node and
+    # got the ordering for free; here it is a submitted job, so the dependency
+    # has to be explicit or the arrays would start against a missing split.
+    local datadep=""
+    if [ "$DRY" != "1" ]; then
+        datadep="--dependency=afterok:$(last_array_job "$DATA_TASK")"
+        echo "    (training arms chained: $datadep)"
+    fi
 
-    echo "=== angle-ablation: 6 arms x $(tr -cd , <<<"$SEEDS" | wc -c | awk '{print $1+1}') seeds"
-    csp_submit "$PART_FULL" "$PHASE4_TIME" angle-ablation \
+    echo "=== $ABLATION_TASK: 6 arms x $(tr ',' '\n' <<<"$SEEDS" | wc -l) seed(s)"
+    CSP_SBATCH_EXTRA="$datadep" \
+    csp_submit "$PART_FULL" "$PHASE4_TIME" "$ABLATION_TASK" \
         --seeds "$SEEDS" --relax-workers "$RELAX_WORKERS" --symprec "$SYMPREC" \
-        $DRYFLAG | record_jobs angle-ablation
+        $DRYFLAG | record_jobs "$ABLATION_TASK"
 
-    # Arm A of ablation-linegraph is byte-identical to A0 and is skipped by the
-    # stage markers; only the three jarvis_nolg runs are new work.  It is the
+    # Arm A of the linegraph task is byte-identical to A0 and is skipped by the
+    # stage markers; only the ${SPLIT}_nolg runs are new work.  It is the
     # calibration for reading A0->A3: deleting the line graph moves denoising
-    # loss a lot (2.351 vs 2.011) and match rate not at all.
-    echo "=== ablation-linegraph (+3 new: jarvis_nolg)"
-    csp_submit "$PART_FULL" "$PHASE4_TIME" ablation-linegraph \
+    # loss a lot (2.351 vs 2.011 on JARVIS) and match rate not at all.
+    echo "=== $LINEGRAPH_TASK (new work: ${SPLIT}_nolg)"
+    CSP_SBATCH_EXTRA="$datadep" \
+    csp_submit "$PART_FULL" "$PHASE4_TIME" "$LINEGRAPH_TASK" \
         --seeds "$SEEDS" --relax-workers "$RELAX_WORKERS" --symprec "$SYMPREC" \
-        $DRYFLAG | record_jobs ablation-linegraph
+        $DRYFLAG | record_jobs "$LINEGRAPH_TASK"
 
-    [ "$RUN_CONFOUND_ARM" = "1" ] && do_confound
+    [ "$RUN_CONFOUND_ARM" = "1" ] && do_confound "$datadep"
 }
 
 # ---------------------------------------------------------------------------
@@ -75,6 +94,7 @@ do_train() {
 # schedule, batch size, lr, augment, guidance, candidates, symprec -- is copied
 # from tasks.py, because an arm that differs in anything else is not a control.
 do_confound() {
+    local dep="${1:-}"
     echo "=== confound arm: A3 with the pair channel ungated"
     local nseeds; nseeds=$(tr ',' '\n' <<<"$SEEDS" | wc -l)
     local sb="$RESULTS/00_provenance/confound.sbatch"
@@ -89,23 +109,23 @@ do_confound() {
 #SBATCH --cpus-per-task=$CPUS_PER_TASK
 #SBATCH --mem=$MEM_PER_TASK
 #SBATCH --gres=$CSP_GPU_GRES
-#SBATCH --account=$CSP_ACCOUNT
+$(sbatch_account_line)
 #SBATCH --partition=$PART_FULL
 cd "$ALIGNN_REPO"
 source task_runners/common.sh
 
 SEEDS=(\$(tr ',' ' ' <<<"$SEEDS"))
 S=\${SEEDS[\${SLURM_ARRAY_TASK_ID:-0}]}
-DATA="$CSP_RUNS/data/jarvis"
+DATA="$CSP_RUNS/data/$SPLIT"
 RUN="$CSP_RUNS/train/$CONFOUND_CONFIG/seed\$S"
 mkdir -p "\$RUN/bench/nosym" "\$RUN/bench/sym" "\$RUN/.stages"
 
 t0=\$SECONDS
 python -u -m alignn.inverse.train_csp \\
-    --data-dir "\$DATA" --output "\$RUN" --epochs 3000 --seed "\$S" \\
+    --data-dir "\$DATA" --output "\$RUN" --epochs $TRAIN_EPOCHS --seed "\$S" \\
     --ablation A3 --gate-pair-messages 0 \\
     --alignn-layers 3 --gcn-layers 3 --hidden-features 256 --knn 12 \\
-    --num-steps 1000 --batch-size 64 --lr 1e-3 --augment 0 \\
+    --num-steps 1000 --batch-size 64 --lr 1e-3 --augment $AUGMENT \\
     --device cuda --log-every 25
 printf '{"argv":["confound-train"],"elapsed_s":%d,"host":"%s"}\n' \\
     \$((SECONDS-t0)) "\$(hostname)" > "\$RUN/.stages/train.json"
@@ -133,7 +153,8 @@ CONF
              "$PART_FULL, $CSP_GPU_GRES, $PHASE4_TIME)"
         return 0
     fi
-    local jid; jid=$(sbatch --parsable --export=ALL "$sb")
+    # shellcheck disable=SC2086  # dep is a single flag or empty
+    local jid; jid=$(sbatch --parsable --export=ALL $dep "$sb")
     echo "submitted array job $jid" | record_jobs confound
 }
 
@@ -148,7 +169,7 @@ do_symprec() {
 
 do_choose() {
     echo "=== choosing the symmetrisation tolerance on validation"
-    "$TRAIN_ENV/bin/python" - "$CSP_RUNS/symprec" <<'PY' \
+    train_py - "$CSP_RUNS/symprec" <<'PY' \
         | tee "$RESULTS/50_costs/symprec_choice.txt"
 import json, pathlib, sys
 root = pathlib.Path(sys.argv[1])
@@ -198,7 +219,7 @@ do_pipeline() {
         CSP_SBATCH_EXTRA="$(dep_flag "$dep")" \
         csp_submit "$PART_FULL" "12:00:00" pipeline-ablation \
             --runs-root "$root" \
-            --checkpoint "$CSP_RUNS/train/jarvis_$arm/seed$(cut -d, -f1 <<<"$SEEDS")/best_model.pt" \
+            --checkpoint "$CSP_RUNS/train/${SPLIT}_$arm/seed$(cut -d, -f1 <<<"$SEEDS")/best_model.pt" \
             --symprec "$SYMPREC" --relax-workers "$RELAX_WORKERS" $DRYFLAG \
             | record_jobs "pipeline-$arm"
     done
@@ -207,12 +228,12 @@ do_pipeline() {
 # ---------------------------------------------------------------------------
 case "$STEP" in
     train)    do_train ;;
-    symprec)  do_symprec "$(last_array_job angle-ablation)" ;;
+    symprec)  do_symprec "$(last_array_job "$ABLATION_TASK")" ;;
     choose)   do_choose ;;
     pipeline) do_pipeline "" ;;
     all)
         do_train
-        do_symprec "$(last_array_job angle-ablation)"
+        do_symprec "$(last_array_job "$ABLATION_TASK")"
         echo
         echo "pipeline-ablation is NOT chained: it needs the symprec chosen in"
         echo "between.  When the sweep finishes:"

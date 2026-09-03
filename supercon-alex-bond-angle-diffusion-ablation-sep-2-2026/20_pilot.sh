@@ -38,25 +38,26 @@ loss)
     # decimals across two machines.  It is a filter for a broken arm, not a
     # verdict on a real one: the line-graph ablation moved that loss by 14.5%
     # and moved match rate by exactly nothing.
-    csp_submit "$PART_INTER" "$PILOT_TIME" angle-ablation \
+    csp_submit "$PART_INTER" "$PILOT_TIME" "$ABLATION_TASK" \
         --quick --loss-only --relax-workers "$RELAX_WORKERS" \
-        | tee /dev/stderr | record_jobs angle-ablation-loss
+        | tee /dev/stderr | record_jobs "$ABLATION_TASK-loss"
     echo
     echo "when it finishes:"
-    echo "  source env.sh && run_task angle-ablation --quick --aggregate"
+    echo "  source env.sh && run_task $ABLATION_TASK --quick --aggregate"
     ;;
 
 quick)
     echo "=== phase 3: full --quick on $PART_PILOT"
-    run_task_data data-jarvis
-    csp_submit "$PART_PILOT" "$PILOT_TIME" angle-ablation \
+    csp_submit "$PART_PILOT" "04:00:00" "$DATA_TASK" \
+        | tee /dev/stderr | record_jobs "$DATA_TASK"
+    csp_submit "$PART_PILOT" "$PILOT_TIME" "$ABLATION_TASK" \
         --quick --relax-workers "$RELAX_WORKERS" --symprec "$SYMPREC" \
-        | tee /dev/stderr | record_jobs angle-ablation-quick
+        | tee /dev/stderr | record_jobs "$ABLATION_TASK-quick"
     echo
     echo "when it finishes, exercise the whole analysis chain on it:"
     echo "  bash 20_pilot.sh measure"
     echo "  python collect.py --quick && python stage_benchmarks.py"
-    echo "  $SCORE_ENV_PATH/bin/atombench $RESULTS/20_benchmarks $RESULTS/30_atombench"
+    echo "  score_bin atombench $RESULTS/20_benchmarks $RESULTS/30_atombench"
     echo "  python costs.py --harvest && python analyze.py"
     ;;
 
@@ -69,7 +70,7 @@ measure)
     sacct -j "$ids" --parsable2 --units=M \
         --format=JobID,JobName,State,ElapsedRaw,Planned,TotalCPU,MaxRSS,NodeList \
         | tee "$RESULTS/50_costs/pilot_sacct.tsv"
-    "$TRAIN_ENV/bin/python" - "$RESULTS/50_costs/pilot_sacct.tsv" <<'PY'
+    train_py - "$RESULTS/50_costs/pilot_sacct.tsv" <<'PY'
 import sys, csv, math
 rows = [r for r in csv.DictReader(open(sys.argv[1]), delimiter="|")
         if r["JobID"].count("_") == 1 and "." not in r["JobID"]]

@@ -101,18 +101,29 @@ def reduce_trace(path: Path) -> dict:
     }
 
 
+#: Which prepared split this run is about.  env.sh exports SPLIT; the default
+#: keeps standalone invocations working on the original benchmark.
+SPLIT = os.environ.get("SPLIT", "jarvis")
+
+#: Documented train-set sizes, used only when the split is not on disk.
+DOCUMENTED_N_TRAIN = {"jarvis": 847, "alex": 6603}
+
+
 def train_set_size(runs_root: Path) -> tuple[int, str]:
     """Training-set size, for the per-step derivation."""
     for name in ("split_meta.json",):
-        meta = jload(runs_root / "data" / "jarvis" / name)
+        meta = jload(runs_root / "data" / SPLIT / name)
         if isinstance(meta, dict) and meta.get("n_train"):
             return int(meta["n_train"]), name
-    train = runs_root / "data" / "jarvis" / "train.json"
+    train = runs_root / "data" / SPLIT / "train.json"
     data = jload(train)
     if isinstance(data, list):
         return len(data), "train.json"
-    # The JARVIS Supercon-3D split the README records is 847/105/103.
-    return 847, "documented default (split not on disk)"
+    # JARVIS Supercon-3D is 847/105/103; Alexandria DS-A/B is 6603/825/825.
+    return (
+        DOCUMENTED_N_TRAIN.get(SPLIT, 847),
+        f"documented default for {SPLIT} (split not on disk)",
+    )
 
 
 # ---------------------------------------------------------------------------

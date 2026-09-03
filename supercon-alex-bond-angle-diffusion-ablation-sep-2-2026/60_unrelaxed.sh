@@ -42,14 +42,14 @@ cat > "$SB" <<UNRELAXED
 #SBATCH --cpus-per-task=$CPUS_PER_TASK
 #SBATCH --mem=$MEM_PER_TASK
 #SBATCH --gres=$CSP_GPU_GRES
-#SBATCH --account=$CSP_ACCOUNT
+$(sbatch_account_line)
 #SBATCH --partition=$PART_FULL
 cd "$ALIGNN_REPO"
 source task_runners/common.sh
 
 RUN=\$(sed -n "\$((\${SLURM_ARRAY_TASK_ID:-0}+1))p" "$LIST")
 SEED=\$(basename "\$RUN" | tr -dc 0-9)
-DATA="$CSP_RUNS/data/jarvis"
+DATA="$CSP_RUNS/data/$SPLIT"
 mkdir -p "\$RUN/bench/raw" "\$RUN/bench/rawsym"
 echo "unrelaxed generation: \$RUN (seed \$SEED)"
 

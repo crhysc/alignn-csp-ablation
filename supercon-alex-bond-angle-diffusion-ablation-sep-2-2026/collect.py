@@ -73,19 +73,29 @@ def sha256(path: Path) -> str:
 # ---------------------------------------------------------------------------
 # Discovery
 # ---------------------------------------------------------------------------
+SPLIT = os.environ.get("SPLIT", "jarvis")
+
+
 def discover_runs(runs_root: Path, tree: str) -> list[tuple[str, int, Path]]:
     """(arm, seed, rundir) for every training run on disk.
 
     Globbing beats importing tasks.py here: it picks up whatever actually ran,
-    including the confound arm and jarvis_nolg, neither of which the runner
-    knows how to enumerate as part of angle-ablation.
+    including the confound arm and <split>_nolg, neither of which the runner
+    knows how to enumerate as part of the angle-ablation task.
     """
     out = []
+    # Config names are prefixed with the split ("jarvis_A0", "alex_A0") so the
+    # two benchmarks never collide in one run tree; strip whichever applies so
+    # arm labels stay dataset-agnostic in the tables.
+    prefixes = tuple(f"{s}_" for s in (SPLIT, "jarvis", "alex"))
     for rundir in sorted((runs_root / tree).glob("*/seed*")):
         if not rundir.is_dir():
             continue
         arm = rundir.parent.name
-        arm = arm[len("jarvis_"):] if arm.startswith("jarvis_") else arm
+        for pref in prefixes:
+            if arm.startswith(pref):
+                arm = arm[len(pref):]
+                break
         m = re.search(r"seed(\d+)$", rundir.name)
         out.append((arm, int(m.group(1)) if m else -1, rundir))
     return out

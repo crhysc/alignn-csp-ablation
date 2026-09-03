@@ -4,6 +4,20 @@ Context summary for whoever (or whatever) picks this up on a new cluster.
 Written 2026-09-01, from the Dolly Sods (WVU) instance where the first full
 run was done.
 
+> **2026-09-03 update.** This document predates two things worth knowing
+> before reading further: a second harness now exists —
+> `supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/`,
+> which crosses the line-graph ablation this one describes with the
+> bond-angle-diffusion suite itself — and most of what §4–§6 below walk
+> through *by hand* for the Dolly Sods → atomgptlab move is now automated by
+> `install.sh` at the repo root (see the top-level `README.md`). The
+> per-site scheduler knobs in the table below still have to be re-measured
+> on any new site; `install.sh` writes a `site.env` with a placeholder and
+> the discovery command for each one, rather than a value, precisely because
+> it cannot know them for you. This file's account of *why* each trap
+> exists is still the best documentation of that — worth reading even though
+> the manual steps it narrates are no longer how you'd actually do them.
+
 ---
 
 ## 1. What this is
