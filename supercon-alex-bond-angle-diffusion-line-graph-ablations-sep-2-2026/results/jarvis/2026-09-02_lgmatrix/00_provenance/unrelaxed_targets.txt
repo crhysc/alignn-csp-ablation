@@ -1,0 +1,6 @@
+/data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A0/seed0
+/data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A3/seed0
+/data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_B3/seed0
+/data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_nolg_ad/seed0
+/data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_nolg_b3/seed0
+/data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_nolg/seed0

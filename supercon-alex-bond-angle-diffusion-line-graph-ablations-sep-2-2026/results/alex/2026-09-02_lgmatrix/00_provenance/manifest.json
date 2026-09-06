@@ -1,0 +1,278 @@
+{
+  "run_id": "2026-09-02_lgmatrix",
+  "collected_utc": "2026-09-06T15:02:46.625601+00:00",
+  "tree": "train",
+  "runs_root": "/data/ccamp104/alignn_csp_lgmatrix/alex",
+  "alignn": {
+    "path": "/home/ccamp104/repositories/alignn-csp-ablation/alignn",
+    "rev": "fb151f6373d2ff315d5aa86c4fcc2454dff7e50e",
+    "branch": "lg-angle-diffusion-matrix",
+    "dirty": true
+  },
+  "atombench": {
+    "path": "/data/ccamp104/atombench",
+    "rev": "324ed9d1d04ed947788a8435b8fc2e7dcfc76ea3"
+  },
+  "n_runs": 6,
+  "runs": [
+    {
+      "arm": "A0",
+      "seed": 0,
+      "rundir": "/data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0",
+      "files": {
+        "bench_nosym.csv": {
+          "sha256": "953b466c53023401b9ddb8a5e509afb37ab99db30cfdb9015b2560f0909d41b6",
+          "bytes": 650476
+        },
+        "metrics_nosym.json": {
+          "sha256": "5c949c1f5fd0ea181a62c89d29d079d4064fdae2780c6c024781f9d57db01f0c",
+          "bytes": 2281
+        },
+        "bench_sym.csv": {
+          "sha256": "48bbc6ea8e33c5e1d44e7a32d2c59fe393901d573ac1fcb68808e27a6f86a681",
+          "bytes": 690385
+        },
+        "metrics_sym.json": {
+          "sha256": "7ad89c07196c7326cd405304ee255235856c4885be299ee6acc55f8451331ac1",
+          "bytes": 2270
+        },
+        "history.json": {
+          "sha256": "9b71f1dece325d6d0d14af30bc5c2f192227466a68054f2aa55b27c7c4788e09",
+          "bytes": 306937
+        },
+        "config.json": {
+          "sha256": "2c646290bce90bf64f43b0dac60705319c669481b62f9be8f5fae453aab76b71",
+          "bytes": 1088
+        }
+      },
+      "gpu_trace": "csp-lg-angle-matrix-alex-u1__12963__0.csv",
+      "gpu_device": "NVIDIA",
+      "hosts": [
+        "atomgptlab04.wse.jhu.edu"
+      ]
+    },
+    {
+      "arm": "A3",
+      "seed": 0,
+      "rundir": "/data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A3/seed0",
+      "files": {
+        "bench_nosym.csv": {
+          "sha256": "e485e80190bb3a0c4ee750913fa217893131dcea6f361c1abef213c4626b00c3",
+          "bytes": 650562
+        },
+        "metrics_nosym.json": {
+          "sha256": "94cd7586066fa716423d9f4130538d871f8c440d8261765728ccc91abcd589dc",
+          "bytes": 2278
+        },
+        "bench_sym.csv": {
+          "sha256": "6d6e25cba1ebd4d23c3504311b55e80c59023fe13d65b98036e69880435e8eb0",
+          "bytes": 692969
+        },
+        "metrics_sym.json": {
+          "sha256": "3ec30e9193cacc457c1de020f7f4b80d0fd966d10c4d022402ab222e811740d2",
+          "bytes": 2271
+        },
+        "history.json": {
+          "sha256": "3a3819349bb02c230a4e36630ca7aa4cc3cc90d31bb42d4eb5388cf90af4fd4c",
+          "bytes": 337585
+        },
+        "config.json": {
+          "sha256": "9cc336bb8510c606bd75f9d3b6f18c6011b5f0faa637d0f6c29e1fad22e8bcd0",
+          "bytes": 1097
+        }
+      },
+      "gpu_trace": "csp-aggregate-lg-angle-matrix-alex__13085__0.csv",
+      "gpu_device": "NVIDIA",
+      "hosts": [
+        "atomgptlab04.wse.jhu.edu"
+      ]
+    },
+    {
+      "arm": "B3",
+      "seed": 0,
+      "rundir": "/data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_B3/seed0",
+      "files": {
+        "bench_nosym.csv": {
+          "sha256": "d2cddc556d82c2d125d01db1bf41ee0777017fbf1d2ac6d54f2926c6786f625e",
+          "bytes": 649363
+        },
+        "metrics_nosym.json": {
+          "sha256": "9c8255b86cbccf3ebd581461f11abea2dd62699813a1d15cfdedc3dda19c90d3",
+          "bytes": 2279
+        },
+        "bench_sym.csv": {
+          "sha256": "96ff530bde9302a78772746003c546ffdb76c80a1ac404782d2ccaab224884ee",
+          "bytes": 692126
+        },
+        "metrics_sym.json": {
+          "sha256": "be4fad2f496425e21426b33307ec10bb1be6fc5a256030b2901064df8e579610",
+          "bytes": 2266
+        },
+        "history.json": {
+          "sha256": "2b0c717f6cf22535b9b2af8a342016f421e80e76488c1d562a399d5dfa4b3fb9",
+          "bytes": 337602
+        },
+        "config.json": {
+          "sha256": "51b4b4a653579ac2ef70c62e71e65da7a237b728fefcbbcc1a9cd68131cc5189",
+          "bytes": 1097
+        }
+      },
+      "gpu_trace": "csp-lg-angle-state-matrix-alex-u2__12973__0.csv",
+      "gpu_device": "NVIDIA",
+      "hosts": [
+        "atomgptlab04.wse.jhu.edu"
+      ]
+    },
+    {
+      "arm": "nolg",
+      "seed": 0,
+      "rundir": "/data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_nolg/seed0",
+      "files": {
+        "bench_nosym.csv": {
+          "sha256": "ca456a62dfb5eb07280a840561fc5a1db6950c6f5c554893ea4b6ac03325a61e",
+          "bytes": 649594
+        },
+        "metrics_nosym.json": {
+          "sha256": "c21e70ecb379f1fd475eaa9b09de81515f31b58ee80fb8719db9300344548dd7",
+          "bytes": 2264
+        },
+        "bench_sym.csv": {
+          "sha256": "fef95214e13000abb95a6f1ca00ae81c95de850cc93effd0177733606843401f",
+          "bytes": 691717
+        },
+        "metrics_sym.json": {
+          "sha256": "40cb84a8831c3e45c710048a44a07fb5f17ad94f2dd463108f881d84390e99d8",
+          "bytes": 2268
+        },
+        "history.json": {
+          "sha256": "73d1a02439562e122f6d1ab289d180ebf07078ee03962921862470fca6227202",
+          "bytes": 306012
+        },
+        "config.json": {
+          "sha256": "b2e8a8d1566d1d14be8baed6b80c111dd1a78a0ab86e72b89faf3342493f67f8",
+          "bytes": 1090
+        }
+      },
+      "gpu_trace": "csp-lg-angle-matrix-alex-u0__12962__0.csv",
+      "gpu_device": "NVIDIA",
+      "hosts": [
+        "atomgptlab04.wse.jhu.edu"
+      ]
+    },
+    {
+      "arm": "nolg_ad",
+      "seed": 0,
+      "rundir": "/data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_nolg_ad/seed0",
+      "files": {
+        "bench_nosym.csv": {
+          "sha256": "cdbe4f1f56acf28e46e455968113b3372d91ce8c83d33e90de9d6cbdc8bfb866",
+          "bytes": 649814
+        },
+        "metrics_nosym.json": {
+          "sha256": "f8722885305246fa9c9fac08287e494291ab32fe5062676b71a35a4260a48dc0",
+          "bytes": 2276
+        },
+        "bench_sym.csv": {
+          "sha256": "a6fe940a88d4f3e8d40b10a1e5377a66a974626cc854c2caf1247256a0b7d2d8",
+          "bytes": 692761
+        },
+        "metrics_sym.json": {
+          "sha256": "ea16b1073e4a2a40fc94be92cfa18189ca31431c4a8f69d8062276ecae55dddf",
+          "bytes": 2266
+        },
+        "history.json": {
+          "sha256": "f6230408ae81317db2edae9a9cbb393d1c709243564cfa1a705af72a34416156",
+          "bytes": 336668
+        },
+        "config.json": {
+          "sha256": "19406ee3b20e3cece37b954b0803854df95fffb325f5fc8c612002de07a89036",
+          "bytes": 1102
+        }
+      },
+      "gpu_trace": "csp-aggregate-lg-angle-matrix-alex+jarvis__12966__0.csv",
+      "gpu_device": "NVIDIA",
+      "hosts": [
+        "atomgptlab04.wse.jhu.edu"
+      ]
+    },
+    {
+      "arm": "nolg_b3",
+      "seed": 0,
+      "rundir": "/data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_nolg_b3/seed0",
+      "files": {
+        "bench_nosym.csv": {
+          "sha256": "2c94c1d9bdc361062280305e712463ca346cbc5ff01576dcd254422cad8404f5",
+          "bytes": 649133
+        },
+        "metrics_nosym.json": {
+          "sha256": "6f86b90e2606ba77ddef4df8e3ca5ecb05116fe37ed3d01607c089c411aade58",
+          "bytes": 2273
+        },
+        "bench_sym.csv": {
+          "sha256": "6c3249e063383e2e3ba3b20e6c91f0eb2d44af6c8eb61f9daa38b125bb397cf0",
+          "bytes": 693596
+        },
+        "metrics_sym.json": {
+          "sha256": "6526ba63955ea02c9fe91fd23b72161163cd1fb6ead88503c2209cb07781bc3c",
+          "bytes": 2268
+        },
+        "history.json": {
+          "sha256": "a33bc6c82d0307fcfd14eb6d9996f3edba4fd12774b2cfcaf89e627090ad4dd9",
+          "bytes": 336618
+        },
+        "config.json": {
+          "sha256": "2fed062c29c8dd5c291614060a2ee339c80cefdfddceb582e007adb0d28de63a",
+          "bytes": 1102
+        }
+      },
+      "gpu_trace": "csp-aggregate-lg-angle-state-matrix-alex__12972__0.csv",
+      "gpu_device": "NVIDIA",
+      "hosts": [
+        "atomgptlab04.wse.jhu.edu"
+      ]
+    }
+  ],
+  "missing_files": [
+    "A0/seed0: bench/sym/angle_eval.json",
+    "A0/seed0: bench/raw/pred.csv",
+    "A0/seed0: bench/raw/metrics.json",
+    "A0/seed0: bench/rawsym/pred.csv",
+    "A0/seed0: bench/rawsym/metrics.json",
+    "A0/seed0: bench/rawsym/angle_eval.json",
+    "A3/seed0: bench/sym/angle_eval.json",
+    "A3/seed0: bench/raw/pred.csv",
+    "A3/seed0: bench/raw/metrics.json",
+    "A3/seed0: bench/rawsym/pred.csv",
+    "A3/seed0: bench/rawsym/metrics.json",
+    "A3/seed0: bench/rawsym/angle_eval.json",
+    "B3/seed0: bench/sym/angle_eval.json",
+    "B3/seed0: bench/raw/pred.csv",
+    "B3/seed0: bench/raw/metrics.json",
+    "B3/seed0: bench/rawsym/pred.csv",
+    "B3/seed0: bench/rawsym/metrics.json",
+    "B3/seed0: bench/rawsym/angle_eval.json",
+    "nolg/seed0: bench/sym/angle_eval.json",
+    "nolg/seed0: bench/raw/pred.csv",
+    "nolg/seed0: bench/raw/metrics.json",
+    "nolg/seed0: bench/rawsym/pred.csv",
+    "nolg/seed0: bench/rawsym/metrics.json",
+    "nolg/seed0: bench/rawsym/angle_eval.json",
+    "nolg_ad/seed0: bench/sym/angle_eval.json",
+    "nolg_ad/seed0: bench/raw/pred.csv",
+    "nolg_ad/seed0: bench/raw/metrics.json",
+    "nolg_ad/seed0: bench/rawsym/pred.csv",
+    "nolg_ad/seed0: bench/rawsym/metrics.json",
+    "nolg_ad/seed0: bench/rawsym/angle_eval.json",
+    "nolg_b3/seed0: bench/sym/angle_eval.json",
+    "nolg_b3/seed0: bench/raw/pred.csv",
+    "nolg_b3/seed0: bench/raw/metrics.json",
+    "nolg_b3/seed0: bench/rawsym/pred.csv",
+    "nolg_b3/seed0: bench/rawsym/metrics.json",
+    "nolg_b3/seed0: bench/rawsym/angle_eval.json"
+  ],
+  "orphan_gpu_traces": [
+    "csp-lg-angle-matrix-alex-u2__12964__0.csv",
+    "csp-lg-angle-matrix-alex-u3__13084__0.csv",
+    "csp-lg-angle-state-matrix-alex-u3__12971__0.csv"
+  ]
+}

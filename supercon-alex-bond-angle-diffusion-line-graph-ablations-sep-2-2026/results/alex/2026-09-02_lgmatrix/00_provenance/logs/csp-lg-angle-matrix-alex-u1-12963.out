@@ -1,0 +1,193 @@
+gpu_sampler: device 'NVIDIA GB10'
+gpu_sampler: pid 2361485 -> /home/ccamp104/repositories/alignn-csp-ablation/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/_gputrace/csp-lg-angle-matrix-alex-u1__12963__0.csv
+repo:      /home/ccamp104/repositories/alignn-csp-ablation/alignn
+runs:      /data/ccamp104/alignn_csp_lgmatrix/jarvis
+python:    /data/ccamp104/envs/alignn2/bin/python
+host:      atomgptlab04.wse.jhu.edu
+job:       12963 array element none
+
+=== unit alex_A0-seed0  ->  /data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0
+[alex_A0-seed0/train] $ python -u -m alignn.inverse.train_csp --data-dir /data/ccamp104/alignn_csp_lgmatrix/alex/data/alex --output /data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0 --epochs 1000 --seed 0 --ablation A0 --alignn-layers 3 --gcn-layers 3 --hidden-features 256 --knn 12 --num-steps 1000 --batch-size 64 --lr 1e-3 --augment 0 --device cuda --log-every 25 --select-on structural
+train=6603 val=825
+normalizer: {"lattice_mean": [0.9141413569450378, 0.9141413569450378, 0.9141413569450378, 0.0, 0.0, 0.0], "lattice_std": [0.26006534695625305, 0.26006534695625305, 0.26006534695625305, 0.20201514661312103, 0.20201514661312103, 0.20201514661312103], "prop_mean": 2.454956837375865, "prop_std": 4.082666975406004}
+ablation A0: baseline: current ALIGNN 2.0 diffusion, angles as features only
+denoiser: {"hidden_features": 256, "alignn_layers": 3, "gcn_layers": 3, "knn": 12, "num_steps": 1000, "angle_diffusion": false, "topology": "knn", "gate_pair_messages": false, "angle_feedback": true, "angle_mode": "off", "angle_state_basis": "fourier", "angle_state_harmonics": 8}
+parameters: 3.79M  modalities: ['prop', 'composition']
+epoch     1  train 8.8980 (lat 0.9799 frac 0.7918)  val 9.3185 (lat 0.9835 frac 0.8335)  best 9.3185  4s
+    frac  vs baseline: [1-300) 0.987->0.986  [300-600) 0.987->0.986  [600-800) 0.954->0.953  [800-1000) 0.249->0.249
+epoch    25  train 5.9868 (lat 0.2648 frac 0.5722)  val 6.2067 (lat 0.2864 frac 0.5920)  best 6.2067  104s
+    frac  vs baseline: [1-300) 0.987->0.617  [300-600) 0.987->0.647  [600-800) 0.954->0.823  [800-1000) 0.249->0.246
+epoch    50  train 5.4257 (lat 0.2150 frac 0.5211)  val 5.2220 (lat 0.1975 frac 0.5024)  best 5.2220  209s
+    frac  vs baseline: [1-300) 0.987->0.471  [300-600) 0.987->0.498  [600-800) 0.954->0.778  [800-1000) 0.249->0.245
+epoch    75  train 4.9338 (lat 0.1552 frac 0.4779)  val 4.7708 (lat 0.1419 frac 0.4629)  best 4.7708  307s
+    frac  vs baseline: [1-300) 0.987->0.420  [300-600) 0.987->0.443  [600-800) 0.954->0.745  [800-1000) 0.249->0.245
+epoch   100  train 4.6349 (lat 0.1324 frac 0.4502)  val 4.5148 (lat 0.1189 frac 0.4396)  best 4.5148  417s
+    frac  vs baseline: [1-300) 0.987->0.393  [300-600) 0.987->0.416  [600-800) 0.954->0.725  [800-1000) 0.249->0.245
+epoch   125  train 4.4057 (lat 0.1161 frac 0.4290)  val 4.3964 (lat 0.1056 frac 0.4291)  best 4.3964  527s
+    frac  vs baseline: [1-300) 0.987->0.380  [300-600) 0.987->0.400  [600-800) 0.954->0.714  [800-1000) 0.249->0.245
+epoch   150  train 4.2261 (lat 0.1038 frac 0.4122)  val 4.3346 (lat 0.0968 frac 0.4238)  best 4.3346  636s
+    frac  vs baseline: [1-300) 0.987->0.372  [300-600) 0.987->0.394  [600-800) 0.954->0.708  [800-1000) 0.249->0.244
+epoch   175  train 4.0734 (lat 0.0924 frac 0.3981)  val 4.3092 (lat 0.0937 frac 0.4215)  best 4.3090  744s
+    frac  vs baseline: [1-300) 0.987->0.368  [300-600) 0.987->0.391  [600-800) 0.954->0.708  [800-1000) 0.249->0.244
+epoch   200  train 3.9525 (lat 0.0908 frac 0.3862)  val 4.2785 (lat 0.0928 frac 0.4186)  best 4.2785  851s
+    frac  vs baseline: [1-300) 0.987->0.365  [300-600) 0.987->0.388  [600-800) 0.954->0.709  [800-1000) 0.249->0.244
+epoch   225  train 3.8005 (lat 0.0804 frac 0.3720)  val 4.3013 (lat 0.0923 frac 0.4209)  best 4.2778  956s
+    frac  vs baseline: [1-300) 0.987->0.367  [300-600) 0.987->0.389  [600-800) 0.954->0.718  [800-1000) 0.249->0.245
+epoch   250  train 3.6977 (lat 0.0781 frac 0.3620)  val 4.3358 (lat 0.0936 frac 0.4242)  best 4.2778  1056s
+    frac  vs baseline: [1-300) 0.987->0.366  [300-600) 0.987->0.394  [600-800) 0.954->0.729  [800-1000) 0.249->0.245
+epoch   275  train 3.5636 (lat 0.0774 frac 0.3486)  val 4.3948 (lat 0.0921 frac 0.4303)  best 4.2778  1153s
+    frac  vs baseline: [1-300) 0.987->0.371  [300-600) 0.987->0.398  [600-800) 0.954->0.741  [800-1000) 0.249->0.245
+epoch   300  train 3.4043 (lat 0.0749 frac 0.3329)  val 4.4801 (lat 0.0930 frac 0.4387)  best 4.2778  1261s
+    frac  vs baseline: [1-300) 0.987->0.375  [300-600) 0.987->0.403  [600-800) 0.954->0.757  [800-1000) 0.249->0.246
+epoch   325  train 3.2740 (lat 0.0699 frac 0.3204)  val 4.5743 (lat 0.0948 frac 0.4479)  best 4.2778  1369s
+    frac  vs baseline: [1-300) 0.987->0.383  [300-600) 0.987->0.411  [600-800) 0.954->0.776  [800-1000) 0.249->0.248
+epoch   350  train 3.1442 (lat 0.0678 frac 0.3076)  val 4.6873 (lat 0.0971 frac 0.4590)  best 4.2778  1477s
+    frac  vs baseline: [1-300) 0.987->0.390  [300-600) 0.987->0.419  [600-800) 0.954->0.797  [800-1000) 0.249->0.249
+epoch   375  train 3.0322 (lat 0.0667 frac 0.2966)  val 4.8031 (lat 0.0974 frac 0.4706)  best 4.2778  1583s
+    frac  vs baseline: [1-300) 0.987->0.400  [300-600) 0.987->0.426  [600-800) 0.954->0.822  [800-1000) 0.249->0.252
+epoch   400  train 2.8754 (lat 0.0643 frac 0.2811)  val 4.8701 (lat 0.0989 frac 0.4771)  best 4.2778  1692s
+    frac  vs baseline: [1-300) 0.987->0.405  [300-600) 0.987->0.433  [600-800) 0.954->0.844  [800-1000) 0.249->0.256
+epoch   425  train 2.7744 (lat 0.0645 frac 0.2710)  val 4.9779 (lat 0.1003 frac 0.4878)  best 4.2778  1798s
+    frac  vs baseline: [1-300) 0.987->0.410  [300-600) 0.987->0.438  [600-800) 0.954->0.858  [800-1000) 0.249->0.259
+epoch   450  train 2.6487 (lat 0.0625 frac 0.2586)  val 5.0338 (lat 0.1022 frac 0.4932)  best 4.2778  1900s
+    frac  vs baseline: [1-300) 0.987->0.414  [300-600) 0.987->0.445  [600-800) 0.954->0.881  [800-1000) 0.249->0.263
+epoch   475  train 2.5476 (lat 0.0606 frac 0.2487)  val 5.1347 (lat 0.1040 frac 0.5031)  best 4.2778  1994s
+    frac  vs baseline: [1-300) 0.987->0.423  [300-600) 0.987->0.454  [600-800) 0.954->0.903  [800-1000) 0.249->0.267
+epoch   500  train 2.4286 (lat 0.0587 frac 0.2370)  val 5.2005 (lat 0.1033 frac 0.5097)  best 4.2778  2102s
+    frac  vs baseline: [1-300) 0.987->0.432  [300-600) 0.987->0.459  [600-800) 0.954->0.915  [800-1000) 0.249->0.270
+epoch   525  train 2.3210 (lat 0.0572 frac 0.2264)  val 5.3044 (lat 0.1052 frac 0.5199)  best 4.2778  2211s
+    frac  vs baseline: [1-300) 0.987->0.439  [300-600) 0.987->0.462  [600-800) 0.954->0.934  [800-1000) 0.249->0.274
+epoch   550  train 2.2318 (lat 0.0563 frac 0.2175)  val 5.3520 (lat 0.1048 frac 0.5247)  best 4.2778  2319s
+    frac  vs baseline: [1-300) 0.987->0.449  [300-600) 0.987->0.468  [600-800) 0.954->0.947  [800-1000) 0.249->0.278
+epoch   575  train 2.1323 (lat 0.0544 frac 0.2078)  val 5.4621 (lat 0.1054 frac 0.5357)  best 4.2778  2427s
+    frac  vs baseline: [1-300) 0.987->0.459  [300-600) 0.987->0.475  [600-800) 0.954->0.966  [800-1000) 0.249->0.282
+epoch   600  train 2.0108 (lat 0.0516 frac 0.1959)  val 5.5666 (lat 0.1044 frac 0.5462)  best 4.2778  2535s
+    frac  vs baseline: [1-300) 0.987->0.466  [300-600) 0.987->0.481  [600-800) 0.954->0.985  [800-1000) 0.249->0.286
+epoch   625  train 1.9188 (lat 0.0499 frac 0.1869)  val 5.6773 (lat 0.1060 frac 0.5571)  best 4.2778  2642s
+    frac  vs baseline: [1-300) 0.987->0.472  [300-600) 0.987->0.486  [600-800) 0.954->1.003  [800-1000) 0.249->0.291
+epoch   650  train 1.8437 (lat 0.0490 frac 0.1795)  val 5.7915 (lat 0.1069 frac 0.5685)  best 4.2778  2741s
+    frac  vs baseline: [1-300) 0.987->0.479  [300-600) 0.987->0.494  [600-800) 0.954->1.021  [800-1000) 0.249->0.296
+epoch   675  train 1.7824 (lat 0.0478 frac 0.1735)  val 5.9134 (lat 0.1064 frac 0.5807)  best 4.2778  2841s
+    frac  vs baseline: [1-300) 0.987->0.485  [300-600) 0.987->0.501  [600-800) 0.954->1.038  [800-1000) 0.249->0.300
+epoch   700  train 1.7298 (lat 0.0470 frac 0.1683)  val 6.0284 (lat 0.1088 frac 0.5920)  best 4.2778  2938s
+    frac  vs baseline: [1-300) 0.987->0.490  [300-600) 0.987->0.509  [600-800) 0.954->1.057  [800-1000) 0.249->0.305
+epoch   725  train 1.6762 (lat 0.0453 frac 0.1631)  val 6.1376 (lat 0.1091 frac 0.6029)  best 4.2778  3046s
+    frac  vs baseline: [1-300) 0.987->0.500  [300-600) 0.987->0.518  [600-800) 0.954->1.082  [800-1000) 0.249->0.309
+epoch   750  train 1.6274 (lat 0.0446 frac 0.1583)  val 6.2363 (lat 0.1102 frac 0.6126)  best 4.2778  3150s
+    frac  vs baseline: [1-300) 0.987->0.506  [300-600) 0.987->0.526  [600-800) 0.954->1.103  [800-1000) 0.249->0.314
+epoch   775  train 1.5953 (lat 0.0443 frac 0.1551)  val 6.3161 (lat 0.1115 frac 0.6205)  best 4.2778  3218s
+    frac  vs baseline: [1-300) 0.987->0.510  [300-600) 0.987->0.531  [600-800) 0.954->1.121  [800-1000) 0.249->0.318
+epoch   800  train 1.5631 (lat 0.0426 frac 0.1520)  val 6.4037 (lat 0.1119 frac 0.6292)  best 4.2778  3286s
+    frac  vs baseline: [1-300) 0.987->0.515  [300-600) 0.987->0.536  [600-800) 0.954->1.137  [800-1000) 0.249->0.323
+epoch   825  train 1.5301 (lat 0.0415 frac 0.1489)  val 6.4794 (lat 0.1123 frac 0.6367)  best 4.2778  3354s
+    frac  vs baseline: [1-300) 0.987->0.519  [300-600) 0.987->0.541  [600-800) 0.954->1.151  [800-1000) 0.249->0.328
+epoch   850  train 1.5167 (lat 0.0408 frac 0.1476)  val 6.5349 (lat 0.1127 frac 0.6422)  best 4.2778  3422s
+    frac  vs baseline: [1-300) 0.987->0.519  [300-600) 0.987->0.544  [600-800) 0.954->1.159  [800-1000) 0.249->0.331
+epoch   875  train 1.5196 (lat 0.0402 frac 0.1479)  val 6.5622 (lat 0.1128 frac 0.6449)  best 4.2778  3491s
+    frac  vs baseline: [1-300) 0.987->0.519  [300-600) 0.987->0.545  [600-800) 0.954->1.163  [800-1000) 0.249->0.334
+epoch   900  train 1.5390 (lat 0.0396 frac 0.1499)  val 6.5615 (lat 0.1126 frac 0.6449)  best 4.2778  3559s
+    frac  vs baseline: [1-300) 0.987->0.516  [300-600) 0.987->0.544  [600-800) 0.954->1.161  [800-1000) 0.249->0.334
+epoch   925  train 1.5727 (lat 0.0392 frac 0.1533)  val 6.5373 (lat 0.1123 frac 0.6425)  best 4.2778  3627s
+    frac  vs baseline: [1-300) 0.987->0.513  [300-600) 0.987->0.543  [600-800) 0.954->1.154  [800-1000) 0.249->0.333
+epoch   950  train 1.6193 (lat 0.0385 frac 0.1581)  val 6.4984 (lat 0.1118 frac 0.6387)  best 4.2778  3695s
+    frac  vs baseline: [1-300) 0.987->0.511  [300-600) 0.987->0.540  [600-800) 0.954->1.145  [800-1000) 0.249->0.331
+epoch   975  train 1.6557 (lat 0.0375 frac 0.1618)  val 6.4467 (lat 0.1120 frac 0.6335)  best 4.2778  3763s
+    frac  vs baseline: [1-300) 0.987->0.509  [300-600) 0.987->0.538  [600-800) 0.954->1.135  [800-1000) 0.249->0.329
+epoch  1000  train 1.6341 (lat 0.0370 frac 0.1597)  val 6.4144 (lat 0.1119 frac 0.6302)  best 4.2778  3832s
+    frac  vs baseline: [1-300) 0.987->0.508  [300-600) 0.987->0.536  [600-800) 0.954->1.127  [800-1000) 0.249->0.326
+done in 3832s  best structural val 4.2778 at epoch 201
+[alex_A0-seed0/train] done in 3838s
+[alex_A0-seed0/generate] $ python -u /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/generate_benchmark.py --checkpoint /data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0/best_model.pt --data-dir /data/ccamp104/alignn_csp_lgmatrix/alex/data/alex --split test --output-csv /data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0/bench/nosym/pred.csv --num-candidates 32 --guidance 2.0 --relax cell --rank energy --relax-steps 200 --seed 0 --device cuda --save-candidates /data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0/bench/nosym/candidates.json --prescreen-keep 4 --relax-workers 16
+model modalities=['prop', 'composition'] active=all
+825 targets, 32 candidates each
+  sampled chunk 1/30 (928 structures, 266s)
+  sampled chunk 2/30 (960 structures, 552s)
+  sampled chunk 3/30 (1000 structures, 801s)
+  sampled chunk 4/30 (856 structures, 1138s)
+  sampled chunk 5/30 (912 structures, 1403s)
+  sampled chunk 6/30 (864 structures, 1720s)
+  sampled chunk 7/30 (858 structures, 2039s)
+  sampled chunk 8/30 (846 structures, 2366s)
+  sampled chunk 9/30 (927 structures, 2636s)
+  sampled chunk 10/30 (863 structures, 2954s)
+  sampled chunk 11/30 (905 structures, 3245s)
+  sampled chunk 12/30 (854 structures, 3563s)
+  sampled chunk 13/30 (808 structures, 3909s)
+  sampled chunk 14/30 (896 structures, 4192s)
+  sampled chunk 15/30 (927 structures, 4496s)
+  sampled chunk 16/30 (940 structures, 4754s)
+  sampled chunk 17/30 (896 structures, 5041s)
+  sampled chunk 18/30 (893 structures, 5336s)
+  sampled chunk 19/30 (870 structures, 5648s)
+  sampled chunk 20/30 (902 structures, 5940s)
+  sampled chunk 21/30 (801 structures, 6301s)
+  sampled chunk 22/30 (824 structures, 6634s)
+  sampled chunk 23/30 (856 structures, 6944s)
+  sampled chunk 24/30 (959 structures, 7212s)
+  sampled chunk 25/30 (823 structures, 7535s)
+  sampled chunk 26/30 (897 structures, 7840s)
+  sampled chunk 27/30 (918 structures, 8111s)
+  sampled chunk 28/30 (936 structures, 8363s)
+  sampled chunk 29/30 (888 structures, 8664s)
+  sampled chunk 30/30 (593 structures, 8908s)
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+  prescreened 32 -> 4 per target in 47s
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+  relax/rank done in 944s
+  best candidate converged for 811/825 targets
+wrote /data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0/bench/nosym/pred.csv (825 rows)
+[alex_A0-seed0/generate] done in 9858s
+[alex_A0-seed0/symmetrize] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/symmetrize.sh --csv /data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0/bench/nosym/pred.csv --out /data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0/bench/sym/pred.csv --symprec 0.1
+symprec=0.1: changed 825 rows -> /data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0/bench/sym/pred.csv
+[alex_A0-seed0/symmetrize] done in 6s
+[alex_A0-seed0/score-nosym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0/bench/nosym/pred.csv
+=== /data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0/bench/nosym/pred.csv
+  match_rate  0.566061   (467/825)
+  RMSD        0.026064
+  ccRMSD      0.31657754035111035
+  MAE abc     0.5334
+  MAE angles  13.5575
+  KLD mean    0.0281
+[alex_A0-seed0/score-nosym] done in 11s
+[alex_A0-seed0/score-sym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0/bench/sym/pred.csv
+=== /data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0/bench/sym/pred.csv
+  match_rate  0.566061   (467/825)
+  RMSD        0.025335
+  ccRMSD      0.3176577704790349
+  MAE abc     0.5332
+  MAE angles  8.8228
+  KLD mean    0.0217
+[alex_A0-seed0/score-sym] done in 9s
+
+1 unit(s) complete.
+summarise with: python task_runners/run_task.py lg-angle-matrix-alex --aggregate

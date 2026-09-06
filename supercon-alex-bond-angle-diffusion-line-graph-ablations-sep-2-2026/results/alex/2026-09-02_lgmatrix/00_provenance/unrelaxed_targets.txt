@@ -1,0 +1,6 @@
+/data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A0/seed0
+/data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_A3/seed0
+/data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_B3/seed0
+/data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_nolg_ad/seed0
+/data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_nolg_b3/seed0
+/data/ccamp104/alignn_csp_lgmatrix/alex/train/alex_nolg/seed0

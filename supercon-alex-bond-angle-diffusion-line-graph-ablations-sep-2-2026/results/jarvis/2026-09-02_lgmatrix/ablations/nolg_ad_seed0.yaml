@@ -1,0 +1,394 @@
+schema: alignn-csp-ablation/ablation-metadata/v1
+identity:
+  experiment_set: lgmatrix
+  experiment_set_title: line graph x bond-angle diffusion, crossed (3x2 after the state matrix)
+  harness_dir: supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026
+  dataset_key: jarvis
+  dataset: JARVIS-DFT dft_3d, superconducting-Tc subset (Supercon-3D)
+  run_id: 2026-09-02_lgmatrix
+  arm: nolg_ad
+  config_dir: jarvis_nolg_ad
+  seed: 0
+  unit: jarvis_nolg_ad-seed0
+  task: lg-angle-matrix
+  cell_label: null
+  matrix: null
+  status: complete
+description: 'proposed: explicit angular denoising + smooth topology'
+differentiators:
+  angular_tier: derived
+  angle_mode: derived_aux
+  ablation_key: A3
+  line_graph: false
+  alignn_layers: 0
+  gcn_layers: 9
+  topology: radius
+  gate_pair_messages: true
+  angle_feedback: true
+  angle_basis: null
+  angle_state_basis: fourier
+  angle_state_harmonics: 8
+  angle_loss_weighting: relevance
+  angle_weight: 1.0
+  seed: 0
+  epochs: 3000
+  n_parameters: 3855943
+what_this_cell_tests:
+- 'Legacy derived-aux angular supervision (A3) with no line graph (9 pair convs, parameter-matched): triplets
+  built and supervised, no triplet message reaches the trunk.'
+- Angular target = wrap(theta_t - theta_0) induced by the (F,L) corruption; no forward kernel, no state.
+model_config_verbatim:
+  epochs: 3000
+  batch_size: 64
+  lr: 0.001
+  weight_decay: 1.0e-05
+  hidden_features: 256
+  alignn_layers: 0
+  gcn_layers: 9
+  knn: 12
+  num_steps: 1000
+  sigma_min: 0.005
+  sigma_max: 0.5
+  angle_sigma_min: 0.005
+  angle_sigma_max: 0.5
+  prop_dropout: 0.15
+  composition_dropout: 0.1
+  lattice_weight: 1.0
+  frac_weight: 10.0
+  ablation: A3
+  angle_mode: derived_aux
+  angle_diffusion: true
+  angle_feedback: true
+  topology: radius
+  radius_cutoff: null
+  envelope_exponent: null
+  gate_pair_messages: true
+  angle_basis: null
+  angle_state_basis: fourier
+  angle_state_harmonics: 8
+  angle_loss_weighting: relevance
+  angle_weight: 1.0
+  select_on: structural
+  early_stop_patience: 0
+  ema_decay: 0.999
+  grad_clip: 1.0
+  augment: 0
+  init_from: null
+  seed: 0
+  log_every: 25
+  n_parameters: 3855943
+training:
+  optimizer: AdamW
+  lr_peak: 0.001
+  schedule: OneCycleLR pct_start=0.05
+  weight_decay: 1.0e-05
+  grad_clip: 1.0
+  batch_size: 64
+  epochs: 3000
+  ema_decay: 0.999
+  loss_weights:
+    lattice: 1.0
+    frac: 10.0
+    angle: 1.0
+  checkpoint_selection: structural
+  augment: 0
+  history:
+    epochs_recorded: 3000
+    selected_epoch_argmin_structural: 305
+    val_at_selected:
+      loss: 7.4983229637146
+      loss_structural: 7.222263053059578
+      loss_lattice: 0.3372843414545059
+      loss_frac: 0.6884978711605072
+      loss_angle: 0.2760598659515381
+    train_at_selected:
+      loss: 6.696338517325265
+      loss_lattice: 0.15000132897070476
+      loss_frac: 0.6268929711409977
+      loss_angle: 0.2774075110043798
+    argmin_total_epoch: 305
+    val_at_argmin_total:
+      loss: 7.4983229637146
+      loss_structural: 7.222263053059578
+      loss_lattice: 0.3372843414545059
+      loss_frac: 0.6884978711605072
+      loss_angle: 0.2760598659515381
+    val_final:
+      loss: 11.750075817108154
+      loss_structural: 11.465434342622757
+      loss_lattice: 0.5557929575443268
+      loss_frac: 1.090964138507843
+      loss_angle: 0.2846420258283615
+    note: best_model.pt is the argmin of val loss_structural (select_on=structural); the two argmins differ
+      in the independent-mode cells.
+data:
+  repo_dir: datasets/jarvis_supercon3d
+  split_meta:
+    dataset: dft_3d
+    target_key: Tc_supercon
+    seed: 123
+    max_size: 1058
+    n_train: 847
+    n_val: 105
+    n_test: 103
+    hash10_ids: 3fd288e327
+  canonical_basis: primitive + Niggli (AtomBench scoring basis); augmentation off because of it
+generation:
+  num_candidates: 32
+  guidance: 2.0
+  n_corrector: 1
+  step_lr: 1.0e-05
+  relax: cell
+  relax_steps: 200
+  relax_fmax: 0.05
+  rank: energy
+  prescreen_keep: 4
+  max_batch_nodes: 4096
+  seed: 0
+  use_ema: 1
+  symprec: 0.1
+  symprec_chosen_on_validation: false
+  sampler_version: pre-quarantine
+  candidates_dropped_as_diverged: null
+metrics:
+  variant_sym:
+    match_rate: 0.475728
+    n_matched: 49
+    n_total: 103
+    rmsd_cartesian_A: 0.032225
+    rmsd_normalized: 0.008232
+    ccrmse: 0.5094659553376811
+    mae_lattice_lengths_A: 0.488631
+    mae_lattice_angles_deg: 9.668259
+    kld_mean: 0.019896
+    full:
+      benchmark_name: sym
+      KLD:
+        a: 0.012457600725825895
+        b: 0.010173301910211105
+        c: 0.03415952211388705
+        alpha: 0.020605607079411753
+        beta: 0.0186557346083564
+        gamma: 0.02332492930636188
+      MAE:
+        average_mae:
+          a: 0.3600499516747843
+          b: 0.33831477040775476
+          c: 0.7675279740330537
+          alpha: 9.729109274214323
+          beta: 8.559768317484327
+          gamma: 10.715900853723431
+      RMSE:
+        AtomGen:
+          mean_normalized_cartesian_rms: 0.008232
+          mean_cartesian_rms_angstrom: 0.032225
+          match_rate: 0.475728
+          stol: 0.5
+          n_matched: 49
+          n_total: 103
+      ccRMSE:
+        value: 0.5094659553376811
+        amd_k: 100
+        n_eval: 103
+      crystal_system_mae:
+        by_system:
+        - crystal_system: cubic
+          n_reconstructions: 46
+          mae:
+            a: 0.286124
+            b: 0.148276
+            c: 0.190262
+            alpha: 9.04177
+            beta: 8.486126
+            gamma: 7.172521
+        - crystal_system: hexagonal
+          n_reconstructions: 18
+          mae:
+            a: 0.408086
+            b: 0.501184
+            c: 1.509297
+            alpha: 10.626087
+            beta: 4.256315
+            gamma: 8.759613
+        - crystal_system: tetragonal
+          n_reconstructions: 23
+          mae:
+            a: 0.431177
+            b: 0.50998
+            c: 1.347332
+            alpha: 10.58416
+            beta: 9.994656
+            gamma: 12.582514
+        symprec: 0.1
+        kmin: 10
+  variant_nosym:
+    match_rate: 0.475728
+    n_matched: 49
+    n_total: 103
+    rmsd_cartesian_A: 0.033351
+    rmsd_normalized: 0.00853
+    ccrmse: 0.5094376031173417
+    mae_lattice_lengths_A: 0.488861
+    mae_lattice_angles_deg: 14.895042
+    kld_mean: 0.027573
+    full:
+      benchmark_name: nosym
+      KLD:
+        a: 0.01238948910126386
+        b: 0.01016805276520006
+        c: 0.034188623077602065
+        alpha: 0.03483974500824744
+        beta: 0.03095089186815388
+        gamma: 0.04289955041250377
+      MAE:
+        average_mae:
+          a: 0.36047498634245273
+          b: 0.3398404393327015
+          c: 0.7662686211530858
+          alpha: 14.718351456192238
+          beta: 13.633661386684864
+          gamma: 16.333113491616274
+      RMSE:
+        AtomGen:
+          mean_normalized_cartesian_rms: 0.00853
+          mean_cartesian_rms_angstrom: 0.033351
+          match_rate: 0.475728
+          stol: 0.5
+          n_matched: 49
+          n_total: 103
+      ccRMSE:
+        value: 0.5094376031173417
+        amd_k: 100
+        n_eval: 103
+      crystal_system_mae:
+        by_system:
+        - crystal_system: cubic
+          n_reconstructions: 46
+          mae:
+            a: 0.28992
+            b: 0.150838
+            c: 0.188463
+            alpha: 19.44174
+            beta: 20.068766
+            gamma: 16.405098
+        - crystal_system: hexagonal
+          n_reconstructions: 18
+          mae:
+            a: 0.408531
+            b: 0.502773
+            c: 1.508026
+            alpha: 13.989566
+            beta: 4.280914
+            gamma: 18.771539
+        - crystal_system: tetragonal
+          n_reconstructions: 23
+          mae:
+            a: 0.425575
+            b: 0.509964
+            c: 1.347099
+            alpha: 8.547194
+            beta: 8.889467
+            gamma: 10.000267
+        symprec: 0.1
+        kmin: 10
+  variant_raw: null
+  variant_rawsym: null
+  note: sym/nosym are AFTER 32-candidate ALIGNN-FF prescreen+relaxation; raw/rawsym (the generator alone)
+    are not yet produced -- see NEXT_TASK.md
+compute:
+  stages:
+    generate:
+      elapsed_s: 991.8
+      host: atomgptlab04.wse.jhu.edu
+    score-nosym:
+      elapsed_s: 4.0
+      host: atomgptlab04.wse.jhu.edu
+    score-sym:
+      elapsed_s: 3.3
+      host: atomgptlab04.wse.jhu.edu
+    symmetrize:
+      elapsed_s: 3.0
+      host: atomgptlab04.wse.jhu.edu
+    train:
+      elapsed_s: 1750.7
+      host: atomgptlab04.wse.jhu.edu
+  gpu_hours_billed: 0.7647
+  hardware:
+    gpu: NVIDIA GB10
+    hosts:
+    - atomgptlab04.wse.jhu.edu
+    site: atomgptlab (JHU WSE), 2x NVIDIA GB10, aarch64 GPU nodes
+  slurm_jobs:
+  - jobid: 12945
+    log: supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/00_provenance/logs/csp-lg-angle-matrix-u2-12945.out
+    host: atomgptlab04.wse.jhu.edu
+    gpu: NVIDIA GB10
+    stages_run:
+    - train
+    - generate
+    - symmetrize
+    - score-nosym
+    - score-sym
+    failed_stage: null
+    sacct:
+      jobid: '12945'
+      name: csp-lg-angle-matrix-u2
+      state: COMPLETED
+      exit: 0:0
+      partition: gpu
+      nodes: atomgptlab04
+      start: '2026-09-04T00:52:01'
+      end: '2026-09-04T01:37:56'
+      elapsed: 00:45:55
+      req_tres: billing=16,cpu=16,mem=96G,node=1
+    dropped_diverged: null
+code:
+  alignn_repo: https://github.com/crhysc/alignn
+  alignn_branch: lg-angle-diffusion-matrix
+  alignn_commit_archived: f8121f4e4c850a8fb31015081cec73dde9c6515e
+  note: jobs executed the live working tree; at run time it was fb151f6 plus the uncommitted changes later
+    committed as f8121f4 (independent angular state, MATRIX_STATE, sampler quarantine).
+artifacts:
+  dvc_tracked_dir: supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs
+  files:
+  - name: bench_nosym.csv
+    bytes: 86568
+    sha256: 567b119fd875d0022d10a3216df6649012f3ce9255fc173e30383d47ad816fe2
+  - name: bench_sym.csv
+    bytes: 91364
+    sha256: 3ea57ae6de29a470c1a7a9d3df52ac521c14c8dc0b6b01565fe48691ce4f4aca
+  - name: best_model.pt
+    bytes: 30983609
+    sha256: ce41e571ed74d6d28c6e706a08af924d79c01621dfe98c2f7fc076ff5b72ced2
+  - name: candidates_nosym.json
+    bytes: 38149
+    sha256: ed3586c975c93ef18efb3e369f5964206ce58f1366fc767cd654c800505461ed
+  - name: config.json
+    bytes: 1110
+    sha256: 738aefbbe52b15ff9b867f19629d2230ac2da17a81f8aa9169baa73c53d1c0e2
+  - name: generation_config.json
+    bytes: 768
+    sha256: 146950e0bbc8699567f93e90877bef628401bfa2ac60e6ffcae28502cc7224c3
+  - name: gpu_trace.csv
+    bytes: 6795
+    sha256: 37e054b81291e8430fe9289fafe543fb9f4ba61cf266af0f18f67d40aa29dc87
+  - name: history.json
+    bytes: 1015675
+    sha256: ab0cdf55b8842dd09b2225dc03bd7384930a8d88153960293dc91286183f5474
+  - name: last_model.pt
+    bytes: 30983545
+    sha256: f4adb7084b598af4d7a49a7142836a35d927f64d364f38f9c5574e2bd9ca8215
+  - name: metrics_nosym.json
+    bytes: 1714
+    sha256: 2818c36f0a95b31324dc3d50dd393823ed4341ca3b36f742b017384c5cbd61b8
+  - name: metrics_sym.json
+    bytes: 1708
+    sha256: efea5ceec1228e403d9c03c1168253b614cebda03013a118b98dd49f97a0abf3
+  missing:
+  - bench_raw.csv
+  - metrics_raw.json
+  - bench_rawsym.csv
+  - metrics_rawsym.json
+  - angle_eval.json
+  - angle_eval_rawsym.json
+  manifest_sha256_agrees: true

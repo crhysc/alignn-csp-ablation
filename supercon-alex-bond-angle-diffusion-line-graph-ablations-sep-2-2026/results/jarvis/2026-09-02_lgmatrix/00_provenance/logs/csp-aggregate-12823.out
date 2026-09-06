@@ -1,0 +1,13 @@
+gpu_sampler: device 'NVIDIA GB10'
+gpu_sampler: pid 3813361 -> /home/ccamp104/repositories/alignn-csp-ablation/csp-ablation-bench/results/alex/2026-09_alex_dsab/_gputrace/csp-aggregate__12823__0.csv
+repo:      /home/ccamp104/repositories/alignn-csp-ablation/alignn
+runs:      /data/ccamp104/alignn_csp/alex
+python:    /data/ccamp104/envs/alignn2/bin/python
+host:      atomgptlab03.wse.jhu.edu
+job:       12823 array element none
+
+data-alex: Build the AtomBench Alexandria DS-A/B split (6603/825/825).
+reproduces: the split the Alexandria block of Table 4 is measured on
+variant: sym   groups: 1   with results: 0
+
+This task produces inputs, not metrics -- nothing to aggregate.

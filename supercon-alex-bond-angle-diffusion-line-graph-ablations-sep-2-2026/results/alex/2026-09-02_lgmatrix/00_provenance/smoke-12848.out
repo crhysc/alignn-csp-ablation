@@ -1,0 +1,58 @@
+=== GPU
+index, name, driver_version
+0, NVIDIA GB10, 580.159.03
+
+=== all four cells, --smoke, into /data/ccamp104/csp_smoke_lgmatrix/alex
+
+--- unit 0
+smoke mode: 2 epochs, 2 candidates, 4 targets, one seed
+
+=== unit alex_nolg-seed0  ->  /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0
+[alex_nolg-seed0/train] $ python -u -m alignn.inverse.train_csp --data-dir /data/ccamp104/csp_smoke_lgmatrix/alex/data/alex --output /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0 --epochs 2 --seed 0 --ablation A0 --alignn-layers 0 --gcn-layers 9 --hidden-features 256 --knn 12 --num-steps 1000 --batch-size 64 --lr 1e-3 --augment 0 --device cuda --log-every 25 --select-on structural
+train=6603 val=825
+normalizer: {"lattice_mean": [0.9141413569450378, 0.9141413569450378, 0.9141413569450378, 0.0, 0.0, 0.0], "lattice_std": [0.26006534695625305, 0.26006534695625305, 0.26006534695625305, 0.20201514661312103, 0.20201514661312103, 0.20201514661312103], "prop_mean": 2.454956837375865, "prop_std": 4.082666975406004}
+ablation A0: baseline: current ALIGNN 2.0 diffusion, angles as features only
+denoiser: {"hidden_features": 256, "alignn_layers": 0, "gcn_layers": 9, "knn": 12, "num_steps": 1000, "angle_diffusion": false, "topology": "knn", "gate_pair_messages": false, "angle_feedback": true}
+parameters: 3.75M  modalities: ['prop', 'composition']
+/home/ccamp104/repositories/alignn-csp-ablation/alignn/alignn/inverse/train_csp.py:446: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  agg[k] += float(losses[k])
+epoch     1  train 7.8682 (lat 0.5903 frac 0.7278)  val 9.2915 (lat 0.9762 frac 0.8315)  best 9.2915  3s
+    frac vs baseline: [1-300) 0.987->0.982  [300-600) 0.987->0.984  [600-800) 0.954->0.952  [800-1000) 0.249->0.249
+done in 6s  best structural val 9.1951 at epoch 2
+[alex_nolg-seed0/train] done in 11s
+[alex_nolg-seed0/generate] $ python -u /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/generate_benchmark.py --checkpoint /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/best_model.pt --data-dir /data/ccamp104/csp_smoke_lgmatrix/alex/data/alex --split test --output-csv /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/nosym/pred.csv --num-candidates 2 --guidance 2.0 --relax cell --rank energy --relax-steps 20 --seed 0 --device cuda --save-candidates /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/nosym/candidates.json --prescreen-keep 2 --steps 50 --limit 4
+model modalities=['prop', 'composition'] active=all
+4 targets, 2 candidates each
+  sampled chunk 1/1 (8 structures, 1s)
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+  relax/rank done in 13s
+  best candidate converged for 0/4 targets
+wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/nosym/pred.csv (4 rows)
+[alex_nolg-seed0/generate] done in 18s
+[alex_nolg-seed0/symmetrize] $ python -u /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/symmetrize_predictions.py --csv /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/nosym/pred.csv --out /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/sym/pred.csv --symprec 0.1
+Traceback (most recent call last):
+  File "/home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/symmetrize_predictions.py", line 27, in <module>
+    from pymatgen.core import Structure
+ModuleNotFoundError: No module named 'pymatgen'
+[alex_nolg-seed0/symmetrize] FAILED (exit 1) after 0s
+
+1 unit(s) did not finish: alex_nolg-seed0
+SMOKE FAILED at unit 0

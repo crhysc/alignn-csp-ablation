@@ -1,0 +1,194 @@
+schema: alignn-csp-ablation/experiment-set-metadata/v1
+id: lgmatrix
+harness_dir: supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026
+title: Line graph x bond-angle diffusion, crossed -- a 3x2 factorial on two crystal-structure-prediction benchmarks
+written: 2026-09-06
+authors_of_record: [crhysc (Chris Campbell), Claude Code (agent; design review, harness changes, sampler fix, metadata)]
+supersedes: [angle-ablation (../supercon-alex-bond-angle-diffusion-ablation-sep-2-2026): its A-suite never crossed the line graph with the angular objective]
+
+# ---------------------------------------------------------------------------
+# 1. What question this experiment set answers
+# ---------------------------------------------------------------------------
+question: >
+  The ALIGNN-CSP manuscript makes two separate claims about three-body
+  information in the denoiser: (1) the ALIGNN line graph earns its place
+  (Table 3: denoising loss 14.5% lower with it, match rate unchanged), and (2)
+  making bond angles a *denoised variable* rather than an input feature is a
+  good inductive bias.  The two were never crossed.  This set asks whether the
+  angular objective still buys anything once the architecture that carries
+  angles is removed, whether the line graph still buys anything once angles
+  are supervised, and -- after the first run turned out to have tested the
+  legacy derived target -- whether promoting angles from a derived auxiliary
+  target to a genuinely independent diffusion state changes the answer.
+hypothesis_under_test: >
+  An ALIGNN denoiser can improve crystal reconstruction by jointly denoising
+  several independently corrupted, redundant geometric representations of
+  the same crystal (lattice, fractional coordinates, bond angles), letting
+  information cross between them at every reverse step.
+design:
+  factors:
+    angular_tier:
+      levels:
+        none:        {angle_mode: off,         ablation: A0, meaning: no angular objective; angles enter only as ALIGNN input features where a line graph exists}
+        derived:     {angle_mode: derived_aux, ablation: A3, meaning: legacy auxiliary regression of the angular displacement the (F,L) corruption induced; no forward kernel, no state; = B1}
+        independent: {angle_mode: independent, ablation: B3, meaning: bond-angle field as a third diffusion state on a persistent dense triplet index, own wrapped-normal VE kernel, jointly denoised, discarded at readout}
+      note: continuity (radius topology r_c=5 A with DimeNet envelope p=5, gated pair messages) rides with the two angular levels and not with 'none'; the isolated topology effect is identified by the sibling suite's A2 arm, not inside this design
+    line_graph:
+      levels:
+        absent:  {alignn_layers: 0, gcn_layers: 9, meaning: nine pair-graph convolutions; the angular head, where present, reads z = emb(angle) + y_ij + y_jk after the pair convs (no parameters added)}
+        present: {alignn_layers: 3, gcn_layers: 3, meaning: three ALIGNN layers (six edge-gated convs) + three pair convs}
+  cells:               # config dir suffix -> (tier, line graph); the dataset prefix is jarvis_ / alex_
+    nolg:    {tier: none,        line_graph: absent,  ablation: A0, matrix: [MATRIX, MATRIX_STATE], task: lg-angle-matrix, unit: 0}
+    A0:      {tier: none,        line_graph: present, ablation: A0, matrix: [MATRIX, MATRIX_STATE], task: lg-angle-matrix, unit: 1}
+    nolg_ad: {tier: derived,     line_graph: absent,  ablation: A3, matrix: [MATRIX],               task: lg-angle-matrix, unit: 2}
+    A3:      {tier: derived,     line_graph: present, ablation: A3, matrix: [MATRIX],               task: lg-angle-matrix, unit: 3}
+    nolg_b3: {tier: independent, line_graph: absent,  ablation: B3, matrix: [MATRIX_STATE],         task: lg-angle-state-matrix, unit: 2}
+    B3:      {tier: independent, line_graph: present, ablation: B3, matrix: [MATRIX_STATE],         task: lg-angle-state-matrix, unit: 3}
+  parameter_matching:
+    rule: matched by convolution count (nine per arm); within each angular tier the two line-graph levels are exactly equal
+    counts: {nolg: 3750854, A0: 3789894, nolg_ad: 3855943, A3: 3855943, nolg_b3: 3852871, B3: 3852871}
+    spread_percent: 2.8
+    not_compute_matched: line-graph cells cost more wall-clock per step at equal parameters; GPU-hours are reported per cell instead of levelled
+  seeds: [0]
+  seeds_rationale: >
+    One seed, deliberately.  On the 103-target JARVIS split the published spread
+    of match rate across models (0.437-0.524) exceeds the spread across arms,
+    so no discrete structure-matching metric there resolves anything at any
+    seed count that fits the budget; the denoising loss (continuous, measured
+    without generation) is the metric that split supports.  The 825-target
+    Alexandria split carries its power in the test set rather than in seeds.
+  contrasts_of_record:
+    - {name: line graph without angular channel,      ref: nolg,    test: A0}
+    - {name: line graph with derived supervision,     ref: nolg_ad, test: A3}
+    - {name: line graph with independent diffusion,   ref: nolg_b3, test: B3}
+    - {name: derived supervision without line graph,  ref: nolg,    test: nolg_ad}
+    - {name: derived supervision with line graph,     ref: A0,      test: A3}
+    - {name: independent diffusion without line graph, ref: nolg,   test: nolg_b3}
+    - {name: independent diffusion with line graph,   ref: A0,      test: B3}
+    - {name: derived vs independent, no line graph,   ref: nolg_ad, test: nolg_b3}
+    - {name: derived vs independent, line graph,      ref: A3,      test: B3}
+
+# ---------------------------------------------------------------------------
+# 2. Datasets
+# ---------------------------------------------------------------------------
+datasets:
+  jarvis:
+    name: JARVIS-DFT dft_3d, superconducting-Tc subset ("Supercon-3D")
+    split: {train: 847, val: 105, test: 103, seed: 123, target_key: Tc_supercon, hash10_ids: 3fd288e327}
+    repo_path: datasets/jarvis_supercon3d   # DVC-tracked; split_meta.json alongside
+    character: 4.3 atoms/cell mean; 46% cubic; only 1 of 103 test targets has a free lattice angle; 14% of training cells have <=2 atoms
+    role: cheap, fast, underpowered -- "good for vibes"
+  alex:
+    name: Alexandria DS-A/DS-B, the AtomBench split
+    split: {train: 6603, val: 825, test: 825, seed: 123, target_key: Tc, hash10_ids: 5703564835, max_size: 8253}
+    repo_path: datasets/alexandria_dsab     # DVC-tracked; raw/DS-A.pk.bz2 + raw/DS-B.pk.bz2 are the inputs prepare_alex_data.py consumed
+    character: larger cells, real angular degrees of freedom; 8x the test set
+    role: the rigorous benchmark
+  common: >
+    Both prepared splits are stored in AtomBench's primitive+Niggli scoring
+    basis (canonical_cell in scripts/atombench/prepare_*_data.py); preflight
+    checks 200 sampled training targets sit at that fixed point.  Augmentation
+    is therefore off (one correct basis labelling).
+
+# ---------------------------------------------------------------------------
+# 3. Protocol (identical across every cell; only the two factors vary)
+# ---------------------------------------------------------------------------
+protocol:
+  model: {hidden_features: 256, knn: 12, num_steps: 1000, sigma_min: 0.005, sigma_max: 0.5, cosine_alpha_bar: true, rbf_bins: 64, rbf_cutoff_A: 10, fourier_k: 10, triplet_bins: 40, score_channels: 32, angle_state_basis: fourier, angle_state_harmonics: 8, radius_cutoff_A: 5.0, envelope_exponent: 5}
+  training: {optimizer: AdamW, lr_peak: 0.001, schedule: OneCycleLR pct_start=0.05, weight_decay: 1.0e-05, grad_clip: 1.0, batch_size: 64, ema_decay: 0.999, epochs: {jarvis: 3000, alex: 1000}, loss_weights: {lattice: 1.0, frac: 10.0, angle: 1.0}, angle_loss_weighting: relevance, augment: 0, conditioning_dropout: {composition: 0.10, property: 0.15}}
+  checkpoint_selection: argmin of validation structural loss (lattice + 10*frac, the part every arm optimises); NOT the trained total, which only four of six arms have
+  generation: {num_candidates: 32, guidance: 2.0, n_corrector: 1, step_lr: 1.0e-05, x0_clip: 4.0, prescreen: ALIGNN-FF single-point energy keep 4, relax: ALIGNN-FF cell relaxation 200 steps fmax 0.05, rank: energy per atom, weights: EMA}
+  post_processing: {symmetrize: spglib idealisation symprec 0.1 (NOT swept on validation -- default), variants_scored: [sym, nosym], variants_not_yet_scored: [raw, rawsym]}
+  metrics: AtomBench (StructureMatcher match rate stol=0.5, Cartesian RMSD, ccRMSE via AMD k=100, lattice MAE, KLD, per-crystal-system MAE) via score.sh in the scoring env
+  every_stage_in_one_slurm_job: train -> generate -> symmetrize -> score-nosym -> score-sym, stage markers in .stages/, resumable at stage granularity
+
+# ---------------------------------------------------------------------------
+# 4. Execution record
+# ---------------------------------------------------------------------------
+site:
+  cluster: atomgptlab (JHU WSE)
+  login_and_cpu_nodes: atomgptlab01-02, x86_64, 256 cores, 500 GB, partition main
+  gpu_nodes: atomgptlab03-04, aarch64, 20 cores, 110 GB, 1x NVIDIA GB10 each (LPDDR5X, ~273 GB/s), partition gpu
+  scheduler: SLURM, no accounting associations, MaxTime unlimited, generic gres gpu:1
+  environments: {train: /data/ccamp104/envs/alignn2 (aarch64), score: /data/ccamp104/envs/csp-score (aarch64), data_prep: /data/ccamp104/envs/csp-data-x86, tests: /data/ccamp104/envs/csp-test-x86 (CPU torch), repo_tools: /data/ccamp104/envs/repo-tools-x86 (dvc, huggingface_hub)}
+  run_root: /data/ccamp104/alignn_csp_lgmatrix/<dataset>  (train/<dataset>_<arm>/seed0/)
+  data_store: /data/ccamp104/alignn_csp/<dataset>/data (symlinked as <run_root>/data)
+timeline:
+  2026-09-02: harness written (PLAN.md); alex smoke run (job 12864) passed
+  2026-09-03 23:23: jarvis derived matrix submitted (jobs 12943-12946, one per cell, sequential on atomgptlab04)
+  2026-09-04 02:34: alex derived matrix started (12962, 12963, 12964; 12965 later cancelled)
+  2026-09-04 ~09:00: discovered the matrix had tested angle_mode=derived_aux, not independent diffusion ("full angle diffusion" = angle_mode=independent)
+  2026-09-04 11:45: MATRIX_STATE + lg-angle-state-matrix tasks added (additive; pending jobs proven behaviour-identical); jarvis state cells queued (12968, 12969)
+  2026-09-04 13:11: job 12969 (jarvis_B3) FAILED in generation -- one crystal's lattice went non-finite and killed the 908-structure chunk
+  2026-09-04 13:30: sampler quarantine + eigh guard + drop-diverged-candidates written, proven bitwise-identical on healthy trajectories (alignn f8121f4); 12969 re-queued as 13082 (generate only)
+  2026-09-04 13:11-20:07: alex_B3 (12971), alex_nolg_b3 (12973) ran with the fixed sampler; alex_B3 dropped 5 of 26400 candidates
+  2026-09-04 20:33 - 09-05 00:20: alex_A3 (13084) restored the derived tier's fourth cell
+  2026-09-06 10:30: all 12 cells complete with sym+nosym; unrelaxed arrays 13199/13200 submitted and still PENDING when this repo was packaged
+slurm_jobs:
+  jarvis: {nolg: 12943, A0: 12944, nolg_ad: 12945, A3: 12946, nolg_b3: 12968, B3: [12969 FAILED at generate, 13082 generate+score], aggregates: [12947 cancelled, 12966 combined, 12970 cancelled, 13083], unrelaxed_array: 13199 pending}
+  alex:   {nolg: 12962, A0: 12963, nolg_ad: 12964, A3: [12965 cancelled before start, 13084], B3: 12971, nolg_b3: 12973, aggregates: [12966 combined, 12972, 12974 cancelled, 13085], unrelaxed_array: 13200 pending}
+  all_on: atomgptlab04 (GB10), every cell; verified from gpu_sampler trace headers and job logs
+gpu_hours_per_cell:
+  jarvis: {nolg: 0.67, A0: 0.81, nolg_ad: 0.76, A3: 0.94, nolg_b3: 0.75, B3: 0.94}
+  alex:   {nolg: 2.40, A0: 3.81, nolg_ad: 2.97, A3: 3.77, nolg_b3: 2.86, B3: 4.08}
+  note: the documented 1.50x line-graph training penalty did not reproduce at training on jarvis (1429 s vs 1604 s); it appears in generation (1492 s vs 779 s)
+
+# ---------------------------------------------------------------------------
+# 5. Results (seed 0; sym = symmetrised, post-relaxation pipeline)
+# ---------------------------------------------------------------------------
+results:
+  denoising_loss_L_struct_at_selected_epoch:
+    jarvis: {nolg: 7.1485, A0: 6.2792, nolg_ad: 7.2223, A3: 6.2919, nolg_b3: 6.6815, B3: 6.1718}
+    alex:   {nolg: 5.7178, A0: 4.2778, nolg_ad: 5.5913, A3: 4.3665, nolg_b3: 5.7121, B3: 5.1182}
+  match_rate_sym:
+    jarvis: {nolg: 0.4757, A0: 0.4466, nolg_ad: 0.4757, A3: 0.4660, nolg_b3: 0.4660, B3: 0.4466}
+    alex:   {nolg: 0.5891, A0: 0.5661, nolg_ad: 0.5721, A3: 0.5758, nolg_b3: 0.5903, B3: 0.5515}
+  rmsd_cartesian_A_sym:
+    jarvis: {nolg: 0.0502, A0: 0.0436, nolg_ad: 0.0322, A3: 0.0403, nolg_b3: 0.0276, B3: 0.0490}
+    alex:   {nolg: 0.0266, A0: 0.0253, nolg_ad: 0.0304, A3: 0.0312, nolg_b3: 0.0248, B3: 0.0301}
+  ccrmse_sym:
+    jarvis: {nolg: 0.5398, A0: 0.5429, nolg_ad: 0.5095, A3: 0.5662, nolg_b3: 0.4922, B3: 0.5573}
+    alex:   {nolg: 0.3038, A0: 0.3177, nolg_ad: 0.2998, A3: 0.3118, nolg_b3: 0.3071, B3: 0.3193}
+  reading:
+    - The line graph lowers the denoising loss on both datasets (-12% jarvis, -25% alex) and never improves match rate; on alex it lowers it (0.5891 -> 0.5661).  Training objective and benchmark metric dissociate.
+    - Derived supervision (angle_mode=derived_aux) does nothing to the structural loss on either dataset (+1.0%/+0.2% jarvis, -2.2%/+2.1% alex) and its angular loss sits at a floor (~0.28) that the network cannot fit even while memorising the coordinate noise: the target is unlearnable.  This reproduces the sibling suite's null at 3 seeds.
+    - Independent diffusion (angle_mode=independent) learns its channel (score loss 0.29-0.62 of the predict-zero baseline) and improves the jarvis structural loss (-6.5% without a line graph, -1.7% with), but on alex does nothing without a line graph (-0.1%) and is 19.6% WORSE with one.  The jarvis effect does not replicate on the powered dataset.
+    - On alex, nolg_b3 (independent, no line graph) is the best cell on four of six reconstruction metrics, by margins of one matched structure and 0.002 A -- i.e. nothing.
+    - Symmetrisation moves lattice-angle MAE by -36 to -38% and KLD by -24 to -29%, leaves lengths/ccRMSE unchanged, and costs 18 matched structures on alex.  The tolerance is the default; it was never swept on validation.
+    - Every conclusion above is about the generator + ALIGNN-FF relaxation together.  The generator-alone (raw) scores are the open task: NEXT_TASK.md.
+  full_tables: results/<dataset>/2026-09-02_lgmatrix/ablations/INDEX.md and the per-run YAMLs beside it
+
+# ---------------------------------------------------------------------------
+# 6. Incidents, decisions, and things a successor must know
+# ---------------------------------------------------------------------------
+incidents:
+  - id: derived-not-independent
+    what: the original 2x2 (MATRIX) resolves its angular cells to A3 = angle_mode=derived_aux, the legacy target; the user meant angle_mode=independent
+    consequence: MATRIX_STATE and the lg-angle-state-matrix tasks were added; the two non-angular cells are shared by config name, so only two cells per dataset were newly trained; the derived tier is kept as the middle level of a 3x2
+  - id: cluster-env-shared-file
+    what: task_runners/cluster.env is one file per site, re-read by common.sh inside every job at START; its CSP_RUNS line is per dataset
+    consequence: 30_full.sh now pins --runs-root per unit and never rewrites cluster.env once stamped; preflight warns instead of failing while the other dataset is queued; never run `bash env.sh --write` or the symprec sweep with the other dataset's jobs pending
+  - id: sampler-divergence
+    what: ~1 trajectory in 10^3-10^4 leaves the reals; wrap_frac(inf)=NaN, and with a line graph the NaN reaches the lattice head (x0_clip bounds inf, not NaN); _sym_funm then raised and killed the whole batch (job 12969, 908 structures)
+    fix: sample() quarantines the crystal per step and returns a `diverged` mask; generate_benchmark.py drops and counts those candidates; _sym_funm falls back to CPU eigh on a non-finite GPU decomposition.  Bitwise identical on healthy trajectories (verified); regression test test_a_diverged_crystal_is_quarantined_not_fatal
+    first_production_use: alex_B3 (12971) dropped 5 of 26400 candidates
+  - id: raw-structures-not-saved
+    what: the pre-relaxation candidates are never written (candidates.json holds energies only), so the generator-alone benchmark needs regeneration
+    consequence: NEXT_TASK.md; arrays 13199/13200 queued on atomgptlab; the user intends to run this on another cluster
+  - id: pending-jobs-run-live-source
+    what: SLURM jobs cd into the checkout and import the working tree at start time
+    consequence: every shared-code edit made while jobs were queued was proven behaviour-identical (unit lists, argv, and bitwise sampler output) before being left in place; see PROJECT_STATE.md
+decisions:
+  - select checkpoints on structural loss, not total (four of six arms have an angular term)
+  - one seed per cell; power comes from the alex test set
+  - alex_A3 (derived + line graph) was cancelled to free a GPU for alex_B3, then restored on request, so the derived tier is complete on both datasets
+  - a single combined aggregate job per matrix; aggregates are cosmetic (run_task --aggregate prints tables) and the analysis of record is collect.py -> analyze.py
+what_is_where:
+  code: ../alignn (submodule, crhysc/alignn @ lg-angle-diffusion-matrix f8121f4): alignn/inverse/{ablations,denoiser,diffusion,angles,sample,train_csp}.py, scripts/atombench/*, task_runners/{tasks,run_task}.py
+  harness_scripts: env.sh (single source of truth), preflight.sh, 30_full.sh (submits; MATRIX_TASK= and UNITS= overrides), 50_unrelaxed.sh (the next task), collect.py, analyze.py (LGM_MATRIX=parameter|state), costs.py, stage_benchmarks.py, lib/gpu_sampler.sh
+  results_git: results/<ds>/2026-09-02_lgmatrix/{00_provenance (sbatch files, slurm_jobids.txt, manifest.json, logs/*.out), ablations/*.yaml, ablations/INDEX.md, 50_costs, INDEX.md}
+  results_dvc: results/<ds>/2026-09-02_lgmatrix/{10_runs, _gputrace} -- 10_runs/<arm>/seed0/{best_model.pt, last_model.pt, config.json, history.json, metrics_{sym,nosym}.json, bench_{sym,nosym}.csv, candidates_nosym.json, generation_config.json, gpu_trace.csv, stages/}
+  datasets_dvc: ../datasets/{jarvis_supercon3d, alexandria_dsab}
+  huggingface: see ../PROJECT_STATE.md (model repo alignn-csp-angular-ablations, dataset repos alignn-csp-ablation-datasets and alignn-csp-ablation-dvc)
+  manuscript_section: ../methods_inverse_rewrite.tex (axiomatic rewrite of the methods subsection, 2026-09-04; corrects eight stated hyperparameters)
+open_work: ../NEXT_TASK.md

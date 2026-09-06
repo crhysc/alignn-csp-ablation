@@ -63,10 +63,26 @@ if [ -f "$CE" ]; then
     else
         bad "cluster.env was written by a DIFFERENT harness ($(grep -m1 '^# HARNESS=' "$CE" || echo 'unstamped')) -- run: bash env.sh --write"
     fi
-    grep -q "^# DATASET=$DATASET\$" "$CE" && ok "cluster.env dataset: $DATASET" \
-        || bad "cluster.env is for a different dataset -- run: bash env.sh --write"
-    grep -q "CSP_RUNS=\"$CSP_RUNS\"" "$CE" && ok "cluster.env run root: $CSP_RUNS" \
-        || bad "cluster.env CSP_RUNS differs -- run: bash env.sh --write"
+    # CSP_RUNS is the only dataset-specific line in cluster.env, and 30_full.sh
+    # does not rely on it: every matrix unit and the aggregate pass their own
+    # --runs-root (see submit_matrix_jobs()).  A file that names the OTHER
+    # dataset is therefore fine -- and must NOT be rewritten -- while that
+    # dataset still has matrix jobs queued, because common.sh reads the file
+    # inside each job at start time.  It is only wrong when nothing depends
+    # on it any more, and then the fix is to regenerate it.
+    if grep -q "^# DATASET=$DATASET\$" "$CE" && grep -q "CSP_RUNS=\"$CSP_RUNS\"" "$CE"; then
+        ok "cluster.env dataset / run root: $DATASET  $CSP_RUNS"
+    else
+        ce_ds=$(grep -m1 '^# DATASET=' "$CE" | cut -d= -f2)
+        ce_jobs=$(squeue -u "$USER" -h -o %j 2>/dev/null | grep -c "^csp-lg-angle-matrix.*-u[0-9]" || true)
+        if [ "${ce_jobs:-0}" -gt 0 ]; then
+            warn "cluster.env names DATASET=$ce_ds while $ce_jobs matrix job(s) are queued: leave it;"
+            warn "  30_full.sh train pins --runs-root=$CSP_RUNS per job, so this dataset is unaffected."
+            warn "  Do NOT run env.sh --write or the symprec sweep (csp_submit) until those jobs finish."
+        else
+            bad "cluster.env names DATASET=$ce_ds and nothing is queued -- run: bash env.sh --write"
+        fi
+    fi
     grep -q "CSP_ENV=\"$TRAIN_ENV\"" "$CE" && ok "cluster.env training env" \
         || bad "cluster.env CSP_ENV differs"
     grep -q "CSP_SCORE_ENV=\"$SCORE_ENV_PATH\"" "$CE" && ok "cluster.env scoring env" \
@@ -200,14 +216,9 @@ for s in collect.py stage_benchmarks.py analyze.py costs.py; do
 done
 python3 -c "
 import sys; sys.path.insert(0, '$ALIGNN_REPO')
-from alignn.inverse.ablations import (MATRIX, MATRIX_COMPARISONS, MATRIX_COMPUTE,
-                                      MATRIX_COMPUTE_COMPARISONS, all_cells)
-assert len(MATRIX) == 4 and len(MATRIX_COMPUTE) == 4
-shared = set(MATRIX) & set(MATRIX_COMPUTE)
-assert shared == {'line graph', 'both'}, shared
-print(f'      {len(all_cells())} distinct cells across two 4-cell matrices '
-      f'({len(shared)} shared), '
-      f'{len(MATRIX_COMPARISONS) + len(MATRIX_COMPUTE_COMPARISONS)} contrasts')
+from alignn.inverse.ablations import MATRIX, MATRIX_COMPARISONS, all_cells
+assert len(MATRIX) == 4 and list(MATRIX) == list(all_cells())
+print(f'      {len(all_cells())} cells, {len(MATRIX_COMPARISONS)} contrasts')
 " && ok "analyze.py runs on the login node (stdlib only)" \
   || bad "analyze.py cannot read the matrix definition"
 

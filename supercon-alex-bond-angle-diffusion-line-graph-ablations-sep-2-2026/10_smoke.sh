@@ -5,7 +5,7 @@
 #   bash 10_smoke.sh --list   # what would run
 #
 # Two epochs, two candidates, four targets, one seed, in a throwaway run root.
-# It proves data layout, all six denoiser configurations, checkpoint format,
+# It proves data layout, all four denoiser configurations, checkpoint format,
 # CSV columns, the symmetrisation step and the scoring environment.  It proves
 # nothing whatever about the science, and says so.
 #
@@ -52,7 +52,7 @@ nvidia-smi --query-gpu=index,name,driver_version --format=csv || echo "NO nvidia
 
 echo
 echo "=== all four cells, --smoke, into $SMOKE_RUNS"
-for u in 0 1 2 3 4 5; do
+for u in 0 1 2 3; do
     echo
     echo "--- unit \$u"
     run_task $MATRIX_TASK --smoke --runs-root "$SMOKE_RUNS" --unit \$u || {
@@ -61,7 +61,7 @@ done
 
 echo
 echo "=== what came out"
-for cfg in nolg A0 nolg_ad A3 nolg_d16 nolg_ad_d16; do
+for cfg in nolg A0 nolg_ad A3; do
     d="$SMOKE_RUNS/train_smoke/${SPLIT}_\$cfg/seed0"
     [ -d "\$d" ] || { echo "  \$cfg: MISSING"; continue; }
     echo "  \$cfg:"

@@ -16,7 +16,7 @@ source ./env.sh
 
 say() { printf '\n=== %s\n' "$*"; }
 
-say "1/5  environments (built by the sibling harness; checked, not rebuilt)"
+say "1/6  environments (built by the sibling harness; checked, not rebuilt)"
 for e in "$TRAIN_ENV" "$SCORE_ENV_PATH"; do
     test -x "$e/bin/python" || {
         echo "FATAL: no python at $e" >&2
@@ -27,11 +27,39 @@ done
 # The editable install has to be refreshed whenever alignn/ gains a module:
 # the editable finder does not see a package that postdates it.  --no-deps
 # refreshes the finder without touching a working dependency set.
-"$TRAIN_ENV/bin/pip" install -e "$ALIGNN_REPO" --no-deps -q
-"$SCORE_ENV_PATH/bin/pip" install -e "$ALIGNN_REPO" --no-deps -q
+#
+# on_env_arch-wrapped: both pip binaries are aarch64 executables, so invoked
+# directly from this x86_64 login node the exec fails and bash falls back to
+# interpreting the file as a shell script, producing garbage syntax errors
+# rather than a clean "cannot execute" message -- silent under a pipe/filter,
+# which is how this went unnoticed until run here for real.
+on_env_arch "$TRAIN_ENV/bin/pip" install -e "$ALIGNN_REPO" --no-deps -q
+on_env_arch "$SCORE_ENV_PATH/bin/pip" install -e "$ALIGNN_REPO" --no-deps -q
 echo "  refreshed the editable alignn install in both"
 
-say "2/5  AtomBench (from GitHub, never PyPI)"
+say "2/6  data-prep environment (DATA_ENV, x86_64, login-node-native)"
+# Unlike TRAIN_ENV/SCORE_ENV_PATH above, this one IS built here, not just
+# checked: it is specific to this harness's decision to keep data prep off
+# SLURM entirely (see 30_full.sh's do_data()), so there is no sibling-harness
+# copy to point at.  pymatgen/jarvis-tools/numpy/pandas/tqdm have no GPU or
+# architecture dependency, so a plain x86_64 build runs directly on this
+# login node -- no on_env_arch, no srun, ever, for this environment.
+if [ -x "$DATA_ENV/bin/python" ]; then
+    echo "  found $DATA_ENV"
+else
+    echo "  building $DATA_ENV ..."
+    CONDA_BIN="$(command -v mamba || command -v conda || echo /home/ccamp104/conda/miniconda3/bin/conda)"
+    "$CONDA_BIN" create -y -p "$DATA_ENV" python=3.11
+    "$DATA_ENV/bin/pip" install -q numpy pandas pymatgen jarvis-tools tqdm
+fi
+"$DATA_ENV/bin/python" -c "
+import numpy, pandas, pymatgen, jarvis, tqdm  # noqa: F401
+from jarvis.db.figshare import data as jarvis_data  # noqa: F401
+from pymatgen.symmetry.analyzer import SpacegroupAnalyzer  # noqa: F401
+print('  imports OK')
+" || { echo "FATAL: $DATA_ENV is missing a required package" >&2; exit 1; }
+
+say "3/6  AtomBench (from GitHub, never PyPI)"
 test -f "$ATOMBENCH_REPO/scripts/scripts_consolidated/compute_metrics.py" \
     || { echo "FATAL: compute_metrics.py not found at $ATOMBENCH_REPO" >&2; exit 1; }
 ver="$(on_env_arch "$SCORE_ENV_PATH/bin/python" -c \
@@ -44,7 +72,7 @@ case "$ver" in
     *)      echo "  atombench $ver from $ATOMBENCH_REPO" ;;
 esac
 
-say "3/5  shared data store  ->  $CSP_RUNS/data"
+say "4/6  shared data store  ->  $CSP_RUNS/data"
 # The prepared splits are shared with the sibling experiment on purpose: they
 # are a pure function of the public databases and the preparation script, the
 # Alexandria prep is expensive and already verified (6603/825/825, zero
@@ -69,16 +97,16 @@ for s in train val test; do
         n=$(python3 -c "import json;print(len(json.load(open('$f'))))")
         echo "  data/$SPLIT/$s.json  n=$n"
     else
-        echo "  data/$SPLIT/$s.json  MISSING -- 30_full.sh submits $DATA_TASK"
+        echo "  data/$SPLIT/$s.json  MISSING -- 30_full.sh prepares $DATA_TASK (login node, no SLURM)"
     fi
 done
 
-say "4/5  cluster.env + results tree"
+say "5/6  cluster.env + results tree"
 mkdir -p "$RESULTS"/{00_provenance,10_runs,20_benchmarks,30_atombench,40_stats,50_costs,60_report} \
          "$GPU_TRACE_DIR" "$ALIGNN_REPO/task_runners/logs"
 bash ./env.sh --write
 
-say "5/5  doctor"
+say "6/6  doctor"
 set +e
 run_task doctor 2>&1 | tee "$RESULTS/00_provenance/doctor.txt"
 set -e

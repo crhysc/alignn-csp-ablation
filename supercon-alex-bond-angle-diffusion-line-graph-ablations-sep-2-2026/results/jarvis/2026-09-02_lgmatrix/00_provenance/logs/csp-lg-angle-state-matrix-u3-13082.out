@@ -1,0 +1,77 @@
+gpu_sampler: device 'NVIDIA GB10'
+gpu_sampler: pid 2907562 -> /home/ccamp104/repositories/alignn-csp-ablation/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/_gputrace/csp-lg-angle-state-matrix-u3__13082__0.csv
+repo:      /home/ccamp104/repositories/alignn-csp-ablation/alignn
+runs:      /data/ccamp104/alignn_csp_lgmatrix/jarvis
+python:    /data/ccamp104/envs/alignn2/bin/python
+host:      atomgptlab04.wse.jhu.edu
+job:       13082 array element none
+
+=== unit jarvis_B3-seed0  ->  /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_B3/seed0
+[jarvis_B3-seed0/train] skip (already done)
+[jarvis_B3-seed0/generate] $ python -u /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/generate_benchmark.py --checkpoint /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_B3/seed0/best_model.pt --data-dir /data/ccamp104/alignn_csp_lgmatrix/jarvis/data/jarvis --split test --output-csv /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_B3/seed0/bench/nosym/pred.csv --num-candidates 32 --guidance 2.0 --relax cell --rank energy --relax-steps 200 --seed 0 --device cuda --save-candidates /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_B3/seed0/bench/nosym/candidates.json --prescreen-keep 4 --relax-workers 16
+model modalities=['prop', 'composition'] active=all
+103 targets, 32 candidates each
+  sampled chunk 1/4 (908 structures, 336s)
+  sampled chunk 2/4 (884 structures, 695s)
+  sampled chunk 3/4 (912 structures, 1040s)
+  sampled chunk 4/4 (592 structures, 1300s)
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+  prescreened 32 -> 4 per target in 10s
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+  relax/rank done in 247s
+  best candidate converged for 99/103 targets
+wrote /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_B3/seed0/bench/nosym/pred.csv (103 rows)
+[jarvis_B3-seed0/generate] done in 1552s
+[jarvis_B3-seed0/symmetrize] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/symmetrize.sh --csv /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_B3/seed0/bench/nosym/pred.csv --out /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_B3/seed0/bench/sym/pred.csv --symprec 0.1
+symprec=0.1: changed 103 rows -> /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_B3/seed0/bench/sym/pred.csv
+[jarvis_B3-seed0/symmetrize] done in 2s
+[jarvis_B3-seed0/score-nosym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_B3/seed0/bench/nosym/pred.csv
+=== /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_B3/seed0/bench/nosym/pred.csv
+  match_rate  0.436893   (45/103)
+  RMSD        0.041932
+  ccRMSD      0.5547337517966692
+  MAE abc     0.5173
+  MAE angles  18.2160
+  KLD mean    0.0354
+[jarvis_B3-seed0/score-nosym] done in 5s
+[jarvis_B3-seed0/score-sym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_B3/seed0/bench/sym/pred.csv
+=== /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_B3/seed0/bench/sym/pred.csv
+  match_rate  0.446602   (46/103)
+  RMSD        0.048994
+  ccRMSD      0.557259557937333
+  MAE abc     0.5208
+  MAE angles  10.4131
+  KLD mean    0.0231
+[jarvis_B3-seed0/score-sym] done in 4s
+
+1 unit(s) complete.
+summarise with: python task_runners/run_task.py lg-angle-state-matrix --aggregate

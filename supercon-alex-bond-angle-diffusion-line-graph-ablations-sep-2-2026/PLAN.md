@@ -43,14 +43,7 @@ there — each cell names an existing switch set plus the depth that realises it
 | `angle diffusion` | `<split>_nolg_ad` | A3 | 0 / 9 | radius + gate | 3,594,567 |
 | `both` | `<split>_A3` | A3 | 3 / 3 | radius + gate | 3,594,567 |
 
-and its compute-matched twin (§2.3), which reuses the two line-graph cells:
-
-| cell | config dir | ablation | ALIGNN / pair | params |
-|---|---|---|---|---|
-| `neither (compute)` | `<split>_nolg_d16` | A0 | 0 / 16 | 5,799,398 |
-| `angle diffusion (compute)` | `<split>_nolg_ad_d16` | A3 | 0 / 16 | 5,904,487 |
-
-Six distinct configurations in total (parameter counts here are denoiser-only;
+Four configurations, one seed each (parameter counts here are denoiser-only;
 `config.json` records the full model, which adds a constant 0.26 M conditioner
 — the manuscript's "3.79 M versus 3.75 M" are the full-model figures).
 
@@ -112,11 +105,11 @@ per-edge terms of the coordinate score by the same envelope. Also parameter-
 free; also not a no-op. It is kept on so that the `both` corner is literally
 `A3`, the model the manuscript proposes.
 
-### 2.3 Normalisation: parameters or compute, not both
+### 2.3 The matrix is parameter-matched, not compute-matched — reported, not fixed by a second run
 
-Depth is the compensation knob, and it can level one axis at a time. Measured
-on a GB10 over a real 64-crystal Alexandria batch (299 atoms, 1,497 pairs), as
-a full forward + backward + optimiser step:
+Depth is the only compensation knob, and it can level parameters or compute,
+not both at once. Measured on a GB10 over a real 64-crystal Alexandria batch
+(299 atoms, 1,497 pairs), as a full forward + backward + optimiser step:
 
 | cell | depth | params | ms/step |
 |---|---|---|---|
@@ -134,39 +127,21 @@ The cost comes from the graph, not the weights: kNN builds **8,033 triplets
 against 1,497 pairs**, 5.4 to 1, and the line-graph layer runs its edge update
 over all of them. A line-graph layer holds the same parameters as two pair
 convolutions, so parameters and compute move together under depth but apart
-under the line graph. Buying the compute back with pair depth:
+under the line graph.
 
-| pair convs | params | ms/step | vs `line graph` params | vs its compute |
-|---|---|---|---|---|
-| 9 | 3.7509 M | 13.6 | −1.03% | 0.68× |
-| 12 | 4.7408 M | 15.8 | +25.1% | 0.79× |
-| 15 | 5.7308 M | 17.8 | +51.2% | 0.88× |
-| 16 | 6.0607 M | 18.6 | +59.9% | 0.94× |
-| 18 | 6.7207 M | 20.4 | +77.3% | 1.01× |
-| 21 | 7.7107 M | 23.1 | +103.5% | 1.15× |
-
-So the suite carries **both** normalisations rather than choosing one:
-
-* **parameter-matched** — 9 pair convs. Parameters level within 1.03%; the
-  line-graph cells take 1.50× the compute. A line-graph win could be the extra
-  compute.
-* **compute-matched** — 16 pair convs. Step cost level within 6%; the
-  no-line-graph cells carry ~1.6× the parameters. A line-graph win is then the
-  stronger claim, but a line-graph *loss* becomes ambiguous.
-
-A result that survives both is not a budget artefact in either direction.
-
-**Why one depth of 16 and not two.** Matched individually the two
-no-line-graph cells want different depths — 18 without the angular objective
-(20.4 ms vs 20.1) and 15 with it (21.0 vs 21.3), because the objective carries
-its own cost. But then the two cells of that row would differ by three layers,
-and the angular contrast *within* the row would be confounded with a depth
-change, which is exactly what a factorial exists to avoid. One depth keeps the
-row clean at the price of matching compute to 6% (18.6 vs 20.1, 21.9 vs 21.4)
-instead of 2%.
-
-The two matrices share their line-graph cells, so both cost **two** extra
-trainings rather than four.
+An earlier revision of this design ran a *second*, compute-matched 2×2 (the
+no-line-graph row rebuilt at pair-graph depth 16, chosen because a single
+depth had to serve both no-line-graph cells at once — matched individually
+they wanted different depths, 18 without the angular objective and 15 with
+it, and using two would confound the angular contrast within that row with a
+depth change) to see whether a line-graph result survived being levelled the
+other way. That second matrix has been dropped: it doubled the compute
+budget for the JARVIS/Alexandria run for a question this design answers more
+directly. **What replaces it:** `analyze.py` sums every stage's measured
+wall-clock into GPU-hours, per cell and per benchmark, so the parameter/
+compute asymmetry above is a reported number sitting next to every result,
+not a second experiment. See "GPU-hours" in §5 and the harness's own report
+for the actual figures.
 
 ## 3. The new cell, and the code it needed
 
@@ -321,6 +296,19 @@ cheap, because it is one candidate instead of thirty-two.
 > graph builder, identical across cells. It is not physics and does not bias a
 > comparison.
 
+### GPU-hours
+
+Not a fidelity metric — the cost accounting §2.3 asks for instead of a
+second, compute-matched matrix. `analyze.py` sums every stage's `elapsed_s`
+(train through score-sym, and `angle_eval`/`unrelaxed` if run) per cell and
+per benchmark, in GPU-hours. Every stage of a unit runs inside one SLURM
+element holding `--gres` for its whole duration, so this is a measurement of
+GPU-hours billed under this cluster's allocation model, not an estimate of
+utilisation. Reported as a row in the results table and its own section in
+the generated report, next to the fidelity numbers rather than in a separate
+cost document, precisely so the parameter-vs-compute asymmetry is visible
+alongside whatever it did or didn't buy.
+
 ## 6. No p-values
 
 The manuscript note asks for none, and the data would not support them. Four
@@ -352,23 +340,26 @@ placeholder until it has run. **Do not copy a number forward from the old
 cluster; the GPU changed from A30 (HBM2, 933 GB/s) to GB10 (LPDDR5X, ~273 GB/s)
 and ALIGNN is bandwidth-bound, so the newer part is not safely assumed faster.**
 
-Scheduling: two GPUs, one per node, `CSP_MAX_CONCURRENT=2`. JARVIS is 18
-elements — nine sequential rounds. Alexandria is 6 elements — three rounds.
+Scheduling: two GPUs, one per node, `CSP_MAX_CONCURRENT=2`. Four elements per
+dataset — two sequential rounds each, JARVIS then Alexandria.
 
 ## 8. Threats to validity
 
-* **Neither normalisation levels both budgets.** §2.3. Read the two matrices
-  together; a contrast is only meaningful between two cells normalised the same
-  way, which is why `analyze.py` never puts a parameter-matched cell in the
-  same table as a compute-matched one.
+* **The matrix is parameter-matched, not compute-matched.** §2.3: the
+  line-graph cells cost measurably more wall-clock per step at this matched
+  parameter count. Reported as GPU-hours per cell and per benchmark rather
+  than corrected by a second, differently-matched run — read the GPU-hours
+  figures alongside the fidelity numbers, not as a separate concern.
 * **Underpowered on JARVIS.** Stated above; it is why both datasets are run.
-* **One seed on Alexandria.** No spread on that split at all. The percent
-  changes there are single-run differences and must be labelled as such. The
-  power comes from 825 paired targets, not from seed replication — but this
-  harness does not run the paired per-target tests that would cash that in.
-  If the Alexandria numbers turn out interesting, the sibling harness's
+* **One seed on both datasets.** No spread on either split — the percent
+  changes throughout are single-run differences and must be labelled as such.
+  Alexandria's statistical power was meant to come from its 825 paired
+  targets rather than from seed replication, but this harness does not run
+  the paired per-target tests that would cash that in. If either dataset's
+  numbers turn out interesting enough to warrant it, the sibling harness's
   `analyze.py` has McNemar / CMH / Wilcoxon / BCa machinery that applies
-  unchanged to these CSVs.
+  unchanged to these CSVs; re-running with `--seeds 0,1,2` on JARVIS is the
+  cheaper first step given how little training costs there (§7).
 * **The `angle diffusion` cell's coupling is gradient-only.** §3.3.
 * **`select_on=structural` departs from how `A0`/`A3` were trained elsewhere.**
   Intentional and documented; it is why the run root is separate.

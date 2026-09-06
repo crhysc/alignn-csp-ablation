@@ -1,6 +1,7 @@
 # Line graph × bond-angle diffusion — a 2×2
 
-Six models, two datasets, three metric families. That is the whole experiment.
+Four models, two datasets, one seed each, four metric families. That is the
+whole experiment.
 
 The manuscript already ablates the line graph (Table 3, `tab:inverse_ablation`)
 and separately proposes bond-angle diffusion. Those two claims were never
@@ -17,33 +18,23 @@ extends it with the angular denoising objective. `both` is `A3`, the proposed
 model. Only the bottom-left cell is new, and it needed new code — see §3 of
 `PLAN.md`.
 
-## Why six models and not four
+## The matrix is parameter-matched, not compute-matched
 
-Depth cannot level parameters and compute at the same time, so the suite runs
-the matrix **twice normalised** and reports both.
+A line-graph layer holds the same parameters as two pair convolutions, but
+runs its edge update over the triplet set — which on a real 299-atom batch is
+8,033 triplets against 1,497 pairs, 5.4 to 1. Measured on a GB10, the two
+line-graph cells (`line graph`, `both`) cost **1.50×** the wall-clock per
+training step of the two no-line-graph cells (`neither`, `angle diffusion`)
+at this matched parameter count (within 1.03% — the residual is the angle
+encoder).
 
-A line-graph layer holds the same parameters as two pair convolutions, but runs
-its edge update over the triplet set — which on a real 299-atom batch is 8,033
-triplets against 1,497 pairs, 5.4 to 1. Measured on a GB10:
-
-| normalisation | no-line-graph row | what is level | what is not |
-|---|---|---|---|
-| **parameter-matched** | 9 pair convs | parameters, within 1.03% | line-graph cells take **1.50×** the compute |
-| **compute-matched** | 16 pair convs | step cost, within 6% | no-line-graph cells carry **~1.6×** the parameters |
-
-Raising pair depth buys the compute back — 18 convs matches to 2% — but costs
-+77% parameters. So neither normalisation is free, and each carries the
-opposite confound: under parameter matching a line-graph win could be the extra
-compute; under compute matching a line-graph win is the *stronger* claim, but a
-line-graph loss becomes ambiguous.
-
-**A result that survives both is not a budget artefact in either direction.**
-
-The two matrices share their line-graph cells, so carrying both costs **two**
-extra trainings rather than four — six configurations in total. A single depth
-of 16 serves both no-line-graph cells: matched individually they would want 18
-and 15, but then the two cells of that row would differ in depth and the
-angular contrast *within* it would be confounded with a three-layer change.
+Depth could buy that compute back for the no-line-graph row (pair depth 16
+matches to 6%, depth 18 to 2%), at the cost of 60–77% more parameters — but
+that is a second, differently-budgeted set of cells, not a free fix. Rather
+than run it, this harness reports the asymmetry directly: `analyze.py` sums
+every stage's measured wall-clock into **GPU-hours**, per cell and per
+benchmark, so the parameter/compute trade-off sits next to the fidelity
+numbers instead of behind a second experiment.
 
 Read `PLAN.md` before changing anything. It is the design document.
 
@@ -54,13 +45,13 @@ source ./env.sh                  # DATASET=jarvis by default
 
 bash 00_setup.sh                 # link the shared data store, cluster.env, doctor
 bash preflight.sh                # refuses to proceed on anything unresolved
-bash 10_smoke.sh                 # all six cells, 2 epochs / 4 targets
+bash 10_smoke.sh                 # all four cells, 2 epochs / 4 targets
 
 bash 20_pilot.sh train           # one cell, full settings -> s/epoch
 bash 20_pilot.sh price           # generation on 12 targets -> extrapolate
 bash 20_pilot.sh report          # -> the PHASE_TIME to put in env.sh
 
-bash 30_full.sh all              # the six cells
+bash 30_full.sh all              # the four cells
 bash 30_full.sh symprec          # tolerance sweep, on VALIDATION
 bash 30_full.sh choose           # pick it; set SYMPREC in env.sh
 bash 30_full.sh train            # re-score (training is skipped by the markers)
@@ -83,6 +74,19 @@ reports is a pure function of files the run already wrote.
 
 Do the whole thing for the second dataset by prefixing `DATASET=alex`.
 
+**Which angular arm.** The default task, `lg-angle-matrix`, crosses the line
+graph with `A3`, whose angular channel is `angle_mode="derived_aux"`: a
+regression of the angular displacement the coordinate noise induced, with no
+state of its own. The angular *state* 2x2 -- `B3`, bond angles as a third,
+independently diffused channel -- is `lg-angle-state-matrix`. It shares its
+two non-angular cells with the default matrix by config name, so on a run
+tree that already holds them only the two angular cells train:
+
+```bash
+DATASET=jarvis MATRIX_TASK=lg-angle-state-matrix UNITS=2,3 bash 30_full.sh train
+LGM_MATRIX=state python analyze.py        # -> 40_stats/matrix_state.*, 60_report/REPORT_state.md
+```
+
 `DRY=1` in front of any submission script prints the sbatch lines and submits
 nothing. Use it.
 
@@ -93,6 +97,7 @@ nothing. Use it.
 | **denoising loss** | `history.json` | the **structural** term `w_lat·L_lat + w_frac·L_frac`, never the trained total — see below |
 | **AtomBench metrics** | `metrics_*.json` | match rate, RMSD, ccRMSD, lattice MAE (abc and angles), KLD, from AtomBench's own `compute_metrics.py` |
 | **bond-angle Wasserstein** | `angle_eval.json` | 1-D earth-mover distance in degrees between the generated and held-out real bond-angle histograms |
+| **GPU-hours** | `stages/*.json` | sum of every stage's measured wall-clock, per cell and per benchmark — see below |
 
 **Why the structural loss and not the trained one.** The objective is
 `L_lat + 10·L_frac + L_angle`, and `L_angle` exists in only half the
@@ -107,12 +112,22 @@ line-graph arm, and that reading survives, because `L_struct` is the same
 quantity on a ratio scale in every cell. What a 2×2 adds is that there are
 now *four* such numbers worth quoting: the line-graph effect with and without
 the angular objective, the angular effect with and without the line graph, and
-the interaction between them. `analyze.py` reports that set once per
-normalisation.
+the interaction between them. `analyze.py` reports all four, plus the
+interaction.
 
 **Loss and fidelity are not the same claim.** The published ablation moved
 denoising loss by 14.5% with no overlap across twelve runs, and moved match
 rate by *exactly nothing* (0.4709 both arms). Expect that pattern again.
+
+**GPU-hours are not a fidelity metric, and are reported for a different
+reason.** The matrix above is parameter-matched, not compute-matched — the
+line-graph cells cost 1.50× the measured wall-clock per training step at
+that matched parameter count. Rather than a second, compute-matched matrix
+to correct for that, `analyze.py` sums every stage's `elapsed_s` (train
+through score-sym, plus `angle_eval`/`unrelaxed` if run) into GPU-hours per
+cell and a total per benchmark. Every stage of a unit runs inside one SLURM
+element holding `--gres` for its whole duration, so this is a measurement of
+GPU-hours billed under this cluster's allocation model, not an estimate.
 
 ## Two environments, on purpose
 
@@ -149,6 +164,23 @@ total. Separate roots make that impossible to get wrong.
 The one file both write is `task_runners/cluster.env`, which is generated, not
 hand-edited. It carries a `# HARNESS=` stamp and `preflight.sh` refuses to
 proceed if the file on disk belongs to the other experiment.
+
+The same file is also shared between the two *datasets* of this harness, and
+`common.sh` reads it inside every job at start time, not at submission. So a
+pending job picks up whatever the file says when it finally runs. The matrix
+jobs therefore never take their run root from it: `30_full.sh` passes each
+unit and the aggregate an explicit `--runs-root`, and leaves `cluster.env`
+alone once it carries this harness's stamp. Both datasets can be queued at
+once, and one aggregate can wait on both:
+
+```bash
+DATASET=jarvis bash 30_full.sh all
+DATASET=alex AGG_JOIN_DATASET=jarvis bash 30_full.sh all   # one aggregate after all 8
+```
+
+Do not run `bash env.sh --write` (or the `symprec` step, which goes through
+`csp_submit` and rewrites the file) while the other dataset still has matrix
+jobs pending.
 
 ## Files
 

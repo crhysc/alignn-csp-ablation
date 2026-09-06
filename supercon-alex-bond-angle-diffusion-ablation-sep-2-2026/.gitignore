@@ -20,11 +20,9 @@
 #     results/alex/2026-09_alex_dsab/
 # ---------------------------------------------------------------------------
 
-results/*/*/10_runs/
-results/*/*/00_provenance/
-results/*/*/30_atombench/
-results/*/*/30_atombench_raw/
-results/*/*/_gputrace/
+# 2026-09-06: the bulk tiers are now DVC-tracked (see the .dvc files beside
+# them and the repo-root PROJECT_STATE.md); 00_provenance is small and travels
+# in git.  DVC writes its own ignore entries for what it tracks.
 
 __pycache__/
 *.py[cod]

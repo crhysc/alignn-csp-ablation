@@ -8,13 +8,14 @@ Writes ``40_stats/matrix.json``, ``40_stats/matrix.tex`` and
 
 **Stdlib only, on purpose.**  Every number here is a pure function of files the
 run already wrote -- ``metrics_*.json`` (AtomBench's own metric code),
-``history.json`` and ``angle_eval.json`` -- so the analysis runs in either
-conda environment, or on a laptop with the results tree and nothing else.  The
-sibling harness's ``analyze.py`` needs pymatgen because it recomputes
-per-target structure matches for paired tests; this experiment does not ask for
-those, so it does not pay for them.
+``history.json``, ``angle_eval.json`` and the per-stage markers under
+``stages/`` -- so the analysis runs in either conda environment, or on a
+laptop with the results tree and nothing else.  The sibling harness's
+``analyze.py`` needs pymatgen because it recomputes per-target structure
+matches for paired tests; this experiment does not ask for those, so it does
+not pay for them.
 
-Three families are reported, which is what the experiment was designed around.
+Four families are reported.
 
 **Denoising loss.**  Reported as the *structural* validation loss,
 
@@ -42,11 +43,22 @@ to the hypothesis: a model with an angular channel should reproduce the natural
 angular distribution.  Prefer the ``raw``/``rawsym`` variant for it -- see the
 note in the generated report.
 
-No p-values.  Four cells at 1-3 seeds cannot support them, and the sibling
-suite's eight arms at three seeds returned every pre-registered contrast at
-Holm-adjusted p = 1.000 on this benchmark.  What is reported instead is the
-mean, the seed spread, the percent change, and an explicit flag when a change
-is smaller than the spread it sits in.
+**GPU-hours.**  The matrix is parameter-matched, not compute-matched: the
+line-graph cells run their edge update over the triplet set, which on a real
+batch outnumbers pairs 5.4 to 1, so they cost measurably more wall-clock per
+training step than the no-line-graph cells at this matched parameter count
+(measured 1.50x on a GB10).  Rather than a second, compute-matched matrix to
+correct for that, this is reported directly: every stage's ``elapsed_s`` (from
+``stages/*.json``, written by the task runner) summed per cell and per
+benchmark.  Every stage of a unit runs inside one SLURM element that holds
+``--gres`` for its whole duration, so this sum is a measurement of GPU-hours
+billed under this cluster's allocation model, not an estimate of utilisation.
+
+No p-values.  Four cells at one to a few seeds cannot support them, and the
+sibling suite's eight arms at three seeds returned every pre-registered
+contrast at Holm-adjusted p = 1.000 on this benchmark.  What is reported
+instead is the mean, the seed spread, the percent change, and an explicit flag
+when a change is smaller than the spread it sits in.
 """
 from __future__ import annotations
 
@@ -63,19 +75,31 @@ from typing import Dict, List, Optional, Sequence
 # Single source of truth is alignn.inverse.ablations.  It is a pure dict module
 # with no torch import, so it is usually importable even from the scoring
 # environment; fall back to a literal copy and say which was used.
+#
+# LGM_MATRIX=parameter (default) reads the derived-target 2x2 (MATRIX, the
+# lg-angle-matrix task); LGM_MATRIX=state reads the angular-state 2x2
+# (MATRIX_STATE, the lg-angle-state-matrix task).  Chosen by environment
+# because the cell table is fixed at import, before argparse runs.  The two
+# share their non-angular cells, so a collected tree holds both; the state
+# run's outputs carry a ``_state`` suffix so neither overwrites the other.
+MATRIX_NAME = os.environ.get("LGM_MATRIX", "parameter")
+OUT_SUFFIX = "" if MATRIX_NAME == "parameter" else f"_{MATRIX_NAME}"
 try:
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "alignn"))
-    from alignn.inverse.ablations import (
-        MATRIX,
-        MATRIX_COMPARISONS,
-        MATRIX_COMPUTE,
-        MATRIX_COMPUTE_COMPARISONS,
-        MATRIX_COMPUTE_DESCRIPTIONS,
-        MATRIX_DESCRIPTIONS,
-        all_cells,
-    )
+    from alignn.inverse import ablations as _abl
 
-    MATRIX_SOURCE = "alignn.inverse.ablations"
+    MATRIX = _abl.matrix_cells(MATRIX_NAME)
+    if MATRIX_NAME == "parameter":
+        MATRIX_COMPARISONS = _abl.MATRIX_COMPARISONS
+        MATRIX_DESCRIPTIONS = _abl.MATRIX_DESCRIPTIONS
+    else:
+        MATRIX_COMPARISONS = getattr(_abl, f"MATRIX_{MATRIX_NAME.upper()}_COMPARISONS")
+        MATRIX_DESCRIPTIONS = getattr(_abl, f"MATRIX_{MATRIX_NAME.upper()}_DESCRIPTIONS")
+
+    def all_cells():
+        return dict(MATRIX)
+
+    MATRIX_SOURCE = f"alignn.inverse.ablations ({MATRIX_NAME})"
 except Exception:  # noqa: BLE001
     MATRIX = {
         "neither": {"config": "nolg", "alignn_layers": 0, "gcn_layers": 9},
@@ -98,53 +122,11 @@ except Exception:  # noqa: BLE001
         "angle diffusion, with a line graph": ("line graph", "both"),
         "both together, against neither": ("neither", "both"),
     }
-    MATRIX_COMPUTE = {
-        "neither (compute)": {
-            "config": "nolg_d16", "alignn_layers": 0, "gcn_layers": 16,
-        },
-        "line graph": MATRIX["line graph"],
-        "angle diffusion (compute)": {
-            "config": "nolg_ad_d16", "alignn_layers": 0, "gcn_layers": 16,
-        },
-        "both": MATRIX["both"],
-    }
-    MATRIX_COMPUTE_DESCRIPTIONS = {
-        "neither (compute)": "no angular channel, pair depth raised to 16 so "
-        "step cost matches the line-graph cells",
-        "angle diffusion (compute)": "angular objective, no line graph, at "
-        "the same compute-matched depth",
-    }
-    MATRIX_COMPUTE_COMPARISONS = {
-        "line graph, without angle diffusion (compute-matched)":
-            ("neither (compute)", "line graph"),
-        "line graph, with angle diffusion (compute-matched)":
-            ("angle diffusion (compute)", "both"),
-        "angle diffusion, without a line graph (compute-matched)":
-            ("neither (compute)", "angle diffusion (compute)"),
-    }
 
     def all_cells():
-        cells = dict(MATRIX)
-        for k, v in MATRIX_COMPUTE.items():
-            cells.setdefault(k, v)
-        return cells
+        return dict(MATRIX)
 
     MATRIX_SOURCE = "literal copy (alignn.inverse.ablations not importable)"
-
-#: Both normalisations, and every distinct configuration between them.
-#:
-#: Depth cannot level parameters and compute at once: a line-graph layer holds
-#: the same parameters as two pair convolutions but runs its edge update over
-#: 5.4x as many triplets as there are pairs.  So the suite reports two 2x2s
-#: over one set of runs -- MATRIX holds parameters level and lets the
-#: line-graph cells take 1.5x the compute; MATRIX_COMPUTE holds compute level
-#: and lets the no-line-graph cells take 1.6x the parameters.  They share
-#: their line-graph cells.
-MATRICES = [
-    ("parameter-matched", MATRIX, MATRIX_COMPARISONS),
-    ("compute-matched", MATRIX_COMPUTE, MATRIX_COMPUTE_COMPARISONS),
-]
-ALL_DESCRIPTIONS = {**MATRIX_DESCRIPTIONS, **MATRIX_COMPUTE_DESCRIPTIONS}
 
 #: config directory name -> matrix cell label
 CONFIG_TO_LABEL = {c["config"]: label for label, c in all_cells().items()}
@@ -177,6 +159,17 @@ LATEX_HEADERS = {
 #: Reported per arm but never across the angular factor: only two cells have
 #: this term at all, so there is nothing to compare the other two against.
 WITHIN_FAMILY = [("loss_angle", "angular denoising loss", 4)]
+
+#: Stages whose elapsed_s counts toward GPU-hours -- everything that runs
+#: inside a SLURM element holding --gres, which on this harness's sbatch
+#: templates is every stage of a unit (train through score-sym; angle_eval
+#: too, if 40_mechanism.sh has been run).  Data-prep stages are excluded by
+#: construction: they live under a "data" config, not a matrix cell, so
+#: `load()` below never looks at them at all.
+GPU_STAGES = (
+    "train", "generate", "symmetrize", "score-nosym", "score-sym",
+    "angle_eval", "unrelaxed",
+)
 
 
 # ---------------------------------------------------------------------------
@@ -276,6 +269,29 @@ def wasserstein_from(path: Path) -> Optional[float]:
     return (d.get("angle_distribution") or {}).get("wasserstein_deg")
 
 
+def gpu_hours_from(seed_dir: Path) -> Optional[float]:
+    """Sum of every recorded stage's ``elapsed_s`` for this run, in hours.
+
+    Every stage of a unit runs inside one SLURM element that holds --gres for
+    its whole wall-clock duration (see this harness's sbatch templates), so
+    this sum is a measurement of GPU-hours billed under this cluster's
+    allocation model -- not an estimate of GPU utilisation, which would need
+    the trace in ``gpu_trace.csv`` instead.
+    """
+    stages_dir = seed_dir / "stages"
+    if not stages_dir.is_dir():
+        return None
+    total, found = 0.0, False
+    for marker in stages_dir.glob("*.json"):
+        if marker.stem not in GPU_STAGES:
+            continue
+        d = jload(marker)
+        if isinstance(d, dict) and d.get("elapsed_s") is not None:
+            total += float(d["elapsed_s"])
+            found = True
+    return total / 3600.0 if found else None
+
+
 def load(results: Path, variant: str) -> Dict[str, Dict[int, Dict]]:
     """{cell label: {seed: record}} from the collected tree."""
     out: Dict[str, Dict[int, Dict]] = {}
@@ -305,6 +321,7 @@ def load(results: Path, variant: str) -> Dict[str, Dict[int, Dict]]:
             else "angle_eval.json"
         )
         rec["wasserstein"] = wasserstein_from(seed_dir / ae)
+        rec["gpu_hours"] = gpu_hours_from(seed_dir)
         out.setdefault(label, {})[seed] = rec
     if unknown:
         print(
@@ -331,6 +348,15 @@ def stat(recs: Sequence[Dict], key: str):
     return statistics.fmean(vals), statistics.stdev(vals), len(vals)
 
 
+def total(recs: Sequence[Dict], key: str) -> Optional[float]:
+    """Sum over the seeds that have this metric, or None if none do."""
+    vals = [
+        r.get(key) for r in recs
+        if r.get(key) is not None and not _nan(r.get(key))
+    ]
+    return sum(vals) if vals else None
+
+
 def effect(cells: Dict, ref: str, test: str, key: str) -> Optional[Dict]:
     """One cell against another, on one metric."""
     if ref not in cells or test not in cells:
@@ -355,15 +381,15 @@ def effect(cells: Dict, ref: str, test: str, key: str) -> Optional[Dict]:
     }
 
 
-def interaction(cells: Dict, key: str, matrix: Dict) -> Optional[Dict]:
+def interaction(cells: Dict, key: str) -> Optional[Dict]:
     """Does the effect of one factor depend on the level of the other?
 
     The whole reason to cross the factors rather than test them separately.
-    Cell order within a matrix is (neither, line graph, angle diffusion,
-    both), so both main effects and their difference read straight off it.
+    Cell order is (neither, line graph, angle diffusion, both), so both main
+    effects and their difference read straight off it.
     """
-    need = list(matrix)
-    if len(need) != 4 or not all(c in cells for c in need):
+    need = list(MATRIX)
+    if not all(c in cells for c in need):
         return None
     m = {}
     for c in need:
@@ -393,38 +419,30 @@ def fmt(mean, sd, dp: int) -> str:
     return f"{mean:.{dp}f}" if sd is None else f"{mean:.{dp}f} ± {sd:.{dp}f}"
 
 
-def order(cells: Dict, matrix: Optional[Dict] = None) -> List[str]:
-    return [c for c in (matrix or all_cells()) if c in cells]
+def order(cells: Dict) -> List[str]:
+    return [c for c in MATRIX if c in cells]
 
 
-#: What each normalisation holds level, and what it therefore does not.
-#: Measured on a GB10 over a real 64-crystal batch; see PLAN.md section 2.3.
-_TEX_CAPTION = {
-    "parameter-matched":
-        r"Parameters held level (within $1.03\%$ --- the residual is the "
-        r"angle encoder); the line-graph cells therefore take $1.50\times$ "
-        r"the compute per training step.",
-    "compute-matched":
-        r"Compute held level (within $6\%$, measured per training step); the "
-        r"no-line-graph cells are rebuilt at pair-graph depth $16$ and "
-        r"therefore carry $\sim\!1.6\times$ the parameters.",
-}
-
-
-def _tex_table(cells: Dict, labels: List[str], name: str, variant: str) -> str:
+def write_tex(path: Path, cells: Dict, variant: str) -> None:
+    labels = order(cells)
     cols = "l" + "c" * len(labels)
     L = [
+        r"% Requires: \usepackage{booktabs}",
         r"\begin{table}[t]", r"\centering",
-        r"\caption{\textbf{Line graph and bond-angle diffusion, crossed "
-        r"--- " + name.replace("-", " ") + r".} "
-        + _TEX_CAPTION.get(name, "")
-        + r" Mean $\pm$ one standard deviation over seeds. "
+        r"\caption{\textbf{Line graph and bond-angle diffusion, crossed.} "
+        r"Mean $\pm$ one standard deviation over seeds. The two left columns "
+        r"are the line-graph ablation of Table~\ref{tab:inverse_ablation}; "
+        r"the two right columns add the angular denoising objective. "
         r"Denoising loss is the structural term "
         r"$w_{\mathrm{lat}}L_{\mathrm{lat}}+w_{\mathrm{frac}}"
-        r"L_{\mathrm{frac}}$, which every configuration optimises; the "
+        r"L_{\mathrm{frac}}$, which all four configurations optimise; the "
         r"angular term is reported separately in the text because only two "
-        r"of them have it. Arrows give the favourable direction.}",
-        r"\label{tab:lg_angle_" + name.replace("-", "_") + "}",
+        r"of them have it. Parameters are matched to within $1.03\%$ (the "
+        r"residual is the angle encoder); the line-graph columns cost "
+        r"$1.50\times$ the measured wall-clock per training step at that "
+        r"matched parameter count -- see the GPU-hours row. Arrows give the "
+        r"favourable direction.}",
+        r"\label{tab:lg_angle_matrix}",
         r"\begin{tabular}{" + cols + "}",
         r"\toprule",
         "Metric & " + " & ".join(lab.replace("_", " ") for lab in labels)
@@ -465,34 +483,26 @@ def _tex_table(cells: Dict, labels: List[str], name: str, variant: str) -> str:
             else:
                 cells_txt.append(f"${body}$")
         L.append(f"{LATEX_HEADERS[key]} & " + " & ".join(cells_txt) + r" \\")
+    # GPU-hours: a cost row, not a fidelity metric, so it is not bolded for a
+    # "best" direction and it is a SUM over seeds, not a mean -- the natural
+    # reading of "what did this cell cost", not "what does one seed cost".
+    gpu_cells = []
+    for lab in labels:
+        g = total(list(cells[lab].values()), "gpu_hours")
+        gpu_cells.append("—" if g is None else f"${g:.2f}$")
+    L.append("GPU-hours & " + " & ".join(gpu_cells) + r" \\")
     L += [
         r"\bottomrule", r"\end{tabular}",
         rf"\\[2pt]\footnotesize Scored on the \texttt{{{variant}}} "
         r"predictions.",
         r"\end{table}", "",
     ]
-    return "\n".join(L)
-
-
-def write_tex(path: Path, cells: Dict, variant: str) -> None:
-    """Both normalisations, as two tables in one file.
-
-    Two tables rather than one six-column table: the two share their
-    line-graph cells, so a combined table would repeat them and invite the
-    reader to compare a parameter-matched cell against a compute-matched one,
-    which is the one comparison the design does not support.
-    """
-    out = [r"% Requires: \usepackage{booktabs}", ""]
-    for name, matrix, _comparisons in MATRICES:
-        labels = order(cells, matrix)
-        if len(labels) < 2:
-            continue
-        out.append(_tex_table(cells, labels, name, variant))
-    path.write_text("\n".join(out))
+    path.write_text("\n".join(L))
 
 
 def write_report(results: Path, payload: Dict) -> None:
     cells = payload["cells"]
+    labels = order(cells)
     variant = payload["variant"]
     L = [
         "# Line graph x bond-angle diffusion — 2x2",
@@ -500,85 +510,96 @@ def write_report(results: Path, payload: Dict) -> None:
         f"Dataset `{payload['dataset']}`, run `{payload['run_id']}`, scored on "
         f"the `{variant}` predictions. Cells from `{payload['matrix_source']}`.",
         "",
-        "## Two normalisations, not one",
+        "## The matrix",
         "",
-        "Depth cannot level parameters and compute at the same time. A "
-        "line-graph layer holds the same parameters as two pair convolutions, "
-        "but runs its edge update over the triplet set, which on a real batch "
-        "outnumbers the pairs 5.4 to 1. So at equal parameters the line-graph "
-        "cells take about 1.5x the compute per step, and buying that back "
-        "with pair-graph depth costs about 60% more parameters.",
-        "",
-        "Both matrices are therefore reported over one set of runs. They "
-        "share their two line-graph cells, so carrying both costs two extra "
-        "trainings rather than four.",
-        "",
-        "| matrix | held level | not level |",
+        "|  | no angle diffusion | angle diffusion |",
         "|---|---|---|",
-        "| parameter-matched | parameters, within 1.03% | line-graph cells "
-        "take ~1.5x the compute |",
-        "| compute-matched | step cost, within 6% | no-line-graph cells carry "
-        "~1.6x the parameters |",
+        "| **no line graph** | `neither` | `angle diffusion` |",
+        "| **line graph** | `line graph` | `both` (= A3, proposed) |",
         "",
-        "A line-graph advantage that survives **both** is not a budget "
-        "artefact in either direction. One that appears in only one of them "
-        "is a statement about budget, not about three-body information.",
+        "Parameter-matched, not compute-matched: the line-graph cells run "
+        "their edge update over the triplet set, which on a real batch "
+        "outnumbers pairs 5.4 to 1, so they cost more wall-clock per step "
+        "than the no-line-graph cells at this matched parameter count "
+        "(measured 1.50x on a GB10). Reported directly below as GPU-hours, "
+        "rather than run a second, compute-matched matrix to correct for it.",
         "",
     ]
-    for name, matrix, _comparisons in MATRICES:
-        labels = order(cells, matrix)
-        if not labels:
-            continue
-        L += [f"## {name[0].upper()}{name[1:]}", ""]
+    for lab in labels:
+        recs = list(cells[lab].values())
+        d = MATRIX_DESCRIPTIONS.get(lab, "")
+        p, _, _ = stat(recs, "params")
+        depth = f"{recs[0].get('alignn_layers')}/{recs[0].get('gcn_layers')}"
+        pt = "—" if p is None else f"{p/1e6:.4f} M"
+        L.append(
+            f"- **{lab}** — {d}  \n  {depth} ALIGNN/pair convolutions, "
+            f"{pt} parameters, {len(recs)} seed(s)"
+        )
+    L += ["", "## Results", "",
+          "| metric | " + " | ".join(labels) + " |",
+          "|---" * (len(labels) + 1) + "|"]
+    for key, label, dp, _lower in METRICS:
+        row = [label]
         for lab in labels:
-            recs = list(cells[lab].values())
-            p, _, _ = stat(recs, "params")
-            depth = f"{recs[0].get('alignn_layers')}/{recs[0].get('gcn_layers')}"
-            pt = "—" if p is None else f"{p/1e6:.4f} M"
+            mean, sd, _ = stat(list(cells[lab].values()), key)
+            row.append(fmt(mean, sd, dp))
+        L.append("| " + " | ".join(row) + " |")
+    L.append("")
+
+    # -- GPU-hours: per cell, plus the benchmark total ----------------------
+    L += ["## GPU-hours", "",
+          "Sum of every recorded stage's wall-clock (train through "
+          "score-sym, and angle_eval/unrelaxed if run) for each cell's "
+          "seed(s) -- the GPU-hours this benchmark actually consumed, "
+          "since every stage of a unit runs inside one SLURM element "
+          "holding `--gres` for its whole duration. Not an estimate.", "",
+          "| cell | seeds | GPU-hours |", "|---|---|---|"]
+    grand_total = 0.0
+    any_total = False
+    for lab in labels:
+        recs = list(cells[lab].values())
+        g = total(recs, "gpu_hours")
+        n_g = sum(1 for r in recs if r.get("gpu_hours") is not None)
+        if g is not None:
+            grand_total += g
+            any_total = True
+        L.append(f"| {lab} | {n_g}/{len(recs)} | "
+                  f"{'—' if g is None else f'{g:.2f}'} |")
+    L.append(f"| **total** | | **{grand_total:.2f}** |" if any_total
+              else "| **total** | | — (no stage markers found) |")
+    L.append("")
+
+    inter = payload.get("interaction") or {}
+    if inter:
+        L += ["## Interaction", "",
+              "The reason to cross the factors rather than test them "
+              "separately. If the angular objective helps by the same "
+              "amount with and without the line graph, the two are "
+              "independent and each main effect stands alone. If it helps "
+              "only with the line graph, the objective needs the "
+              "architecture; if only without, it is substituting for it.",
+              "",
+              "| metric | Δ(LG) no AD | Δ(LG) with AD | Δ(AD) no LG | "
+              "Δ(AD) with LG | interaction |",
+              "|---|---|---|---|---|---|"]
+        for key, label, dp, _ in METRICS:
+            i = inter.get(key)
+            if i is None:
+                continue
             L.append(
-                f"- **{lab}** — {ALL_DESCRIPTIONS.get(lab, '')}  \n  "
-                f"{depth} ALIGNN/pair convolutions, {pt} parameters, "
-                f"{len(recs)} seed(s)"
-            )
-        L += ["", "| metric | " + " | ".join(labels) + " |",
-              "|---" * (len(labels) + 1) + "|"]
-        for key, label, dp, _lower in METRICS:
-            row = [label]
-            for lab in labels:
-                mean, sd, _ = stat(list(cells[lab].values()), key)
-                row.append(fmt(mean, sd, dp))
-            L.append("| " + " | ".join(row) + " |")
+                f"| {label} | {i['lg_effect_without_ad']:+.{dp}f} | "
+                f"{i['lg_effect_with_ad']:+.{dp}f} | "
+                f"{i['ad_effect_without_lg']:+.{dp}f} | "
+                f"{i['ad_effect_with_lg']:+.{dp}f} | "
+                f"{i['interaction']:+.{dp}f} |")
         L.append("")
 
-        inter = (payload.get("interaction") or {}).get(name) or {}
-        if inter:
-            L += ["### Interaction", "",
-                  "If the angular objective helps by the same amount with and "
-                  "without the line graph, the two are independent and each "
-                  "main effect stands alone. If it helps only with the line "
-                  "graph, the objective needs the architecture; if only "
-                  "without, it is substituting for it.", "",
-                  "| metric | Δ(LG) no AD | Δ(LG) with AD | Δ(AD) no LG | "
-                  "Δ(AD) with LG | interaction |",
-                  "|---|---|---|---|---|---|"]
-            for key, label, dp, _ in METRICS:
-                i = inter.get(key)
-                if i is None:
-                    continue
-                L.append(
-                    f"| {label} | {i['lg_effect_without_ad']:+.{dp}f} | "
-                    f"{i['lg_effect_with_ad']:+.{dp}f} | "
-                    f"{i['ad_effect_without_lg']:+.{dp}f} | "
-                    f"{i['ad_effect_with_lg']:+.{dp}f} | "
-                    f"{i['interaction']:+.{dp}f} |")
-            L.append("")
-
     L += ["## Angular denoising loss", "",
-          "Only the angular cells have this term, so it is reported *within* "
-          "them and never across the angular factor — there is nothing in the "
-          "other cells to compare it against.", "",
+          "Only two cells have this term, so it is reported *within* them "
+          "and never across the angular factor — there is nothing in the "
+          "other two cells to compare it against.", "",
           "| cell | angular denoising loss |", "|---|---|"]
-    for lab in order(cells):
+    for lab in labels:
         recs = list(cells[lab].values())
         # train_csp.py accumulates a zero into loss_angle when the term is
         # off, so a cell without the objective would otherwise report a
@@ -591,10 +612,10 @@ def write_report(results: Path, payload: Dict) -> None:
         L.append(f"| {lab} | {fmt(mean, sd, 4)} |")
 
     L += ["", "## Effects", "",
-          "Each row is one cell against another, on every metric. `Δ%` is the "
-          "change in the second cell relative to the first; `~` marks a change "
-          "smaller than the larger of the two arms' seed spreads, which is not "
-          "a measurement of anything.", ""]
+          "Each row is one cell against another, on every metric. `Δ%` is "
+          "the change in the second cell relative to the first; `~` marks a "
+          "change smaller than the larger of the two arms' seed spreads, "
+          "which is not a measurement of anything.", ""]
     for question, (ref, test) in payload["effect_order"]:
         if ref not in cells or test not in cells:
             continue
@@ -622,17 +643,18 @@ def write_report(results: Path, payload: Dict) -> None:
     L += ["## How to read this", "",
           "- **Denoising loss is the structural term only.** The trained "
           "objective is `w_lat*L_lat + w_frac*L_frac + w_ang*L_ang`, and "
-          "`L_ang` exists in only two cells. Quoting the trained total across "
-          "the angular factor would compare two different objectives. All four "
-          "cells also select `best_model.pt` on this same structural loss "
-          "(`--select-on structural`), so the checkpoint being scored and the "
-          "loss being quoted agree.",
-          "- **Loss and fidelity are not the same claim, and have already come "
-          "apart on this benchmark.** The published line-graph ablation moved "
-          "denoising loss by 14.5% (2.011 vs 2.351, no overlap across twelve "
-          "runs) and moved match rate by *exactly nothing* (0.4709 both arms). "
-          "A large loss change here is evidence about score fitting; it is not "
-          "by itself evidence about generation.",
+          "`L_ang` exists in only two cells. Quoting the trained total "
+          "across the angular factor would compare two different "
+          "objectives. All four cells also select `best_model.pt` on this "
+          "same structural loss (`--select-on structural`), so the "
+          "checkpoint being scored and the loss being quoted agree.",
+          "- **Loss and fidelity are not the same claim, and have already "
+          "come apart on this benchmark.** The published line-graph "
+          "ablation moved denoising loss by 14.5% (2.011 vs 2.351, no "
+          "overlap across twelve runs) and moved match rate by *exactly "
+          "nothing* (0.4709 both arms). A large loss change here is "
+          "evidence about score fitting; it is not by itself evidence "
+          "about generation.",
           "- **Prefer the `raw`/`rawsym` variant for the bond-angle "
           "Wasserstein.** The headline pipeline ranks 32 candidates by "
           "ALIGNN-FF energy and relaxes the survivors, which snaps every "
@@ -640,45 +662,51 @@ def write_report(results: Path, payload: Dict) -> None:
           "where a local-geometry advantage would be erased, and local "
           "geometry is what the angular channel claims to fix. The relaxed "
           "number measures the diffusion model and ALIGNN-FF together.",
-          "- **A 180° spike appears in the generated *and* the real bond-angle "
-          "histograms.** It is back-tracking triplets from the graph builder, "
-          "identical across cells. It is not physics and does not bias a "
-          "comparison.",
-          "- **Budget.** In the parameter-matched matrix, `angle diffusion` "
-          "and `both` agree to the parameter (the angular path adds no weights "
-          "beyond the angle encoder and head they share), and `neither` and "
-          "`line graph` differ by 1.1% — the angle encoder — which is the "
-          "manuscript's existing arm-A/arm-B design, matched at nine "
-          "convolution blocks. In the compute-matched matrix the "
-          "no-line-graph cells are rebuilt at pair depth 16, which levels the "
-          "step cost and costs ~60% more parameters. Neither matrix levels "
-          "both; that is a property of the line graph, not a defect in the "
-          "design.",
+          "- **A 180° spike appears in the generated *and* the real "
+          "bond-angle histograms.** It is back-tracking triplets from the "
+          "graph builder, identical across cells. It is not physics and "
+          "does not bias a comparison.",
+          "- **Parameter budget.** `angle diffusion` and `both` match to "
+          "the parameter (the angular path adds no weights beyond the "
+          "shared angle encoder and head). `neither` and `line graph` "
+          "differ by 1.1%, the angle encoder, which is the manuscript's "
+          "existing arm-A/arm-B design: the budget is matched at nine "
+          "convolution blocks. The GPU-hours row above is what that "
+          "budget choice costs in wall-clock, measured, not modelled.",
           "- **No p-values, deliberately.** The cells carry "
-          f"{max((len(v) for v in cells.values()), default=0)} seed(s) cannot "
-          "support them. The sibling eight-arm suite returned every "
-          "pre-registered contrast at Holm-adjusted p = 1.000 on the "
-          "103-target split; the honest reading was underpowered, not null.",
+          f"{max((len(v) for v in cells.values()), default=0)} seed(s), "
+          "which cannot support them. The sibling eight-arm suite returned "
+          "every pre-registered contrast at Holm-adjusted p = 1.000 on the "
+          "103-target split; the honest reading was underpowered, not "
+          "null.",
           ""]
     (results / "60_report").mkdir(parents=True, exist_ok=True)
-    (results / "60_report" / "REPORT.md").write_text("\n".join(L))
+    (results / "60_report" / f"REPORT{OUT_SUFFIX}.md").write_text("\n".join(L))
 
 
 def print_table(cells: Dict) -> None:
+    labels = order(cells)
     w = max([len(label) for _, label, _, _ in METRICS] + [12]) + 2
-    for name, matrix, _comparisons in MATRICES:
-        labels = order(cells, matrix)
-        if not labels:
-            continue
-        print(f"\n{name}")
-        print("metric".ljust(w) + "".join(f"{c:>26}" for c in labels))
-        print("-" * (w + 26 * len(labels)))
-        for key, label, dp, _ in METRICS:
-            line = label.ljust(w)
-            for lab in labels:
-                mean, sd, _ = stat(list(cells[lab].values()), key)
-                line += f"{fmt(mean, sd, dp):>26}"
-            print(line)
+    print("\n" + "metric".ljust(w) + "".join(f"{c:>22}" for c in labels))
+    print("-" * (w + 22 * len(labels)))
+    for key, label, dp, _ in METRICS:
+        line = label.ljust(w)
+        for lab in labels:
+            mean, sd, _ = stat(list(cells[lab].values()), key)
+            line += f"{fmt(mean, sd, dp):>22}"
+        print(line)
+    print("-" * (w + 22 * len(labels)))
+    line = "GPU-hours (total)".ljust(w)
+    grand_total, any_total = 0.0, False
+    for lab in labels:
+        g = total(list(cells[lab].values()), "gpu_hours")
+        if g is not None:
+            grand_total += g
+            any_total = True
+        line += f"{('—' if g is None else f'{g:.2f}'):>22}"
+    print(line)
+    if any_total:
+        print(f"{'benchmark total'.ljust(w)}{grand_total:>22.2f}  GPU-hours")
 
 
 def main() -> int:
@@ -736,30 +764,23 @@ def main() -> int:
             f"{len(recon)} run(s) (history predates loss_structural)"
         )
 
-    # Effects and interaction are computed per matrix: a contrast only means
-    # something between two cells normalised the same way.
-    effects: Dict[str, Dict] = {}
+    effects = {}
     effect_order: List = []
-    inter: Dict[str, Dict] = {}
-    for name, matrix, comparisons in MATRICES:
-        for question, (ref, test) in comparisons.items():
-            if question in effects:
-                continue
-            per_metric = {}
-            for key, _, _, _ in METRICS:
-                e = effect(cells, ref, test, key)
-                if e is not None:
-                    per_metric[key] = e
-            if per_metric:
-                effects[question] = per_metric
-                effect_order.append((question, (ref, test)))
-        per_key = {}
+    for question, (ref, test) in MATRIX_COMPARISONS.items():
+        per_metric = {}
         for key, _, _, _ in METRICS:
-            i = interaction(cells, key, matrix)
-            if i is not None:
-                per_key[key] = i
-        if per_key:
-            inter[name] = per_key
+            e = effect(cells, ref, test, key)
+            if e is not None:
+                per_metric[key] = e
+        if per_metric:
+            effects[question] = per_metric
+            effect_order.append((question, (ref, test)))
+
+    inter = {}
+    for key, _, _, _ in METRICS:
+        i = interaction(cells, key)
+        if i is not None:
+            inter[key] = i
 
     payload = {
         "dataset": os.environ.get("DATASET", "?"),
@@ -774,14 +795,14 @@ def main() -> int:
     }
     outdir = results / "40_stats"
     outdir.mkdir(parents=True, exist_ok=True)
-    (outdir / "matrix.json").write_text(
+    (outdir / f"matrix{OUT_SUFFIX}.json").write_text(
         json.dumps(payload, indent=2, default=str) + "\n"
     )
-    write_tex(outdir / "matrix.tex", cells, args.variant)
+    write_tex(outdir / f"matrix{OUT_SUFFIX}.tex", cells, args.variant)
     write_report(results, payload)
 
     print_table(cells)
-    print(f"\nwrote {outdir}/matrix.json, {outdir}/matrix.tex")
+    print(f"\nwrote {outdir}/matrix{OUT_SUFFIX}.json, {outdir}/matrix{OUT_SUFFIX}.tex")
     print(f"      {results/'60_report'/'REPORT.md'}")
     missing = [c for c in all_cells() if c not in cells]
     if missing:

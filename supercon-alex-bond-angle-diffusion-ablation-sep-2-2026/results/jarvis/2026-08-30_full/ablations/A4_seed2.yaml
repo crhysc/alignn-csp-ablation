@@ -1,0 +1,284 @@
+schema: alignn-csp-ablation/ablation-metadata/v1
+identity:
+  experiment_set: angle-ablation
+  experiment_set_title: the A-suite angular-diffusion ablations (A0-A6, nolg, A3_nogate)
+  harness_dir: supercon-alex-bond-angle-diffusion-ablation-sep-2-2026
+  dataset_key: jarvis
+  dataset: JARVIS-DFT dft_3d, superconducting-Tc subset (Supercon-3D)
+  run_id: 2026-08-30_full
+  arm: A4
+  config_dir: jarvis_A4
+  seed: 2
+  task: angle-ablation
+  status: complete (benchmarks only)
+description: 'control: angular objective with the angle->bond coupling removed'
+differentiators:
+  angular_tier: derived
+  angle_mode: derived_aux
+  ablation_key: A4
+  line_graph: true
+  alignn_layers: 3
+  gcn_layers: 3
+  topology: radius
+  gate_pair_messages: true
+  angle_feedback: false
+  angle_basis: null
+  seed: 2
+  epochs: 3000
+  n_parameters: 3855943
+what_this_cell_tests:
+- 'A3 with angle_feedback=False -- coupling control: angular loss as pure auxiliary supervision'
+- 3 seeds (0,1,2), 3000 epochs, A30 pinned, WVU Dolly Sods, 2026-08-30/31.
+training:
+  epochs: 3000
+  batch_size: 64
+  checkpoint_selection: validation total loss (this suite predates --select-on structural)
+  note: config.json/history.json for this run are not archived here; see artifacts.checkpoints
+data:
+  repo_dir: datasets/jarvis_supercon3d
+  split_meta:
+    dataset: dft_3d
+    target_key: Tc_supercon
+    seed: 123
+    max_size: 1058
+    n_train: 847
+    n_val: 105
+    n_test: 103
+    hash10_ids: 3fd288e327
+generation:
+  num_candidates: 32
+  guidance: 2.0
+  relax: cell
+  rank: energy
+  prescreen_keep: 4
+  symprec: 0.1
+  sampler_version: pre-quarantine (2026-08-30)
+metrics:
+  variant_sym:
+    match_rate: 0.427184
+    n_matched: 44
+    n_total: 103
+    rmsd_cartesian_A: 0.052013
+    rmsd_normalized: 0.014473
+    ccrmse: null
+    mae_lattice_lengths_A: 0.59852
+    mae_lattice_angles_deg: 10.47885
+    kld_mean: 0.024321
+    full:
+      benchmark_name: A4_seed2
+      KLD:
+        a: 0.01685974818816657
+        b: 0.017067585815637366
+        c: 0.04586004255007676
+        alpha: 0.021716890196744165
+        beta: 0.018950215907596903
+        gamma: 0.025471262920773688
+      MAE:
+        average_mae:
+          a: 0.4400959692297991
+          b: 0.4526290749464636
+          c: 0.9028350997217119
+          alpha: 10.717313577366188
+          beta: 9.643994695543778
+          gamma: 11.075240646061646
+      RMSE:
+        AtomGen:
+          mean_normalized_cartesian_rms: 0.014473
+          mean_cartesian_rms_angstrom: 0.052013
+          match_rate: 0.427184
+          stol: 0.5
+          n_matched: 44
+          n_total: 103
+      ccRMSD:
+        value: 0.5462789053394863
+        amd_k: 100
+        n_eval: 103
+      crystal_system_mae:
+        by_system:
+        - crystal_system: cubic
+          n_reconstructions: 46
+          mae:
+            a: 0.345677
+            b: 0.148884
+            c: 0.204991
+            alpha: 8.273058
+            beta: 8.19141
+            gamma: 7.155919
+        - crystal_system: hexagonal
+          n_reconstructions: 18
+          mae:
+            a: 0.545529
+            b: 0.710815
+            c: 1.860091
+            alpha: 11.698163
+            beta: 8.148214
+            gamma: 10.970033
+        - crystal_system: tetragonal
+          n_reconstructions: 23
+          mae:
+            a: 0.480123
+            b: 0.684735
+            c: 1.276907
+            alpha: 13.063786
+            beta: 10.234568
+            gamma: 8.877475
+        symprec: 0.1
+        kmin: 10
+  variant_rawsym:
+    match_rate: 0.213592
+    n_matched: 22
+    n_total: 103
+    rmsd_cartesian_A: 0.2223
+    rmsd_normalized: 0.057207
+    ccrmse: null
+    mae_lattice_lengths_A: 0.858465
+    mae_lattice_angles_deg: 14.620492
+    kld_mean: 0.030814
+    full:
+      benchmark_name: A4_seed2
+      KLD:
+        a: 0.022685769157728262
+        b: 0.020264369454933515
+        c: 0.06256726584305662
+        alpha: 0.024959138720137903
+        beta: 0.020493293029226874
+        gamma: 0.03391360055889155
+      MAE:
+        average_mae:
+          a: 0.6299436474532144
+          b: 0.6141760559809714
+          c: 1.3312744789335056
+          alpha: 13.6762957801257
+          beta: 12.759563859310884
+          gamma: 17.42561514175578
+      RMSE:
+        AtomGen:
+          mean_normalized_cartesian_rms: 0.057207
+          mean_cartesian_rms_angstrom: 0.2223
+          match_rate: 0.213592
+          stol: 0.5
+          n_matched: 22
+          n_total: 103
+      ccRMSD:
+        value: 0.7557169152014237
+        amd_k: 100
+        n_eval: 103
+      crystal_system_mae:
+        by_system:
+        - crystal_system: cubic
+          n_reconstructions: 46
+          mae:
+            a: 0.617373
+            b: 0.49728
+            c: 0.875345
+            alpha: 16.948476
+            beta: 16.820482
+            gamma: 19.263053
+        - crystal_system: hexagonal
+          n_reconstructions: 18
+          mae:
+            a: 0.827607
+            b: 0.859689
+            c: 1.843533
+            alpha: 15.154605
+            beta: 9.853084
+            gamma: 18.060839
+        - crystal_system: tetragonal
+          n_reconstructions: 23
+          mae:
+            a: 0.468798
+            b: 0.566869
+            c: 1.55787
+            alpha: 8.535357
+            beta: 6.18123
+            gamma: 11.522272
+        symprec: 0.1
+        kmin: 10
+  arm_over_seeds:
+    n_seeds: 3
+    seeds:
+    - 0
+    - 1
+    - 2
+    match_rate:
+      mean: 0.446602
+      sd: 0.025687
+      n: 3
+      values:
+      - 0.475728
+      - 0.436893
+      - 0.427184
+    rmsd:
+      mean: 0.034035
+      sd: 0.016484
+      n: 3
+      values:
+      - 0.030461
+      - 0.019631
+      - 0.052013
+    ccrmsd:
+      mean: 0.524284
+      sd: 0.019243
+      n: 3
+      values:
+      - 0.5105538982732054
+      - 0.5160184091348387
+      - 0.5462789053394863
+    mae_abc:
+      mean: 0.530624
+      sd: 0.061442
+      n: 3
+      values:
+      - 0.4788510129079131
+      - 0.5144997797132177
+      - 0.5985200479659915
+    mae_ang:
+      mean: 10.613223
+      sd: 0.117905
+      n: 3
+      values:
+      - 10.661456024462494
+      - 10.699364308148816
+      - 10.478849639657204
+    kld:
+      mean: 0.022746
+      sd: 0.001364
+      n: 3
+      values:
+      - 0.02194146851379236
+      - 0.021974361535002495
+      - 0.024320957596499243
+    val_loss:
+      mean: 7.461075
+      sd: 0.028283
+      n: 3
+      values:
+      - 7.431412220001221
+      - 7.487739324569702
+      - 7.464073896408081
+compute:
+  stages_s:
+    train: 1571.8
+    generate: 1194.7
+    symmetrize: 3.2
+    score-nosym: 7.9
+    score-sym: 7.2
+  hosts:
+  - dscog004
+  gpu_hours_billed: 0.7736
+  train_s_per_step: 0.03742
+  hardware:
+    gpu: NVIDIA A30 (pinned)
+    site: WVU Dolly Sods, partition gpu_7day
+code:
+  alignn_repo: https://github.com/crhysc/alignn
+  alignn_branch: angle-diffusion (at the time)
+  note: INDEX.md records the collecting host had no git; treat the commit as 'angle-diffusion as of 2026-08-30'.
+artifacts:
+  benchmark_dir: supercon-alex-bond-angle-diffusion-ablation-sep-2-2026/results/jarvis/2026-08-30_full/20_benchmarks/A4_seed2
+  files:
+  - name: metrics.json
+    bytes: 1718
+    sha256: 5318f2542d18eb493f172776646d65e4a725b4c7edc083e26cadf1dcddfac625
+  checkpoints: 'NOT archived in this repository: they remain in /scratch/crc00042/alignn_csp on WVU Dolly
+    Sods (see results/jarvis/2026-08-30_full/INDEX.md).'

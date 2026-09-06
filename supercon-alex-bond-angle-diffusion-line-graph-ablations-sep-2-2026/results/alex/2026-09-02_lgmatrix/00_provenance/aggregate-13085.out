@@ -1,0 +1,106 @@
+gpu_sampler: device 'NVIDIA GB10'
+gpu_sampler: pid 3089097 -> /home/ccamp104/repositories/alignn-csp-ablation/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/_gputrace/csp-aggregate-lg-angle-matrix-alex__13085__0.csv
+repo:      /home/ccamp104/repositories/alignn-csp-ablation/alignn
+runs:      /data/ccamp104/alignn_csp_lgmatrix/jarvis
+python:    /data/ccamp104/envs/alignn2/bin/python
+host:      atomgptlab04.wse.jhu.edu
+job:       13085 array element none
+
+=== lg-angle-matrix-alex  (/data/ccamp104/alignn_csp_lgmatrix/alex)
+
+lg-angle-matrix-alex: Line graph x bond-angle diffusion, crossed 2x2, on Alexandria DS-A/B.
+reproduces: Table 3 (tab:inverse_ablation), both factors, on the larger split
+variant: sym   groups: 4   with results: 4
+
+
+group                         loss            match             RMSD           ccRMSD          MAE abc          MAE ang              KLD   n
+--------------------------------------------------------------------------------------------------------------------------------------------
+neither                      5.718           0.5891            0.027            0.304            0.484             8.28           0.0200   1
+line graph                   4.278           0.5661            0.025            0.318            0.533             8.82           0.0217   1
+angle diffusion              5.874           0.5721            0.030            0.300            0.490             8.70           0.0206   1
+both                         4.640           0.5758            0.031            0.312            0.524             8.62           0.0211   1
+
+  neither          no angular channel at all; nine pair-graph convolutions (manuscript Table 3, arm B)
+  line graph       angles as ALIGNN input features, no angular objective (manuscript Table 3, arm A; = A0)
+  angle diffusion  the angular denoising objective with no line graph: triplets are built and supervised, but no message travels along one, so the coupling to coordinates is through the shared trunk's gradient only
+  both             angles as features and as a denoised variable, coupled through angles -> bonds -> atoms (= A3, the proposed model)
+
+individual runs
+  neither                            alex_nolg-seed0          loss 5.718  match 0.5891  RMSD 0.027  ccRMSD 0.304  MAE abc 0.484  MAE ang 8.28  KLD 0.0200
+  line graph                         alex_A0-seed0            loss 4.278  match 0.5661  RMSD 0.025  ccRMSD 0.318  MAE abc 0.533  MAE ang 8.82  KLD 0.0217
+  angle diffusion                    alex_nolg_ad-seed0       loss 5.874  match 0.5721  RMSD 0.030  ccRMSD 0.300  MAE abc 0.490  MAE ang 8.70  KLD 0.0206
+  both                               alex_A3-seed0            loss 4.640  match 0.5758  RMSD 0.031  ccRMSD 0.312  MAE abc 0.524  MAE ang 8.62  KLD 0.0211
+
+training cost
+  arm                  params     wall time  x vs first
+  neither              3.75 M         1h04m        1.00
+  line graph           3.79 M         1h03m        0.99
+  angle diffusion      3.86 M         1h13m        1.13
+  both                 3.86 M           54m        0.84
+
+comparisons  (change of the second arm relative to the first)
+
+  line graph, without angle diffusion
+    neither  ->  line graph
+      loss                  5.718 ->             4.278   -25.2%  better
+      match                0.5891 ->            0.5661    -3.9%  worse
+      RMSD                  0.027 ->             0.025    -4.7%  better
+      ccRMSD                0.304 ->             0.318    +4.6%  worse
+      MAE abc               0.484 ->             0.533   +10.1%  worse
+      MAE ang                8.28 ->              8.82    +6.5%  worse
+      KLD                  0.0200 ->            0.0217    +8.5%  worse
+
+  line graph, with angle diffusion
+    angle diffusion  ->  both
+      loss                  5.874 ->             4.640   -21.0%  better
+      match                0.5721 ->            0.5758    +0.6%  better
+      RMSD                  0.030 ->             0.031    +2.7%  worse
+      ccRMSD                0.300 ->             0.312    +4.0%  worse
+      MAE abc               0.490 ->             0.524    +7.0%  worse
+      MAE ang                8.70 ->              8.62    -0.9%  better
+      KLD                  0.0206 ->            0.0211    +2.3%  worse
+
+  angle diffusion, without a line graph
+    neither  ->  angle diffusion
+      loss                  5.718 ->             5.874    +2.7%  worse
+      match                0.5891 ->            0.5721    -2.9%  worse
+      RMSD                  0.027 ->             0.030   +14.2%  worse
+      ccRMSD                0.304 ->             0.300    -1.3%  better
+      MAE abc               0.484 ->             0.490    +1.1%  worse
+      MAE ang                8.28 ->              8.70    +5.0%  worse
+      KLD                  0.0200 ->            0.0206    +3.0%  worse
+
+  angle diffusion, with a line graph
+    line graph  ->  both
+      loss                  4.278 ->             4.640    +8.5%  worse
+      match                0.5661 ->            0.5758    +1.7%  better
+      RMSD                  0.025 ->             0.031   +23.2%  worse
+      ccRMSD                0.318 ->             0.312    -1.8%  better
+      MAE abc               0.533 ->             0.524    -1.7%  better
+      MAE ang                8.82 ->              8.62    -2.3%  better
+      KLD                  0.0217 ->            0.0211    -2.9%  better
+
+  both together, against neither
+    neither  ->  both
+      loss                  5.718 ->             4.640   -18.8%  better
+      match                0.5891 ->            0.5758    -2.3%  worse
+      RMSD                  0.027 ->             0.031   +17.3%  worse
+      ccRMSD                0.304 ->             0.312    +2.6%  worse
+      MAE abc               0.484 ->             0.524    +8.2%  worse
+      MAE ang                8.28 ->              8.62    +4.1%  worse
+      KLD                  0.0200 ->            0.0211    +5.4%  worse
+
+% ---- LaTeX ----
+\begin{tabular}{lccccccc}
+\hline
+Run & Denoising loss $\downarrow$ & Match rate $\uparrow$ & Coordinate RMSD (\AA) $\downarrow$ & ccRMSD $\downarrow$ & Lattice MAE, $abc$ (\AA) $\downarrow$ & Lattice MAE, angles ($^{\circ}$) $\downarrow$ & KLD $\downarrow$ \\
+\hline
+neither & $5.718$ & $0.5891$ & $0.027$ & $0.304$ & $0.484$ & $8.28$ & $0.0200$ \\
+line graph & $4.278$ & $0.5661$ & $0.025$ & $0.318$ & $0.533$ & $8.82$ & $0.0217$ \\
+angle diffusion & $5.874$ & $0.5721$ & $0.030$ & $0.300$ & $0.490$ & $8.70$ & $0.0206$ \\
+both & $4.640$ & $0.5758$ & $0.031$ & $0.312$ & $0.524$ & $8.62$ & $0.0211$ \\
+\hline
+\end{tabular}
+
+
+=== lg-angle-matrix-alex complete: 2026-09-05T00:20:03-04:00

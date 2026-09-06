@@ -3,6 +3,19 @@
 Ablation suites for ALIGNN-CSP's generative inverse-design pipeline, run in
 support of the ALIGNN 2.0 manuscript.
 
+## State of the project, and how to restore it
+
+**Start with [`PROJECT_STATE.md`](PROJECT_STATE.md).** It is the entry point
+for anyone new: what exists, where every artifact lives (GitHub, Hugging Face,
+DVC), the results so far, the pitfalls, and how to pull the whole state onto a
+new machine. The one open job is in [`NEXT_TASK.md`](NEXT_TASK.md).
+
+Each harness directory carries an `EXPERIMENT_SET.yaml` (the experiment set's
+full context) and, under every `results/<dataset>/<run_id>/ablations/`, one
+exhaustive YAML per ablation run plus an `INDEX.md`. Bulk artifacts (weights,
+predictions, histories, GPU traces, datasets) are DVC-tracked and mirrored to
+Hugging Face; `bash tools/hf_sync.sh pull` restores them.
+
 ## Layout
 
 ```

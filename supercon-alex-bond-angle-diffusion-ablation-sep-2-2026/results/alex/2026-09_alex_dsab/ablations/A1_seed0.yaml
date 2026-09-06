@@ -1,0 +1,172 @@
+schema: alignn-csp-ablation/ablation-metadata/v1
+identity:
+  experiment_set: angle-ablation
+  experiment_set_title: the A-suite angular-diffusion ablations (A0-A6, nolg, A3_nogate)
+  harness_dir: supercon-alex-bond-angle-diffusion-ablation-sep-2-2026
+  dataset_key: alex
+  dataset: Alexandria DS-A/DS-B (AtomBench split)
+  run_id: 2026-09_alex_dsab
+  arm: A1
+  config_dir: alex_A1
+  seed: 0
+  unit: alex_A1-seed0
+  task: angle-ablation-alex
+  cell_label: null
+  matrix: null
+  status: complete
+description: explicit angular denoising, baseline kNN line-graph topology
+differentiators:
+  angular_tier: none
+  angle_mode: null
+  ablation_key: A1
+  line_graph: true
+  alignn_layers: 3
+  gcn_layers: 3
+  topology: knn
+  gate_pair_messages: false
+  angle_feedback: true
+  angle_basis: null
+  angle_state_basis: null
+  angle_state_harmonics: null
+  angle_loss_weighting: null
+  angle_weight: 1.0
+  seed: 0
+  epochs: 1000
+  n_parameters: 3855943
+what_this_cell_tests:
+- explicit (derived) angular denoising on the hard kNN line graph -- the arm the A5 comparison uses
+- Alexandria port CANCELLED 2026-09-02 mid-training (A0 at epoch 375, A1 at 350; other arms never started).
+model_config_verbatim:
+  epochs: 1000
+  batch_size: 64
+  lr: 0.001
+  weight_decay: 1.0e-05
+  hidden_features: 256
+  alignn_layers: 3
+  gcn_layers: 3
+  knn: 12
+  num_steps: 1000
+  sigma_min: 0.005
+  sigma_max: 0.5
+  prop_dropout: 0.15
+  composition_dropout: 0.1
+  lattice_weight: 1.0
+  frac_weight: 10.0
+  ablation: A1
+  angle_diffusion: true
+  angle_feedback: true
+  topology: knn
+  radius_cutoff: null
+  envelope_exponent: null
+  gate_pair_messages: false
+  angle_basis: null
+  angle_weight: 1.0
+  ema_decay: 0.999
+  grad_clip: 1.0
+  augment: 0
+  init_from: null
+  seed: 0
+  log_every: 25
+  n_parameters: 3855943
+training:
+  optimizer: AdamW
+  lr_peak: 0.001
+  schedule: OneCycleLR pct_start=0.05
+  weight_decay: 1.0e-05
+  grad_clip: 1.0
+  batch_size: 64
+  epochs: 1000
+  ema_decay: 0.999
+  loss_weights:
+    lattice: 1.0
+    frac: 10.0
+    angle: 1.0
+  checkpoint_selection: null
+  augment: 0
+  history:
+    epochs_recorded: 350
+    selected_epoch_argmin_structural: 174
+    val_at_selected:
+      loss: 4.544909733992356
+      loss_structural: null
+      loss_lattice: 0.09308778723845115
+      loss_frac: 0.41857311817315906
+      loss_angle: 0.26609077705786777
+    train_at_selected:
+      loss: 4.311451613903046
+      loss_lattice: 0.09214371301305409
+      loss_frac: 0.3950325663273151
+      loss_angle: 0.2689822298976091
+    argmin_total_epoch: 174
+    val_at_argmin_total:
+      loss: 4.544909733992356
+      loss_structural: null
+      loss_lattice: 0.09308778723845115
+      loss_frac: 0.41857311817315906
+      loss_angle: 0.26609077705786777
+    val_final:
+      loss: 5.005413605616643
+      loss_structural: null
+      loss_lattice: 0.09450719562860635
+      loss_frac: 0.46456945630220264
+      loss_angle: 0.2652118228949033
+    note: best_model.pt is the argmin of val loss_structural (select_on=structural); the two argmins differ
+      in the independent-mode cells.
+data:
+  repo_dir: datasets/alexandria_dsab
+  split_meta:
+    dataset: alexandria_DS-A_DS-B
+    target_key: Tc
+    seed: 123
+    max_size: 8253
+    n_train: 6603
+    n_val: 825
+    n_test: 825
+    hash10_ids: '5703564835'
+  canonical_basis: primitive + Niggli (AtomBench scoring basis); augmentation off because of it
+generation:
+  symprec: 0.1
+  symprec_chosen_on_validation: false
+  sampler_version: unknown
+  candidates_dropped_as_diverged: null
+metrics:
+  variant_sym: null
+  variant_nosym: null
+  variant_raw: null
+  variant_rawsym: null
+  note: sym/nosym are AFTER 32-candidate ALIGNN-FF prescreen+relaxation; raw/rawsym (the generator alone)
+    are not yet produced -- see NEXT_TASK.md
+compute:
+  stages: {}
+  gpu_hours_billed: null
+  hardware:
+    gpu: null
+    hosts: []
+    site: atomgptlab (JHU WSE), 2x NVIDIA GB10, aarch64 GPU nodes
+  slurm_jobs: []
+code:
+  alignn_repo: https://github.com/crhysc/alignn
+  alignn_branch: lg-angle-diffusion-matrix
+  alignn_commit_archived: f8121f4e4c850a8fb31015081cec73dde9c6515e
+  note: jobs executed the live working tree; at run time it was fb151f6 plus the uncommitted changes later
+    committed as f8121f4 (independent angular state, MATRIX_STATE, sampler quarantine).
+artifacts:
+  dvc_tracked_dir: supercon-alex-bond-angle-diffusion-ablation-sep-2-2026/results/alex/2026-09_alex_dsab/10_runs
+  files:
+  - name: best_model.pt
+    bytes: 30987385
+    sha256: aa18a27e26e6f3dac2a9b59056d0ed76bc1a3d5228eca7a90c74399c0ddd6942
+  - name: config.json
+    bytes: 832
+    sha256: 4cf3cbd38e9ee52a4fe7ca5fd93f3c3f27aaa6e5319c553c80d8f2cbbcce86f7
+  - name: history.json
+    bytes: 104562
+    sha256: 97ae9eabd9413f518b581f9b87d2db4f81586319368dc867550aeadd5bd5d25e
+  missing:
+  - bench_raw.csv
+  - metrics_raw.json
+  - bench_rawsym.csv
+  - metrics_rawsym.json
+  - angle_eval.json
+  - angle_eval_rawsym.json
+  manifest_sha256_agrees: true

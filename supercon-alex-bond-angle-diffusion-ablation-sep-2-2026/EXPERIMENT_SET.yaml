@@ -1,0 +1,79 @@
+schema: alignn-csp-ablation/experiment-set-metadata/v1
+id: angle-ablation
+harness_dir: supercon-alex-bond-angle-diffusion-ablation-sep-2-2026
+title: The A-suite -- does explicit (derived) bond-angle denoising help ALIGNN-CSP, and why
+written: 2026-09-06
+status: jarvis run complete and analysed (2026-08-30/31, WVU Dolly Sods); Alexandria port CANCELLED mid-training 2026-09-02; superseded by ../supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026
+superseded_by: lgmatrix
+superseded_why: >
+  Every pre-registered contrast on the 103-target JARVIS split returned
+  Holm-adjusted p = 1.000 at three seeds: underpowered, not null.  The
+  Alexandria port (825 targets) was started and then cancelled so the GPU
+  budget could go to the crossed design, which asks the question this suite
+  cannot (angular objective x line graph).  Two of this suite's arms (A2, the
+  topology-alone control, and A4, the coupling control) are the controls the
+  crossed design cites but does not contain.
+
+question: >
+  Does adding an explicit bond-angle denoising objective -- a per-triplet
+  regression of the angular displacement induced by the (F,L) corruption
+  (angle_mode=derived_aux, "A3") -- improve crystal structure prediction over
+  the baseline that uses angles only as ALIGNN input features (A0)?  And if
+  so, is it the objective, the smooth radius topology it requires, the
+  angle->bond coupling, or the angular basis that does the work?
+design:
+  arms:
+    A0:        {ablation: A0, angle_mode: off,         topology: knn,    gate_pair_messages: false, angle_feedback: true,  meaning: baseline; angles as features only}
+    A1:        {ablation: A1, angle_mode: derived_aux, topology: knn,    gate_pair_messages: false, angle_feedback: true,  meaning: derived angular objective on the hard kNN line graph}
+    A2:        {ablation: A2, angle_mode: off,         topology: radius, gate_pair_messages: true,  angle_feedback: true,  meaning: smooth topology alone -- the control the crossed design relies on}
+    A3:        {ablation: A3, angle_mode: derived_aux, topology: radius, gate_pair_messages: true,  angle_feedback: true,  meaning: the proposed arm of this suite (= B1, = lgmatrix 'A3'/'nolg_ad' tier)}
+    A3_nogate: {ablation: A3, angle_mode: derived_aux, topology: radius, gate_pair_messages: false, angle_feedback: true,  meaning: confound control -- A3 with the pair channel ungated (30_full.sh do_confound)}
+    A4:        {ablation: A4, angle_mode: derived_aux, topology: radius, gate_pair_messages: true,  angle_feedback: false, meaning: coupling control -- angular loss as pure auxiliary supervision, triplet->pair messages zeroed}
+    A6:        {ablation: A6, angle_mode: derived_aux, topology: radius, gate_pair_messages: true,  angle_feedback: true,  angle_basis: fourier, meaning: representation ablation -- learnable Fourier angle basis instead of cosine RBF}
+    nolg:      {ablation: A0, angle_mode: off,         alignn_layers: 0, gcn_layers: 9, meaning: no line graph, parameter-matched (manuscript Table 3 arm B)}
+  all_other_arms: alignn_layers 3, gcn_layers 3
+  seeds: {jarvis: [0, 1, 2], alex: [0]}
+  epochs: {jarvis: 3000, alex: 1000}
+  contrasts:
+    pre_registered:
+      - {name: does explicit angular denoising help, ref: A0, test: A1}
+      - {name: does smooth topology alone help (= A5 with angles off), ref: A0, test: A2}
+      - {name: is the coupling doing the work, ref: A4, test: A3}
+    exploratory:
+      - {name: do the two together help, ref: A0, test: A3}
+      - {name: A5 hard kNN vs smooth radius with angles on, ref: A1, test: A3}
+      - {name: does the angular basis matter, ref: A3, test: A6}
+  statistics: Welch t over seeds, Hedges g, Holm across distinct arm pairs per metric family; paired discordant-pair match-rate test with pooled Cochran-Mantel-Haenszel; tier-2 per-target tests where pymatgen is available
+  checkpoint_selection: validation total loss (this suite predates --select-on structural; the crossed design changed that rule and explains why)
+
+datasets:
+  jarvis: {as in ../supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/EXPERIMENT_SET.yaml; identical split hash 3fd288e327; repo path ../datasets/jarvis_supercon3d}
+  alex:   {identical split hash 5703564835; repo path ../datasets/alexandria_dsab; prepared here on 2026-09-02 (data-alex jobs 12815/12822) and reused unchanged by the crossed design}
+
+runs:
+  jarvis_2026-08-30_full:
+    results_dir: results/jarvis/2026-08-30_full
+    site: WVU Dolly Sods, partition gpu_7day, NVIDIA A30 pinned (gres gpu:nvidia_a30:1), 32-core/257 GB nodes (dscog003, dscog007, ...), hosts recorded per run in 50_costs
+    when: SLURM jobs 2026-08-30T14:15 (smoke) through 2026-08-31 (mechanism); 69 top-level jobs in 50_costs/sacct.tsv; collected 2026-08-31T13:43 UTC
+    what_ran: 8 arms x 3 seeds = 24 runs (angle-ablation 18 units + ablation-linegraph nolg 3 + confound A3_nogate 3), then symprec sweep, 40_mechanism (angle_eval), 60_unrelaxed (rawsym)
+    what_is_archived_here:
+      in_git: 20_benchmarks/<arm>_seed<N>/{metrics.json, pred.csv} (sym), 20_benchmarks_rawsym/ (generator alone, symmetrised), 40_stats/{stats.json, contrasts.tex, per_target/}, 50_costs/{computational_costs.json, cost_report.md, gpu.csv, sacct.tsv, stage_times.csv}, 60_report/{REPORT.md, wasserstein_A0_vs_A3.png}, INDEX.md, ablations/*.yaml (generated 2026-09-06)
+      not_here: checkpoints, history.json, config.json, 10_runs/, 00_provenance/ -- they stayed in /scratch/crc00042/alignn_csp on Dolly Sods and were never transferred; the collecting host had no git, so the exact alignn commit is "angle-diffusion as of 2026-08-30"
+    headline:
+      match_rate_mean_sd: {A0: 0.4628+-0.0148, A1: 0.4628+-0.0244, A2: 0.4628+-0.0404, A3: 0.4790+-0.0297, A3_nogate: 0.4887+-0.0448, A4: 0.4466+-0.0257, A6: 0.4757+-0.0485, nolg: 0.4595+-0.0312}
+      verdict: every pre-registered contrast Holm p = 1.000 (A0->A1 match-rate delta 0.0000; A0->A2 0.0000; A4->A3 +0.0324 p 0.228); lattice-angle MAE A0 10.39 -> A3 9.93 (p 0.65); structural loss A0 6.304 vs A3 6.596 (A3 worse)
+      cost: per-step cost ratio vs A0 -- A1 1.13, A2 0.97, A3 1.10, A3_nogate 1.13, A4 1.12, A6 1.12, nolg 0.92 (the README's 2.4x claim did not reproduce)
+      interpretation: underpowered on 103 targets; the derived target barely learns (later diagnosed in the crossed design: its loss sits at a floor); this is the known JARVIS null the crossed design reproduced at seed 0
+  alex_2026-09_alex_dsab:
+    results_dir: results/alex/2026-09_alex_dsab
+    site: atomgptlab (JHU WSE), GB10
+    when: 2026-09-02; cancelled the same day at the user's request (PROGRESS.md in the results dir)
+    what_ran: data-alex (12815, 12822) complete and verified (6603/825/825, 0 canonicalisation fallbacks); angle-ablation-alex array 12824 started A0 and A1 only, cancelled at epoch 375 (A0) / 350 (A1) of 1000; ablation-linegraph-alex 12826 and confound 12828 never started
+    what_is_archived_here: {in_git: [00_provenance/{confound.sbatch, slurm_jobids.txt, manifest.json}, PROGRESS.md, 50_costs/, ablations/{A0,A1}_seed0.yaml], in_dvc: [10_runs/{A0,A1}/seed0/{best_model.pt (partial, epoch <=375), config.json, history.json}, _gputrace/]}
+    usable_for: nothing quantitative; the partial checkpoints are kept so the record is complete
+
+what_is_where:
+  harness_scripts: env.sh, preflight.sh, 00_setup.sh, 10_smoke.sh, 20_pilot.sh, 30_full.sh (incl. do_confound), 40_mechanism.sh, 50_analyze.sh, 60_unrelaxed.sh, analyze.py, collect.py, costs.py, stage_benchmarks.py, lib/
+  design_document: PLAN.md (written for Dolly Sods 2026-08-29; the "cluster facts" section is that site's), README.md
+  narrative_of_the_move: ../HANDOFF.md documents the Dolly Sods -> atomgptlab port and every value in env.sh that had to be re-measured
+open_work: none in this harness; see ../NEXT_TASK.md for the project's open task

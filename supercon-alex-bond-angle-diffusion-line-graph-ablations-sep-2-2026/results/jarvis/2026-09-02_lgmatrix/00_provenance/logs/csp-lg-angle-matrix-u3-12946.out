@@ -1,0 +1,327 @@
+gpu_sampler: device 'NVIDIA GB10'
+gpu_sampler: pid 2251662 -> /home/ccamp104/repositories/alignn-csp-ablation/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/_gputrace/csp-lg-angle-matrix-u3__12946__0.csv
+repo:      /home/ccamp104/repositories/alignn-csp-ablation/alignn
+runs:      /data/ccamp104/alignn_csp_lgmatrix/jarvis
+python:    /data/ccamp104/envs/alignn2/bin/python
+host:      atomgptlab04.wse.jhu.edu
+job:       12946 array element none
+
+=== unit jarvis_A3-seed0  ->  /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A3/seed0
+[jarvis_A3-seed0/train] $ python -u -m alignn.inverse.train_csp --data-dir /data/ccamp104/alignn_csp_lgmatrix/jarvis/data/jarvis --output /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A3/seed0 --epochs 3000 --seed 0 --ablation A3 --alignn-layers 3 --gcn-layers 3 --hidden-features 256 --knn 12 --num-steps 1000 --batch-size 64 --lr 1e-3 --augment 0 --device cuda --log-every 25 --select-on structural
+train=847 val=105
+normalizer: {"lattice_mean": [0.8832569122314453, 0.8832569122314453, 0.8832569122314453, 0.0, 0.0, 0.0], "lattice_std": [0.22021067142486572, 0.22021067142486572, 0.22021067142486572, 0.19299998879432678, 0.19299998879432678, 0.19299998879432678], "prop_mean": 3.680598969287708, "prop_std": 4.752574244852478}
+ablation A3: proposed: explicit angular denoising + smooth topology
+denoiser: {"hidden_features": 256, "alignn_layers": 3, "gcn_layers": 3, "knn": 12, "num_steps": 1000, "angle_diffusion": true, "angle_feedback": true, "topology": "radius", "gate_pair_messages": true, "angle_mode": "derived_aux", "angle_state_basis": "fourier", "angle_state_harmonics": 8}
+parameters: 3.86M  modalities: ['prop', 'composition']
+epoch     1  train 9.4941 (lat 0.9580 frac 0.8168)  val 10.1094 (lat 1.0067 frac 0.8736) ang 0.3679/0.3664  best 9.7430  2s
+    frac  vs baseline: [1-300) 1.032->1.032  [300-600) 1.032->1.032  [600-800) 1.005->1.005  [800-1000) 0.258->0.258
+epoch    25  train 7.9202 (lat 0.3868 frac 0.7232)  val 9.9616 (lat 0.9875 frac 0.8620) ang 0.3018/0.3537  best 9.6079  16s
+    frac  vs baseline: [1-300) 1.032->1.015  [300-600) 1.032->1.019  [600-800) 1.005->0.995  [800-1000) 0.258->0.257
+epoch    50  train 7.5202 (lat 0.3255 frac 0.6912)  val 9.4580 (lat 0.8702 frac 0.8255) ang 0.2830/0.3330  best 9.1251  31s
+    frac  vs baseline: [1-300) 1.032->0.961  [300-600) 1.032->0.977  [600-800) 1.005->0.971  [800-1000) 0.258->0.258
+epoch    75  train 7.2191 (lat 0.2875 frac 0.6653)  val 8.7793 (lat 0.6817 frac 0.7786) ang 0.2785/0.3113  best 8.4680  51s
+    frac  vs baseline: [1-300) 1.032->0.893  [300-600) 1.032->0.921  [600-800) 1.005->0.942  [800-1000) 0.258->0.259
+epoch   100  train 7.1401 (lat 0.3053 frac 0.6554)  val 8.1230 (lat 0.5336 frac 0.7293) ang 0.2810/0.2962  best 7.8269  71s
+    frac  vs baseline: [1-300) 1.032->0.819  [300-600) 1.032->0.854  [600-800) 1.005->0.911  [800-1000) 0.258->0.259
+epoch   125  train 6.9493 (lat 0.2861 frac 0.6389)  val 7.6325 (lat 0.4532 frac 0.6892) ang 0.2747/0.2871  best 7.3454  92s
+    frac  vs baseline: [1-300) 1.032->0.757  [300-600) 1.032->0.797  [600-800) 1.005->0.890  [800-1000) 0.258->0.260
+epoch   150  train 6.8932 (lat 0.2351 frac 0.6383)  val 7.2653 (lat 0.4056 frac 0.6577) ang 0.2750/0.2826  best 6.9827  112s
+    frac  vs baseline: [1-300) 1.032->0.712  [300-600) 1.032->0.755  [600-800) 1.005->0.875  [800-1000) 0.258->0.260
+epoch   175  train 6.6121 (lat 0.2302 frac 0.6108)  val 7.0142 (lat 0.3778 frac 0.6356) ang 0.2742/0.2801  best 6.7340  133s
+    frac  vs baseline: [1-300) 1.032->0.682  [300-600) 1.032->0.727  [600-800) 1.005->0.865  [800-1000) 0.258->0.259
+epoch   200  train 6.3726 (lat 0.1941 frac 0.5908)  val 6.8513 (lat 0.3642 frac 0.6209) ang 0.2709/0.2781  best 6.5732  154s
+    frac  vs baseline: [1-300) 1.032->0.663  [300-600) 1.032->0.708  [600-800) 1.005->0.859  [800-1000) 0.258->0.258
+epoch   225  train 6.0633 (lat 0.1704 frac 0.5623)  val 6.7216 (lat 0.3529 frac 0.6093) ang 0.2698/0.2758  best 6.4458  174s
+    frac  vs baseline: [1-300) 1.032->0.649  [300-600) 1.032->0.692  [600-800) 1.005->0.855  [800-1000) 0.258->0.258
+epoch   250  train 5.6149 (lat 0.1343 frac 0.5212)  val 6.6463 (lat 0.3451 frac 0.6027) ang 0.2688/0.2743  best 6.3720  195s
+    frac  vs baseline: [1-300) 1.032->0.638  [300-600) 1.032->0.680  [600-800) 1.005->0.853  [800-1000) 0.258->0.257
+epoch   275  train 5.4219 (lat 0.1388 frac 0.5014)  val 6.5856 (lat 0.3406 frac 0.5972) ang 0.2688/0.2734  best 6.3122  216s
+    frac  vs baseline: [1-300) 1.032->0.632  [300-600) 1.032->0.674  [600-800) 1.005->0.855  [800-1000) 0.258->0.257
+epoch   300  train 5.0913 (lat 0.1123 frac 0.4712)  val 6.5671 (lat 0.3423 frac 0.5952) ang 0.2666/0.2729  best 6.2919  234s
+    frac  vs baseline: [1-300) 1.032->0.630  [300-600) 1.032->0.670  [600-800) 1.005->0.863  [800-1000) 0.258->0.257
+epoch   325  train 4.8876 (lat 0.1075 frac 0.4514)  val 6.6042 (lat 0.3471 frac 0.5984) ang 0.2665/0.2727  best 6.2919  249s
+    frac  vs baseline: [1-300) 1.032->0.631  [300-600) 1.032->0.671  [600-800) 1.005->0.876  [800-1000) 0.258->0.256
+epoch   350  train 4.5298 (lat 0.0984 frac 0.4166)  val 6.6628 (lat 0.3549 frac 0.6035) ang 0.2652/0.2731  best 6.2919  263s
+    frac  vs baseline: [1-300) 1.032->0.635  [300-600) 1.032->0.677  [600-800) 1.005->0.892  [800-1000) 0.258->0.256
+epoch   375  train 4.1254 (lat 0.0943 frac 0.3765)  val 6.7515 (lat 0.3646 frac 0.6113) ang 0.2659/0.2734  best 6.2919  278s
+    frac  vs baseline: [1-300) 1.032->0.642  [300-600) 1.032->0.685  [600-800) 1.005->0.911  [800-1000) 0.258->0.256
+epoch   400  train 3.7585 (lat 0.0829 frac 0.3410)  val 6.8369 (lat 0.3737 frac 0.6189) ang 0.2654/0.2739  best 6.2919  292s
+    frac  vs baseline: [1-300) 1.032->0.649  [300-600) 1.032->0.695  [600-800) 1.005->0.932  [800-1000) 0.258->0.257
+epoch   425  train 3.4106 (lat 0.0737 frac 0.3072)  val 6.9337 (lat 0.3810 frac 0.6279) ang 0.2645/0.2739  best 6.2919  307s
+    frac  vs baseline: [1-300) 1.032->0.655  [300-600) 1.032->0.702  [600-800) 1.005->0.956  [800-1000) 0.258->0.259
+epoch   450  train 3.3312 (lat 0.0683 frac 0.3000)  val 7.0500 (lat 0.3899 frac 0.6386) ang 0.2632/0.2744  best 6.2919  321s
+    frac  vs baseline: [1-300) 1.032->0.663  [300-600) 1.032->0.711  [600-800) 1.005->0.977  [800-1000) 0.258->0.263
+epoch   475  train 3.2498 (lat 0.0623 frac 0.2925)  val 7.1606 (lat 0.4011 frac 0.6485) ang 0.2623/0.2743  best 6.2919  336s
+    frac  vs baseline: [1-300) 1.032->0.671  [300-600) 1.032->0.722  [600-800) 1.005->0.998  [800-1000) 0.258->0.266
+epoch   500  train 3.0711 (lat 0.0659 frac 0.2742)  val 7.2797 (lat 0.4109 frac 0.6595) ang 0.2630/0.2743  best 6.2919  350s
+    frac  vs baseline: [1-300) 1.032->0.674  [300-600) 1.032->0.733  [600-800) 1.005->1.019  [800-1000) 0.258->0.270
+epoch   525  train 2.9187 (lat 0.0585 frac 0.2599)  val 7.4177 (lat 0.4193 frac 0.6724) ang 0.2613/0.2742  best 6.2919  365s
+    frac  vs baseline: [1-300) 1.032->0.676  [300-600) 1.032->0.742  [600-800) 1.005->1.036  [800-1000) 0.258->0.275
+epoch   550  train 2.7487 (lat 0.0589 frac 0.2429)  val 7.5432 (lat 0.4292 frac 0.6840) ang 0.2608/0.2739  best 6.2919  379s
+    frac  vs baseline: [1-300) 1.032->0.679  [300-600) 1.032->0.751  [600-800) 1.005->1.049  [800-1000) 0.258->0.279
+epoch   575  train 2.7029 (lat 0.0555 frac 0.2387)  val 7.6288 (lat 0.4389 frac 0.6916) ang 0.2602/0.2743  best 6.2919  394s
+    frac  vs baseline: [1-300) 1.032->0.677  [300-600) 1.032->0.757  [600-800) 1.005->1.059  [800-1000) 0.258->0.285
+epoch   600  train 2.7339 (lat 0.0547 frac 0.2420)  val 7.7065 (lat 0.4446 frac 0.6988) ang 0.2595/0.2738  best 6.2919  409s
+    frac  vs baseline: [1-300) 1.032->0.678  [300-600) 1.032->0.763  [600-800) 1.005->1.067  [800-1000) 0.258->0.290
+epoch   625  train 2.3694 (lat 0.0493 frac 0.2061)  val 7.7840 (lat 0.4528 frac 0.7058) ang 0.2594/0.2732  best 6.2919  423s
+    frac  vs baseline: [1-300) 1.032->0.676  [300-600) 1.032->0.765  [600-800) 1.005->1.072  [800-1000) 0.258->0.294
+epoch   650  train 2.3396 (lat 0.0466 frac 0.2036)  val 7.8480 (lat 0.4594 frac 0.7116) ang 0.2574/0.2729  best 6.2919  438s
+    frac  vs baseline: [1-300) 1.032->0.679  [300-600) 1.032->0.770  [600-800) 1.005->1.076  [800-1000) 0.258->0.298
+epoch   675  train 2.4196 (lat 0.0443 frac 0.2118)  val 7.8814 (lat 0.4657 frac 0.7143) ang 0.2579/0.2731  best 6.2919  452s
+    frac  vs baseline: [1-300) 1.032->0.684  [300-600) 1.032->0.776  [600-800) 1.005->1.082  [800-1000) 0.258->0.302
+epoch   700  train 2.1461 (lat 0.0478 frac 0.1841)  val 7.8756 (lat 0.4728 frac 0.7131) ang 0.2575/0.2722  best 6.2919  467s
+    frac  vs baseline: [1-300) 1.032->0.687  [300-600) 1.032->0.783  [600-800) 1.005->1.086  [800-1000) 0.258->0.307
+epoch   725  train 2.1417 (lat 0.0441 frac 0.1841)  val 7.9194 (lat 0.4755 frac 0.7172) ang 0.2563/0.2723  best 6.2919  481s
+    frac  vs baseline: [1-300) 1.032->0.694  [300-600) 1.032->0.790  [600-800) 1.005->1.088  [800-1000) 0.258->0.314
+epoch   750  train 2.2052 (lat 0.0426 frac 0.1907)  val 7.8948 (lat 0.4793 frac 0.7143) ang 0.2553/0.2724  best 6.2919  496s
+    frac  vs baseline: [1-300) 1.032->0.696  [300-600) 1.032->0.790  [600-800) 1.005->1.085  [800-1000) 0.258->0.316
+epoch   775  train 2.1892 (lat 0.0467 frac 0.1887)  val 7.9142 (lat 0.4826 frac 0.7160) ang 0.2557/0.2720  best 6.2919  510s
+    frac  vs baseline: [1-300) 1.032->0.700  [300-600) 1.032->0.791  [600-800) 1.005->1.084  [800-1000) 0.258->0.319
+epoch   800  train 2.1018 (lat 0.0426 frac 0.1804)  val 7.9434 (lat 0.4803 frac 0.7191) ang 0.2551/0.2722  best 6.2919  525s
+    frac  vs baseline: [1-300) 1.032->0.700  [300-600) 1.032->0.791  [600-800) 1.005->1.081  [800-1000) 0.258->0.321
+epoch   825  train 1.9727 (lat 0.0406 frac 0.1678)  val 7.9373 (lat 0.4819 frac 0.7183) ang 0.2546/0.2727  best 6.2919  540s
+    frac  vs baseline: [1-300) 1.032->0.703  [300-600) 1.032->0.793  [600-800) 1.005->1.087  [800-1000) 0.258->0.324
+epoch   850  train 2.0073 (lat 0.0475 frac 0.1706)  val 7.9248 (lat 0.4852 frac 0.7167) ang 0.2541/0.2726  best 6.2919  554s
+    frac  vs baseline: [1-300) 1.032->0.704  [300-600) 1.032->0.793  [600-800) 1.005->1.093  [800-1000) 0.258->0.326
+epoch   875  train 1.8079 (lat 0.0408 frac 0.1513)  val 7.9131 (lat 0.4869 frac 0.7154) ang 0.2539/0.2725  best 6.2919  569s
+    frac  vs baseline: [1-300) 1.032->0.703  [300-600) 1.032->0.796  [600-800) 1.005->1.097  [800-1000) 0.258->0.328
+epoch   900  train 1.9793 (lat 0.0388 frac 0.1687)  val 7.9428 (lat 0.4874 frac 0.7183) ang 0.2531/0.2727  best 6.2919  583s
+    frac  vs baseline: [1-300) 1.032->0.704  [300-600) 1.032->0.801  [600-800) 1.005->1.099  [800-1000) 0.258->0.333
+epoch   925  train 1.9317 (lat 0.0381 frac 0.1642)  val 7.9376 (lat 0.4874 frac 0.7178) ang 0.2519/0.2721  best 6.2919  598s
+    frac  vs baseline: [1-300) 1.032->0.703  [300-600) 1.032->0.799  [600-800) 1.005->1.095  [800-1000) 0.258->0.332
+epoch   950  train 1.8895 (lat 0.0416 frac 0.1596)  val 7.9263 (lat 0.4901 frac 0.7165) ang 0.2517/0.2715  best 6.2919  612s
+    frac  vs baseline: [1-300) 1.032->0.705  [300-600) 1.032->0.799  [600-800) 1.005->1.092  [800-1000) 0.258->0.332
+epoch   975  train 1.6014 (lat 0.0359 frac 0.1315)  val 7.9562 (lat 0.4931 frac 0.7192) ang 0.2508/0.2713  best 6.2919  627s
+    frac  vs baseline: [1-300) 1.032->0.707  [300-600) 1.032->0.798  [600-800) 1.005->1.093  [800-1000) 0.258->0.330
+epoch  1000  train 1.7816 (lat 0.0348 frac 0.1497)  val 7.9253 (lat 0.4951 frac 0.7159) ang 0.2502/0.2715  best 6.2919  641s
+    frac  vs baseline: [1-300) 1.032->0.707  [300-600) 1.032->0.795  [600-800) 1.005->1.095  [800-1000) 0.258->0.331
+epoch  1025  train 1.9108 (lat 0.0466 frac 0.1614)  val 7.9249 (lat 0.4954 frac 0.7158) ang 0.2498/0.2719  best 6.2919  656s
+    frac  vs baseline: [1-300) 1.032->0.707  [300-600) 1.032->0.795  [600-800) 1.005->1.096  [800-1000) 0.258->0.331
+epoch  1050  train 1.6164 (lat 0.0359 frac 0.1331)  val 7.9342 (lat 0.4960 frac 0.7166) ang 0.2494/0.2720  best 6.2919  671s
+    frac  vs baseline: [1-300) 1.032->0.708  [300-600) 1.032->0.800  [600-800) 1.005->1.099  [800-1000) 0.258->0.331
+epoch  1075  train 1.7989 (lat 0.0285 frac 0.1522)  val 7.9470 (lat 0.4951 frac 0.7180) ang 0.2482/0.2722  best 6.2919  685s
+    frac  vs baseline: [1-300) 1.032->0.708  [300-600) 1.032->0.800  [600-800) 1.005->1.101  [800-1000) 0.258->0.332
+epoch  1100  train 1.5032 (lat 0.0342 frac 0.1220)  val 7.9604 (lat 0.4940 frac 0.7194) ang 0.2494/0.2727  best 6.2919  700s
+    frac  vs baseline: [1-300) 1.032->0.709  [300-600) 1.032->0.800  [600-800) 1.005->1.104  [800-1000) 0.258->0.334
+epoch  1125  train 1.5656 (lat 0.0299 frac 0.1287)  val 7.9633 (lat 0.4925 frac 0.7198) ang 0.2488/0.2727  best 6.2919  714s
+    frac  vs baseline: [1-300) 1.032->0.712  [300-600) 1.032->0.798  [600-800) 1.005->1.103  [800-1000) 0.258->0.336
+epoch  1150  train 1.4609 (lat 0.0280 frac 0.1186)  val 7.9583 (lat 0.4911 frac 0.7194) ang 0.2472/0.2728  best 6.2919  729s
+    frac  vs baseline: [1-300) 1.032->0.715  [300-600) 1.032->0.795  [600-800) 1.005->1.101  [800-1000) 0.258->0.336
+epoch  1175  train 1.4812 (lat 0.0301 frac 0.1203)  val 7.9578 (lat 0.4896 frac 0.7195) ang 0.2477/0.2730  best 6.2919  743s
+    frac  vs baseline: [1-300) 1.032->0.716  [300-600) 1.032->0.794  [600-800) 1.005->1.103  [800-1000) 0.258->0.337
+epoch  1200  train 1.3697 (lat 0.0272 frac 0.1096)  val 7.9472 (lat 0.4902 frac 0.7184) ang 0.2467/0.2733  best 6.2919  758s
+    frac  vs baseline: [1-300) 1.032->0.717  [300-600) 1.032->0.796  [600-800) 1.005->1.106  [800-1000) 0.258->0.336
+epoch  1225  train 1.5433 (lat 0.0295 frac 0.1268)  val 7.9700 (lat 0.4907 frac 0.7206) ang 0.2461/0.2731  best 6.2919  772s
+    frac  vs baseline: [1-300) 1.032->0.717  [300-600) 1.032->0.800  [600-800) 1.005->1.114  [800-1000) 0.258->0.335
+epoch  1250  train 1.3800 (lat 0.0250 frac 0.1110)  val 7.9442 (lat 0.4897 frac 0.7181) ang 0.2454/0.2732  best 6.2919  787s
+    frac  vs baseline: [1-300) 1.032->0.717  [300-600) 1.032->0.800  [600-800) 1.005->1.113  [800-1000) 0.258->0.334
+epoch  1275  train 1.3078 (lat 0.0222 frac 0.1041)  val 7.9419 (lat 0.4891 frac 0.7180) ang 0.2447/0.2730  best 6.2919  802s
+    frac  vs baseline: [1-300) 1.032->0.715  [300-600) 1.032->0.801  [600-800) 1.005->1.113  [800-1000) 0.258->0.334
+epoch  1300  train 1.2727 (lat 0.0262 frac 0.1001)  val 7.9791 (lat 0.4899 frac 0.7216) ang 0.2453/0.2729  best 6.2919  816s
+    frac  vs baseline: [1-300) 1.032->0.715  [300-600) 1.032->0.803  [600-800) 1.005->1.119  [800-1000) 0.258->0.336
+epoch  1325  train 1.4820 (lat 0.0256 frac 0.1212)  val 8.0028 (lat 0.4914 frac 0.7238) ang 0.2446/0.2733  best 6.2919  831s
+    frac  vs baseline: [1-300) 1.032->0.716  [300-600) 1.032->0.805  [600-800) 1.005->1.122  [800-1000) 0.258->0.338
+epoch  1350  train 1.2918 (lat 0.0251 frac 0.1023)  val 8.0347 (lat 0.4922 frac 0.7269) ang 0.2435/0.2738  best 6.2919  845s
+    frac  vs baseline: [1-300) 1.032->0.721  [300-600) 1.032->0.807  [600-800) 1.005->1.123  [800-1000) 0.258->0.339
+epoch  1375  train 1.2256 (lat 0.0198 frac 0.0963)  val 8.0394 (lat 0.4933 frac 0.7272) ang 0.2429/0.2739  best 6.2919  860s
+    frac  vs baseline: [1-300) 1.032->0.721  [300-600) 1.032->0.808  [600-800) 1.005->1.127  [800-1000) 0.258->0.341
+epoch  1400  train 1.1721 (lat 0.0184 frac 0.0911)  val 8.0555 (lat 0.4947 frac 0.7287) ang 0.2428/0.2742  best 6.2919  875s
+    frac  vs baseline: [1-300) 1.032->0.722  [300-600) 1.032->0.810  [600-800) 1.005->1.126  [800-1000) 0.258->0.343
+epoch  1425  train 1.2340 (lat 0.0183 frac 0.0975)  val 8.0677 (lat 0.4950 frac 0.7299) ang 0.2412/0.2742  best 6.2919  889s
+    frac  vs baseline: [1-300) 1.032->0.723  [300-600) 1.032->0.810  [600-800) 1.005->1.130  [800-1000) 0.258->0.345
+epoch  1450  train 1.4530 (lat 0.0178 frac 0.1194)  val 8.0880 (lat 0.4986 frac 0.7315) ang 0.2411/0.2741  best 6.2919  904s
+    frac  vs baseline: [1-300) 1.032->0.726  [300-600) 1.032->0.810  [600-800) 1.005->1.131  [800-1000) 0.258->0.345
+epoch  1475  train 1.2028 (lat 0.0209 frac 0.0941)  val 8.1183 (lat 0.5008 frac 0.7343) ang 0.2409/0.2743  best 6.2919  918s
+    frac  vs baseline: [1-300) 1.032->0.727  [300-600) 1.032->0.808  [600-800) 1.005->1.129  [800-1000) 0.258->0.347
+epoch  1500  train 1.0924 (lat 0.0186 frac 0.0833)  val 8.1348 (lat 0.5009 frac 0.7359) ang 0.2408/0.2747  best 6.2919  933s
+    frac  vs baseline: [1-300) 1.032->0.727  [300-600) 1.032->0.808  [600-800) 1.005->1.133  [800-1000) 0.258->0.350
+epoch  1525  train 1.2704 (lat 0.0208 frac 0.1009)  val 8.1346 (lat 0.5013 frac 0.7358) ang 0.2404/0.2751  best 6.2919  947s
+    frac  vs baseline: [1-300) 1.032->0.728  [300-600) 1.032->0.809  [600-800) 1.005->1.135  [800-1000) 0.258->0.350
+epoch  1550  train 1.3323 (lat 0.0207 frac 0.1072)  val 8.1223 (lat 0.5005 frac 0.7346) ang 0.2396/0.2754  best 6.2919  962s
+    frac  vs baseline: [1-300) 1.032->0.727  [300-600) 1.032->0.810  [600-800) 1.005->1.133  [800-1000) 0.258->0.349
+epoch  1575  train 1.1187 (lat 0.0166 frac 0.0862)  val 8.1531 (lat 0.5007 frac 0.7377) ang 0.2398/0.2758  best 6.2919  977s
+    frac  vs baseline: [1-300) 1.032->0.728  [300-600) 1.032->0.812  [600-800) 1.005->1.133  [800-1000) 0.258->0.349
+epoch  1600  train 1.0538 (lat 0.0148 frac 0.0801)  val 8.1681 (lat 0.5019 frac 0.7390) ang 0.2385/0.2761  best 6.2919  991s
+    frac  vs baseline: [1-300) 1.032->0.728  [300-600) 1.032->0.810  [600-800) 1.005->1.132  [800-1000) 0.258->0.350
+epoch  1625  train 1.0899 (lat 0.0162 frac 0.0835)  val 8.1892 (lat 0.4995 frac 0.7414) ang 0.2384/0.2761  best 6.2919  1006s
+    frac  vs baseline: [1-300) 1.032->0.729  [300-600) 1.032->0.807  [600-800) 1.005->1.134  [800-1000) 0.258->0.351
+epoch  1650  train 0.9735 (lat 0.0170 frac 0.0718)  val 8.2084 (lat 0.4996 frac 0.7433) ang 0.2381/0.2760  best 6.2919  1020s
+    frac  vs baseline: [1-300) 1.032->0.730  [300-600) 1.032->0.808  [600-800) 1.005->1.135  [800-1000) 0.258->0.351
+epoch  1675  train 1.1499 (lat 0.0168 frac 0.0896)  val 8.2305 (lat 0.5011 frac 0.7453) ang 0.2373/0.2764  best 6.2919  1035s
+    frac  vs baseline: [1-300) 1.032->0.731  [300-600) 1.032->0.810  [600-800) 1.005->1.137  [800-1000) 0.258->0.352
+epoch  1700  train 1.0905 (lat 0.0137 frac 0.0840)  val 8.2476 (lat 0.5018 frac 0.7469) ang 0.2366/0.2766  best 6.2919  1050s
+    frac  vs baseline: [1-300) 1.032->0.730  [300-600) 1.032->0.811  [600-800) 1.005->1.136  [800-1000) 0.258->0.354
+epoch  1725  train 0.9007 (lat 0.0136 frac 0.0650)  val 8.2655 (lat 0.5019 frac 0.7487) ang 0.2366/0.2771  best 6.2919  1064s
+    frac  vs baseline: [1-300) 1.032->0.731  [300-600) 1.032->0.810  [600-800) 1.005->1.140  [800-1000) 0.258->0.355
+epoch  1750  train 1.0657 (lat 0.0153 frac 0.0814)  val 8.2858 (lat 0.5029 frac 0.7506) ang 0.2362/0.2772  best 6.2919  1079s
+    frac  vs baseline: [1-300) 1.032->0.732  [300-600) 1.032->0.813  [600-800) 1.005->1.144  [800-1000) 0.258->0.356
+epoch  1775  train 1.0143 (lat 0.0128 frac 0.0766)  val 8.3032 (lat 0.5052 frac 0.7521) ang 0.2358/0.2771  best 6.2919  1093s
+    frac  vs baseline: [1-300) 1.032->0.734  [300-600) 1.032->0.814  [600-800) 1.005->1.148  [800-1000) 0.258->0.357
+epoch  1800  train 0.8711 (lat 0.0113 frac 0.0625)  val 8.3136 (lat 0.5054 frac 0.7531) ang 0.2350/0.2772  best 6.2919  1108s
+    frac  vs baseline: [1-300) 1.032->0.737  [300-600) 1.032->0.819  [600-800) 1.005->1.153  [800-1000) 0.258->0.358
+epoch  1825  train 0.9835 (lat 0.0128 frac 0.0736)  val 8.3135 (lat 0.5060 frac 0.7530) ang 0.2351/0.2771  best 6.2919  1123s
+    frac  vs baseline: [1-300) 1.032->0.737  [300-600) 1.032->0.821  [600-800) 1.005->1.155  [800-1000) 0.258->0.358
+epoch  1850  train 0.9303 (lat 0.0134 frac 0.0682)  val 8.3042 (lat 0.5073 frac 0.7520) ang 0.2348/0.2771  best 6.2919  1137s
+    frac  vs baseline: [1-300) 1.032->0.739  [300-600) 1.032->0.821  [600-800) 1.005->1.154  [800-1000) 0.258->0.359
+epoch  1875  train 0.8955 (lat 0.0124 frac 0.0649)  val 8.3062 (lat 0.5069 frac 0.7522) ang 0.2344/0.2773  best 6.2919  1152s
+    frac  vs baseline: [1-300) 1.032->0.738  [300-600) 1.032->0.820  [600-800) 1.005->1.153  [800-1000) 0.258->0.360
+epoch  1900  train 0.8701 (lat 0.0116 frac 0.0624)  val 8.3019 (lat 0.5074 frac 0.7517) ang 0.2343/0.2777  best 6.2919  1166s
+    frac  vs baseline: [1-300) 1.032->0.737  [300-600) 1.032->0.819  [600-800) 1.005->1.153  [800-1000) 0.258->0.361
+epoch  1925  train 0.8168 (lat 0.0119 frac 0.0570)  val 8.3230 (lat 0.5084 frac 0.7537) ang 0.2344/0.2778  best 6.2919  1181s
+    frac  vs baseline: [1-300) 1.032->0.737  [300-600) 1.032->0.820  [600-800) 1.005->1.155  [800-1000) 0.258->0.363
+epoch  1950  train 0.9016 (lat 0.0110 frac 0.0658)  val 8.3385 (lat 0.5097 frac 0.7551) ang 0.2328/0.2779  best 6.2919  1195s
+    frac  vs baseline: [1-300) 1.032->0.737  [300-600) 1.032->0.821  [600-800) 1.005->1.156  [800-1000) 0.258->0.365
+epoch  1975  train 0.7928 (lat 0.0101 frac 0.0550)  val 8.3443 (lat 0.5098 frac 0.7557) ang 0.2330/0.2779  best 6.2919  1210s
+    frac  vs baseline: [1-300) 1.032->0.737  [300-600) 1.032->0.822  [600-800) 1.005->1.158  [800-1000) 0.258->0.366
+epoch  2000  train 0.8057 (lat 0.0105 frac 0.0563)  val 8.3601 (lat 0.5104 frac 0.7572) ang 0.2325/0.2780  best 6.2919  1225s
+    frac  vs baseline: [1-300) 1.032->0.739  [300-600) 1.032->0.825  [600-800) 1.005->1.163  [800-1000) 0.258->0.368
+epoch  2025  train 0.8037 (lat 0.0102 frac 0.0562)  val 8.3777 (lat 0.5101 frac 0.7590) ang 0.2316/0.2780  best 6.2919  1240s
+    frac  vs baseline: [1-300) 1.032->0.741  [300-600) 1.032->0.826  [600-800) 1.005->1.166  [800-1000) 0.258->0.370
+epoch  2050  train 0.8129 (lat 0.0131 frac 0.0568)  val 8.4100 (lat 0.5102 frac 0.7622) ang 0.2314/0.2782  best 6.2919  1255s
+    frac  vs baseline: [1-300) 1.032->0.742  [300-600) 1.032->0.828  [600-800) 1.005->1.169  [800-1000) 0.258->0.372
+epoch  2075  train 0.7608 (lat 0.0098 frac 0.0520)  val 8.4216 (lat 0.5097 frac 0.7633) ang 0.2309/0.2784  best 6.2919  1269s
+    frac  vs baseline: [1-300) 1.032->0.743  [300-600) 1.032->0.829  [600-800) 1.005->1.169  [800-1000) 0.258->0.373
+epoch  2100  train 0.7529 (lat 0.0087 frac 0.0514)  val 8.4313 (lat 0.5101 frac 0.7643) ang 0.2303/0.2786  best 6.2919  1284s
+    frac  vs baseline: [1-300) 1.032->0.745  [300-600) 1.032->0.831  [600-800) 1.005->1.170  [800-1000) 0.258->0.375
+epoch  2125  train 0.7450 (lat 0.0087 frac 0.0506)  val 8.4448 (lat 0.5095 frac 0.7657) ang 0.2304/0.2787  best 6.2919  1298s
+    frac  vs baseline: [1-300) 1.032->0.747  [300-600) 1.032->0.833  [600-800) 1.005->1.172  [800-1000) 0.258->0.376
+epoch  2150  train 0.7983 (lat 0.0080 frac 0.0561)  val 8.4482 (lat 0.5093 frac 0.7660) ang 0.2294/0.2788  best 6.2919  1313s
+    frac  vs baseline: [1-300) 1.032->0.748  [300-600) 1.032->0.834  [600-800) 1.005->1.175  [800-1000) 0.258->0.377
+epoch  2175  train 0.7281 (lat 0.0072 frac 0.0492)  val 8.4651 (lat 0.5089 frac 0.7677) ang 0.2291/0.2789  best 6.2919  1327s
+    frac  vs baseline: [1-300) 1.032->0.749  [300-600) 1.032->0.836  [600-800) 1.005->1.177  [800-1000) 0.258->0.379
+epoch  2200  train 0.7564 (lat 0.0074 frac 0.0520)  val 8.4810 (lat 0.5080 frac 0.7694) ang 0.2286/0.2790  best 6.2919  1342s
+    frac  vs baseline: [1-300) 1.032->0.751  [300-600) 1.032->0.839  [600-800) 1.005->1.180  [800-1000) 0.258->0.381
+epoch  2225  train 0.7975 (lat 0.0072 frac 0.0562)  val 8.5006 (lat 0.5082 frac 0.7713) ang 0.2284/0.2791  best 6.2919  1356s
+    frac  vs baseline: [1-300) 1.032->0.753  [300-600) 1.032->0.840  [600-800) 1.005->1.182  [800-1000) 0.258->0.382
+epoch  2250  train 0.6876 (lat 0.0064 frac 0.0454)  val 8.5063 (lat 0.5088 frac 0.7718) ang 0.2276/0.2793  best 6.2919  1371s
+    frac  vs baseline: [1-300) 1.032->0.753  [300-600) 1.032->0.842  [600-800) 1.005->1.185  [800-1000) 0.258->0.383
+epoch  2275  train 0.6707 (lat 0.0063 frac 0.0437)  val 8.5181 (lat 0.5084 frac 0.7730) ang 0.2272/0.2795  best 6.2919  1386s
+    frac  vs baseline: [1-300) 1.032->0.755  [300-600) 1.032->0.844  [600-800) 1.005->1.188  [800-1000) 0.258->0.384
+epoch  2300  train 0.8218 (lat 0.0072 frac 0.0588)  val 8.5218 (lat 0.5078 frac 0.7734) ang 0.2266/0.2796  best 6.2919  1400s
+    frac  vs baseline: [1-300) 1.032->0.756  [300-600) 1.032->0.846  [600-800) 1.005->1.191  [800-1000) 0.258->0.386
+epoch  2325  train 0.7005 (lat 0.0065 frac 0.0467)  val 8.5331 (lat 0.5076 frac 0.7746) ang 0.2269/0.2798  best 6.2919  1415s
+    frac  vs baseline: [1-300) 1.032->0.757  [300-600) 1.032->0.848  [600-800) 1.005->1.193  [800-1000) 0.258->0.387
+epoch  2350  train 0.6564 (lat 0.0062 frac 0.0423)  val 8.5525 (lat 0.5079 frac 0.7765) ang 0.2271/0.2799  best 6.2919  1426s
+    frac  vs baseline: [1-300) 1.032->0.758  [300-600) 1.032->0.850  [600-800) 1.005->1.196  [800-1000) 0.258->0.389
+epoch  2375  train 0.6556 (lat 0.0058 frac 0.0423)  val 8.5609 (lat 0.5083 frac 0.7773) ang 0.2267/0.2800  best 6.2919  1436s
+    frac  vs baseline: [1-300) 1.032->0.759  [300-600) 1.032->0.851  [600-800) 1.005->1.199  [800-1000) 0.258->0.392
+epoch  2400  train 0.6396 (lat 0.0058 frac 0.0407)  val 8.5686 (lat 0.5095 frac 0.7779) ang 0.2264/0.2800  best 6.2919  1445s
+    frac  vs baseline: [1-300) 1.032->0.760  [300-600) 1.032->0.852  [600-800) 1.005->1.202  [800-1000) 0.258->0.394
+epoch  2425  train 0.6337 (lat 0.0057 frac 0.0402)  val 8.5819 (lat 0.5102 frac 0.7791) ang 0.2261/0.2802  best 6.2919  1460s
+    frac  vs baseline: [1-300) 1.032->0.761  [300-600) 1.032->0.854  [600-800) 1.005->1.206  [800-1000) 0.258->0.396
+epoch  2450  train 0.6674 (lat 0.0058 frac 0.0436)  val 8.5952 (lat 0.5106 frac 0.7804) ang 0.2257/0.2804  best 6.2919  1474s
+    frac  vs baseline: [1-300) 1.032->0.762  [300-600) 1.032->0.856  [600-800) 1.005->1.207  [800-1000) 0.258->0.398
+epoch  2475  train 0.6162 (lat 0.0052 frac 0.0385)  val 8.6097 (lat 0.5109 frac 0.7818) ang 0.2255/0.2806  best 6.2919  1489s
+    frac  vs baseline: [1-300) 1.032->0.763  [300-600) 1.032->0.857  [600-800) 1.005->1.210  [800-1000) 0.258->0.400
+epoch  2500  train 0.6018 (lat 0.0050 frac 0.0372)  val 8.6262 (lat 0.5109 frac 0.7835) ang 0.2252/0.2807  best 6.2919  1504s
+    frac  vs baseline: [1-300) 1.032->0.764  [300-600) 1.032->0.858  [600-800) 1.005->1.213  [800-1000) 0.258->0.402
+epoch  2525  train 0.5961 (lat 0.0046 frac 0.0367)  val 8.6476 (lat 0.5109 frac 0.7856) ang 0.2246/0.2808  best 6.2919  1518s
+    frac  vs baseline: [1-300) 1.032->0.766  [300-600) 1.032->0.860  [600-800) 1.005->1.218  [800-1000) 0.258->0.404
+epoch  2550  train 0.6022 (lat 0.0047 frac 0.0373)  val 8.6673 (lat 0.5109 frac 0.7876) ang 0.2243/0.2809  best 6.2919  1533s
+    frac  vs baseline: [1-300) 1.032->0.767  [300-600) 1.032->0.862  [600-800) 1.005->1.222  [800-1000) 0.258->0.406
+epoch  2575  train 0.6023 (lat 0.0046 frac 0.0374)  val 8.6837 (lat 0.5109 frac 0.7892) ang 0.2241/0.2809  best 6.2919  1547s
+    frac  vs baseline: [1-300) 1.032->0.769  [300-600) 1.032->0.863  [600-800) 1.005->1.225  [800-1000) 0.258->0.408
+epoch  2600  train 0.5999 (lat 0.0047 frac 0.0371)  val 8.6993 (lat 0.5111 frac 0.7907) ang 0.2242/0.2810  best 6.2919  1562s
+    frac  vs baseline: [1-300) 1.032->0.770  [300-600) 1.032->0.864  [600-800) 1.005->1.228  [800-1000) 0.258->0.410
+epoch  2625  train 0.5927 (lat 0.0046 frac 0.0364)  val 8.7120 (lat 0.5112 frac 0.7920) ang 0.2239/0.2810  best 6.2919  1577s
+    frac  vs baseline: [1-300) 1.032->0.771  [300-600) 1.032->0.866  [600-800) 1.005->1.230  [800-1000) 0.258->0.411
+epoch  2650  train 0.5857 (lat 0.0044 frac 0.0358)  val 8.7227 (lat 0.5109 frac 0.7931) ang 0.2236/0.2810  best 6.2919  1591s
+    frac  vs baseline: [1-300) 1.032->0.773  [300-600) 1.032->0.867  [600-800) 1.005->1.233  [800-1000) 0.258->0.413
+epoch  2675  train 0.5820 (lat 0.0044 frac 0.0354)  val 8.7359 (lat 0.5106 frac 0.7944) ang 0.2233/0.2810  best 6.2919  1606s
+    frac  vs baseline: [1-300) 1.032->0.774  [300-600) 1.032->0.869  [600-800) 1.005->1.236  [800-1000) 0.258->0.414
+epoch  2700  train 0.5804 (lat 0.0044 frac 0.0353)  val 8.7505 (lat 0.5104 frac 0.7959) ang 0.2231/0.2810  best 6.2919  1620s
+    frac  vs baseline: [1-300) 1.032->0.776  [300-600) 1.032->0.870  [600-800) 1.005->1.239  [800-1000) 0.258->0.416
+epoch  2725  train 0.5784 (lat 0.0044 frac 0.0351)  val 8.7625 (lat 0.5103 frac 0.7971) ang 0.2228/0.2811  best 6.2919  1635s
+    frac  vs baseline: [1-300) 1.032->0.777  [300-600) 1.032->0.871  [600-800) 1.005->1.241  [800-1000) 0.258->0.418
+epoch  2750  train 0.5795 (lat 0.0043 frac 0.0353)  val 8.7717 (lat 0.5102 frac 0.7980) ang 0.2226/0.2811  best 6.2919  1650s
+    frac  vs baseline: [1-300) 1.032->0.777  [300-600) 1.032->0.871  [600-800) 1.005->1.243  [800-1000) 0.258->0.419
+epoch  2775  train 0.5796 (lat 0.0043 frac 0.0353)  val 8.7790 (lat 0.5101 frac 0.7988) ang 0.2224/0.2811  best 6.2919  1664s
+    frac  vs baseline: [1-300) 1.032->0.778  [300-600) 1.032->0.872  [600-800) 1.005->1.244  [800-1000) 0.258->0.420
+epoch  2800  train 0.5778 (lat 0.0042 frac 0.0351)  val 8.7836 (lat 0.5100 frac 0.7992) ang 0.2223/0.2811  best 6.2919  1679s
+    frac  vs baseline: [1-300) 1.032->0.779  [300-600) 1.032->0.873  [600-800) 1.005->1.246  [800-1000) 0.258->0.421
+epoch  2825  train 0.5761 (lat 0.0042 frac 0.0350)  val 8.7860 (lat 0.5100 frac 0.7995) ang 0.2221/0.2812  best 6.2919  1693s
+    frac  vs baseline: [1-300) 1.032->0.779  [300-600) 1.032->0.873  [600-800) 1.005->1.247  [800-1000) 0.258->0.421
+epoch  2850  train 0.5753 (lat 0.0041 frac 0.0349)  val 8.7872 (lat 0.5100 frac 0.7996) ang 0.2220/0.2812  best 6.2919  1708s
+    frac  vs baseline: [1-300) 1.032->0.779  [300-600) 1.032->0.873  [600-800) 1.005->1.247  [800-1000) 0.258->0.422
+epoch  2875  train 0.5748 (lat 0.0041 frac 0.0349)  val 8.7883 (lat 0.5100 frac 0.7997) ang 0.2220/0.2812  best 6.2919  1723s
+    frac  vs baseline: [1-300) 1.032->0.779  [300-600) 1.032->0.874  [600-800) 1.005->1.248  [800-1000) 0.258->0.422
+epoch  2900  train 0.5738 (lat 0.0040 frac 0.0348)  val 8.7895 (lat 0.5100 frac 0.7998) ang 0.2219/0.2812  best 6.2919  1735s
+    frac  vs baseline: [1-300) 1.032->0.780  [300-600) 1.032->0.874  [600-800) 1.005->1.248  [800-1000) 0.258->0.422
+epoch  2925  train 0.5728 (lat 0.0039 frac 0.0347)  val 8.7912 (lat 0.5100 frac 0.8000) ang 0.2219/0.2812  best 6.2919  1745s
+    frac  vs baseline: [1-300) 1.032->0.780  [300-600) 1.032->0.874  [600-800) 1.005->1.249  [800-1000) 0.258->0.423
+epoch  2950  train 0.5721 (lat 0.0039 frac 0.0346)  val 8.7931 (lat 0.5100 frac 0.8002) ang 0.2218/0.2813  best 6.2919  1758s
+    frac  vs baseline: [1-300) 1.032->0.780  [300-600) 1.032->0.874  [600-800) 1.005->1.249  [800-1000) 0.258->0.423
+epoch  2975  train 0.5717 (lat 0.0038 frac 0.0346)  val 8.7947 (lat 0.5099 frac 0.8003) ang 0.2218/0.2813  best 6.2919  1773s
+    frac  vs baseline: [1-300) 1.032->0.780  [300-600) 1.032->0.874  [600-800) 1.005->1.249  [800-1000) 0.258->0.423
+epoch  3000  train 0.5716 (lat 0.0038 frac 0.0346)  val 8.7955 (lat 0.5099 frac 0.8004) ang 0.2218/0.2813  best 6.2919  1788s
+    frac  vs baseline: [1-300) 1.032->0.780  [300-600) 1.032->0.874  [600-800) 1.005->1.250  [800-1000) 0.258->0.423
+done in 1788s  best structural val 6.2919 at epoch 290
+[jarvis_A3-seed0/train] done in 1794s
+[jarvis_A3-seed0/generate] $ python -u /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/generate_benchmark.py --checkpoint /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A3/seed0/best_model.pt --data-dir /data/ccamp104/alignn_csp_lgmatrix/jarvis/data/jarvis --split test --output-csv /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A3/seed0/bench/nosym/pred.csv --num-candidates 32 --guidance 2.0 --relax cell --rank energy --relax-steps 200 --seed 0 --device cuda --save-candidates /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A3/seed0/bench/nosym/candidates.json --prescreen-keep 4 --relax-workers 16
+model modalities=['prop', 'composition'] active=all
+103 targets, 32 candidates each
+  sampled chunk 1/4 (908 structures, 334s)
+  sampled chunk 2/4 (884 structures, 689s)
+  sampled chunk 3/4 (912 structures, 1032s)
+  sampled chunk 4/4 (592 structures, 1289s)
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+  prescreened 32 -> 4 per target in 11s
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+  relax/rank done in 291s
+  best candidate converged for 101/103 targets
+wrote /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A3/seed0/bench/nosym/pred.csv (103 rows)
+[jarvis_A3-seed0/generate] done in 1586s
+[jarvis_A3-seed0/symmetrize] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/symmetrize.sh --csv /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A3/seed0/bench/nosym/pred.csv --out /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A3/seed0/bench/sym/pred.csv --symprec 0.1
+symprec=0.1: changed 103 rows -> /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A3/seed0/bench/sym/pred.csv
+[jarvis_A3-seed0/symmetrize] done in 2s
+[jarvis_A3-seed0/score-nosym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A3/seed0/bench/nosym/pred.csv
+=== /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A3/seed0/bench/nosym/pred.csv
+  match_rate  0.456311   (47/103)
+  RMSD        0.032867
+  ccRMSD      0.5628390109360595
+  MAE abc     0.5104
+  MAE angles  16.1400
+  KLD mean    0.0315
+[jarvis_A3-seed0/score-nosym] done in 5s
+[jarvis_A3-seed0/score-sym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A3/seed0/bench/sym/pred.csv
+=== /data/ccamp104/alignn_csp_lgmatrix/jarvis/train/jarvis_A3/seed0/bench/sym/pred.csv
+  match_rate  0.466019   (48/103)
+  RMSD        0.04035
+  ccRMSD      0.5662070265727944
+  MAE abc     0.5102
+  MAE angles  11.2417
+  KLD mean    0.0241
+[jarvis_A3-seed0/score-sym] done in 3s
+
+1 unit(s) complete.
+summarise with: python task_runners/run_task.py lg-angle-matrix --aggregate

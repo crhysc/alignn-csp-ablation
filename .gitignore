@@ -20,3 +20,13 @@ slurm-*.out
 # scheduler settings.  Site-local by construction -- committing it would
 # make one cluster's paths the default for every future clone.
 /site.env
+/datasets
+
+# Hugging Face staging (hardlinks into the DVC-tracked tiers, rebuilt by
+# tools/write_metadata.py); only the cards are tracked.
+/hf/model/
+/hf/datasets/
+# A DVC remote fetched from the Hub by tools/hf_sync.sh pull.
+/.dvc-remote/
+# The tooling venv, if someone builds it in-tree.
+/.tools/

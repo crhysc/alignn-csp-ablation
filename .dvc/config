@@ -1,0 +1,8 @@
+[core]
+    autostage = true
+    analytics = false
+    remote = hfmirror
+['remote "hfmirror"']
+    url = /data/ccamp104/dvc-remote/alignn-csp-ablation
+# hfmirror is a plain directory that tools/hf_sync.sh mirrors to a Hugging Face dataset repo;
+# on a new machine: hf download <ns>/alignn-csp-ablation-dvc --repo-type dataset --local-dir <dir>; dvc remote modify hfmirror url <dir>; dvc pull

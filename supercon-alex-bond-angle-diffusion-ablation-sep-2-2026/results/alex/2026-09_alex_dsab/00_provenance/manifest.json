@@ -1,0 +1,80 @@
+{
+  "run_id": "2026-09_alex_dsab",
+  "collected_utc": "2026-09-06T15:04:24.575460+00:00",
+  "tree": "train",
+  "runs_root": "/data/ccamp104/alignn_csp/alex",
+  "alignn": {
+    "path": "/home/ccamp104/repositories/alignn-csp-ablation/alignn",
+    "rev": "f8121f4e4c850a8fb31015081cec73dde9c6515e",
+    "branch": "lg-angle-diffusion-matrix",
+    "dirty": true
+  },
+  "atombench": {
+    "path": "/data/ccamp104/atombench",
+    "rev": "324ed9d1d04ed947788a8435b8fc2e7dcfc76ea3"
+  },
+  "n_runs": 2,
+  "runs": [
+    {
+      "arm": "A0",
+      "seed": 0,
+      "rundir": "/data/ccamp104/alignn_csp/alex/train/alex_A0/seed0",
+      "files": {
+        "history.json": {
+          "sha256": "37130a25a45db48a4cb3bba29ee8ae958796b710910e5dabb7e4efbe6888b5d0",
+          "bytes": 100560
+        },
+        "config.json": {
+          "sha256": "25df82f3cc25c9e62a93792f8804f5e00fbe937ba8c845d0a503145f53f53df3",
+          "bytes": 833
+        }
+      },
+      "hosts": []
+    },
+    {
+      "arm": "A1",
+      "seed": 0,
+      "rundir": "/data/ccamp104/alignn_csp/alex/train/alex_A1/seed0",
+      "files": {
+        "history.json": {
+          "sha256": "97ae9eabd9413f518b581f9b87d2db4f81586319368dc867550aeadd5bd5d25e",
+          "bytes": 104562
+        },
+        "config.json": {
+          "sha256": "4cf3cbd38e9ee52a4fe7ca5fd93f3c3f27aaa6e5319c553c80d8f2cbbcce86f7",
+          "bytes": 832
+        }
+      },
+      "hosts": []
+    }
+  ],
+  "missing_files": [
+    "A0/seed0: bench/nosym/pred.csv",
+    "A0/seed0: bench/nosym/metrics.json",
+    "A0/seed0: bench/sym/pred.csv",
+    "A0/seed0: bench/sym/metrics.json",
+    "A0/seed0: bench/sym/angle_eval.json",
+    "A0/seed0: bench/raw/pred.csv",
+    "A0/seed0: bench/raw/metrics.json",
+    "A0/seed0: bench/rawsym/pred.csv",
+    "A0/seed0: bench/rawsym/metrics.json",
+    "A0/seed0: bench/rawsym/angle_eval.json",
+    "A1/seed0: bench/nosym/pred.csv",
+    "A1/seed0: bench/nosym/metrics.json",
+    "A1/seed0: bench/sym/pred.csv",
+    "A1/seed0: bench/sym/metrics.json",
+    "A1/seed0: bench/sym/angle_eval.json",
+    "A1/seed0: bench/raw/pred.csv",
+    "A1/seed0: bench/raw/metrics.json",
+    "A1/seed0: bench/rawsym/pred.csv",
+    "A1/seed0: bench/rawsym/metrics.json",
+    "A1/seed0: bench/rawsym/angle_eval.json"
+  ],
+  "orphan_gpu_traces": [
+    "csp-aggregate__12823__0.csv",
+    "csp-angle-ablation-alex__12824__0.csv",
+    "csp-angle-ablation-alex__12824__1.csv",
+    "csp-data-alex__12815__0.csv",
+    "csp-data-alex__12822__0.csv"
+  ]
+}

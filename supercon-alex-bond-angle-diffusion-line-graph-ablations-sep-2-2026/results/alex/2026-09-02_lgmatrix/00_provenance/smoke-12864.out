@@ -1,0 +1,537 @@
+=== GPU
+index, name, driver_version
+0, NVIDIA GB10, 580.159.03
+
+=== all four cells, --smoke, into /data/ccamp104/csp_smoke_lgmatrix/alex
+
+--- unit 0
+smoke mode: 2 epochs, 2 candidates, 4 targets, one seed
+
+=== unit alex_nolg-seed0  ->  /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0
+[alex_nolg-seed0/train] $ python -u -m alignn.inverse.train_csp --data-dir /data/ccamp104/csp_smoke_lgmatrix/alex/data/alex --output /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0 --epochs 2 --seed 0 --ablation A0 --alignn-layers 0 --gcn-layers 9 --hidden-features 256 --knn 12 --num-steps 1000 --batch-size 64 --lr 1e-3 --augment 0 --device cuda --log-every 25 --select-on structural
+train=6603 val=825
+normalizer: {"lattice_mean": [0.9141413569450378, 0.9141413569450378, 0.9141413569450378, 0.0, 0.0, 0.0], "lattice_std": [0.26006534695625305, 0.26006534695625305, 0.26006534695625305, 0.20201514661312103, 0.20201514661312103, 0.20201514661312103], "prop_mean": 2.454956837375865, "prop_std": 4.082666975406004}
+ablation A0: baseline: current ALIGNN 2.0 diffusion, angles as features only
+denoiser: {"hidden_features": 256, "alignn_layers": 0, "gcn_layers": 9, "knn": 12, "num_steps": 1000, "angle_diffusion": false, "topology": "knn", "gate_pair_messages": false, "angle_feedback": true}
+parameters: 3.75M  modalities: ['prop', 'composition']
+/home/ccamp104/repositories/alignn-csp-ablation/alignn/alignn/inverse/train_csp.py:446: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  agg[k] += float(losses[k])
+epoch     1  train 7.8627 (lat 0.5881 frac 0.7275)  val 9.2913 (lat 0.9762 frac 0.8315)  best 9.2913  3s
+    frac vs baseline: [1-300) 0.987->0.982  [300-600) 0.987->0.984  [600-800) 0.954->0.952  [800-1000) 0.249->0.249
+done in 6s  best structural val 9.1932 at epoch 2
+[alex_nolg-seed0/train] done in 12s
+[alex_nolg-seed0/generate] $ python -u /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/generate_benchmark.py --checkpoint /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/best_model.pt --data-dir /data/ccamp104/csp_smoke_lgmatrix/alex/data/alex --split test --output-csv /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/nosym/pred.csv --num-candidates 2 --guidance 2.0 --relax cell --rank energy --relax-steps 20 --seed 0 --device cuda --save-candidates /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/nosym/candidates.json --prescreen-keep 2 --steps 50 --limit 4
+model modalities=['prop', 'composition'] active=all
+4 targets, 2 candidates each
+  sampled chunk 1/1 (8 structures, 1s)
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+  relax/rank done in 13s
+  best candidate converged for 0/4 targets
+wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/nosym/pred.csv (4 rows)
+[alex_nolg-seed0/generate] done in 17s
+[alex_nolg-seed0/symmetrize] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/symmetrize.sh --csv /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/nosym/pred.csv --out /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/sym/pred.csv --symprec 0.1
+symprec=0.1: changed 4 rows -> /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/sym/pred.csv
+[alex_nolg-seed0/symmetrize] done in 2s
+[alex_nolg-seed0/score-nosym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/nosym/pred.csv
+=== /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/nosym/pred.csv
+Loaded 4 rows from pred.csv
+Computing MAE / KLD ...
+Computing AtomGen RMSE (StructureMatcher) ...
+Computing ccRMSE/AMD (k=100) ...
+Computing crystal-system MAE (symprec=0.1, kmin=10) ...
+✓ wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/nosym/metrics.json
+  match_rate  0.0   (0/4)
+  RMSD        None
+  ccRMSD      2.570703093941554
+  MAE abc     2.3557
+  MAE angles  9.1235
+  KLD mean    0.0936
+[alex_nolg-seed0/score-nosym] done in 3s
+[alex_nolg-seed0/score-sym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/sym/pred.csv
+=== /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/sym/pred.csv
+Loaded 4 rows from pred.csv
+Computing MAE / KLD ...
+Computing AtomGen RMSE (StructureMatcher) ...
+Computing ccRMSE/AMD (k=100) ...
+Computing crystal-system MAE (symprec=0.1, kmin=10) ...
+✓ wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg/seed0/bench/sym/metrics.json
+  match_rate  0.0   (0/4)
+  RMSD        None
+  ccRMSD      2.572133956447639
+  MAE abc     2.3557
+  MAE angles  8.9451
+  KLD mean    0.0935
+[alex_nolg-seed0/score-sym] done in 3s
+
+1 unit(s) complete.
+summarise with: python task_runners/run_task.py lg-angle-matrix-alex --aggregate
+
+--- unit 1
+smoke mode: 2 epochs, 2 candidates, 4 targets, one seed
+
+=== unit alex_A0-seed0  ->  /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0
+[alex_A0-seed0/train] $ python -u -m alignn.inverse.train_csp --data-dir /data/ccamp104/csp_smoke_lgmatrix/alex/data/alex --output /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0 --epochs 2 --seed 0 --ablation A0 --alignn-layers 3 --gcn-layers 3 --hidden-features 256 --knn 12 --num-steps 1000 --batch-size 64 --lr 1e-3 --augment 0 --device cuda --log-every 25 --select-on structural
+train=6603 val=825
+normalizer: {"lattice_mean": [0.9141413569450378, 0.9141413569450378, 0.9141413569450378, 0.0, 0.0, 0.0], "lattice_std": [0.26006534695625305, 0.26006534695625305, 0.26006534695625305, 0.20201514661312103, 0.20201514661312103, 0.20201514661312103], "prop_mean": 2.454956837375865, "prop_std": 4.082666975406004}
+ablation A0: baseline: current ALIGNN 2.0 diffusion, angles as features only
+denoiser: {"hidden_features": 256, "alignn_layers": 3, "gcn_layers": 3, "knn": 12, "num_steps": 1000, "angle_diffusion": false, "topology": "knn", "gate_pair_messages": false, "angle_feedback": true}
+parameters: 3.79M  modalities: ['prop', 'composition']
+/home/ccamp104/repositories/alignn-csp-ablation/alignn/alignn/inverse/train_csp.py:446: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  agg[k] += float(losses[k])
+epoch     1  train 7.8400 (lat 0.5582 frac 0.7282)  val 9.2890 (lat 0.9757 frac 0.8313)  best 9.2890  4s
+    frac vs baseline: [1-300) 0.987->0.982  [300-600) 0.987->0.983  [600-800) 0.954->0.952  [800-1000) 0.249->0.249
+done in 8s  best structural val 9.1858 at epoch 2
+[alex_A0-seed0/train] done in 11s
+[alex_A0-seed0/generate] $ python -u /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/generate_benchmark.py --checkpoint /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0/best_model.pt --data-dir /data/ccamp104/csp_smoke_lgmatrix/alex/data/alex --split test --output-csv /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0/bench/nosym/pred.csv --num-candidates 2 --guidance 2.0 --relax cell --rank energy --relax-steps 20 --seed 0 --device cuda --save-candidates /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0/bench/nosym/candidates.json --prescreen-keep 2 --steps 50 --limit 4
+model modalities=['prop', 'composition'] active=all
+4 targets, 2 candidates each
+  sampled chunk 1/1 (8 structures, 1s)
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+  relax/rank done in 12s
+  best candidate converged for 0/4 targets
+wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0/bench/nosym/pred.csv (4 rows)
+[alex_A0-seed0/generate] done in 17s
+[alex_A0-seed0/symmetrize] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/symmetrize.sh --csv /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0/bench/nosym/pred.csv --out /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0/bench/sym/pred.csv --symprec 0.1
+symprec=0.1: changed 4 rows -> /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0/bench/sym/pred.csv
+[alex_A0-seed0/symmetrize] done in 1s
+[alex_A0-seed0/score-nosym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0/bench/nosym/pred.csv
+=== /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0/bench/nosym/pred.csv
+Loaded 4 rows from pred.csv
+Computing MAE / KLD ...
+Computing AtomGen RMSE (StructureMatcher) ...
+Computing ccRMSE/AMD (k=100) ...
+Computing crystal-system MAE (symprec=0.1, kmin=10) ...
+✓ wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0/bench/nosym/metrics.json
+  match_rate  0.0   (0/4)
+  RMSD        None
+  ccRMSD      2.0393074848628334
+  MAE abc     2.3806
+  MAE angles  12.6457
+  KLD mean    0.0829
+[alex_A0-seed0/score-nosym] done in 3s
+[alex_A0-seed0/score-sym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0/bench/sym/pred.csv
+=== /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0/bench/sym/pred.csv
+Loaded 4 rows from pred.csv
+Computing MAE / KLD ...
+Computing AtomGen RMSE (StructureMatcher) ...
+Computing ccRMSE/AMD (k=100) ...
+Computing crystal-system MAE (symprec=0.1, kmin=10) ...
+✓ wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A0/seed0/bench/sym/metrics.json
+  match_rate  0.0   (0/4)
+  RMSD        None
+  ccRMSD      2.039307484862834
+  MAE abc     2.3806
+  MAE angles  12.6457
+  KLD mean    0.0829
+[alex_A0-seed0/score-sym] done in 4s
+
+1 unit(s) complete.
+summarise with: python task_runners/run_task.py lg-angle-matrix-alex --aggregate
+
+--- unit 2
+smoke mode: 2 epochs, 2 candidates, 4 targets, one seed
+
+=== unit alex_nolg_ad-seed0  ->  /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0
+[alex_nolg_ad-seed0/train] $ python -u -m alignn.inverse.train_csp --data-dir /data/ccamp104/csp_smoke_lgmatrix/alex/data/alex --output /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0 --epochs 2 --seed 0 --ablation A3 --alignn-layers 0 --gcn-layers 9 --hidden-features 256 --knn 12 --num-steps 1000 --batch-size 64 --lr 1e-3 --augment 0 --device cuda --log-every 25 --select-on structural
+train=6603 val=825
+normalizer: {"lattice_mean": [0.9141413569450378, 0.9141413569450378, 0.9141413569450378, 0.0, 0.0, 0.0], "lattice_std": [0.26006534695625305, 0.26006534695625305, 0.26006534695625305, 0.20201514661312103, 0.20201514661312103, 0.20201514661312103], "prop_mean": 2.454956837375865, "prop_std": 4.082666975406004}
+ablation A3: proposed: explicit angular denoising + smooth topology
+denoiser: {"hidden_features": 256, "alignn_layers": 0, "gcn_layers": 9, "knn": 12, "num_steps": 1000, "angle_diffusion": true, "angle_feedback": true, "topology": "radius", "gate_pair_messages": true}
+parameters: 3.86M  modalities: ['prop', 'composition']
+/home/ccamp104/repositories/alignn-csp-ablation/alignn/alignn/inverse/train_csp.py:446: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  agg[k] += float(losses[k])
+epoch     1  train 8.1666 (lat 0.5853 frac 0.7239)  val 9.6541 (lat 0.9767 frac 0.8310) ang 0.3422/0.3678  best 9.2863  5s
+    frac vs baseline: [1-300) 0.987->0.982  [300-600) 0.987->0.983  [600-800) 0.954->0.951  [800-1000) 0.249->0.249
+done in 10s  best structural val 9.1686 at epoch 2
+[alex_nolg_ad-seed0/train] done in 15s
+[alex_nolg_ad-seed0/generate] $ python -u /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/generate_benchmark.py --checkpoint /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0/best_model.pt --data-dir /data/ccamp104/csp_smoke_lgmatrix/alex/data/alex --split test --output-csv /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0/bench/nosym/pred.csv --num-candidates 2 --guidance 2.0 --relax cell --rank energy --relax-steps 20 --seed 0 --device cuda --save-candidates /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0/bench/nosym/candidates.json --prescreen-keep 2 --steps 50 --limit 4
+model modalities=['prop', 'composition'] active=all
+4 targets, 2 candidates each
+  sampled chunk 1/1 (8 structures, 1s)
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+  relax/rank done in 12s
+  best candidate converged for 0/4 targets
+wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0/bench/nosym/pred.csv (4 rows)
+[alex_nolg_ad-seed0/generate] done in 18s
+[alex_nolg_ad-seed0/symmetrize] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/symmetrize.sh --csv /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0/bench/nosym/pred.csv --out /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0/bench/sym/pred.csv --symprec 0.1
+symprec=0.1: changed 4 rows -> /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0/bench/sym/pred.csv
+[alex_nolg_ad-seed0/symmetrize] done in 1s
+[alex_nolg_ad-seed0/score-nosym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0/bench/nosym/pred.csv
+=== /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0/bench/nosym/pred.csv
+Loaded 4 rows from pred.csv
+Computing MAE / KLD ...
+Computing AtomGen RMSE (StructureMatcher) ...
+Computing ccRMSE/AMD (k=100) ...
+Computing crystal-system MAE (symprec=0.1, kmin=10) ...
+✓ wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0/bench/nosym/metrics.json
+  match_rate  0.0   (0/4)
+  RMSD        None
+  ccRMSD      2.472908326188856
+  MAE abc     2.2465
+  MAE angles  11.0552
+  KLD mean    0.0851
+[alex_nolg_ad-seed0/score-nosym] done in 3s
+[alex_nolg_ad-seed0/score-sym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0/bench/sym/pred.csv
+=== /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0/bench/sym/pred.csv
+Loaded 4 rows from pred.csv
+Computing MAE / KLD ...
+Computing AtomGen RMSE (StructureMatcher) ...
+Computing ccRMSE/AMD (k=100) ...
+Computing crystal-system MAE (symprec=0.1, kmin=10) ...
+✓ wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad/seed0/bench/sym/metrics.json
+  match_rate  0.0   (0/4)
+  RMSD        None
+  ccRMSD      2.472908326188855
+  MAE abc     2.2465
+  MAE angles  11.0552
+  KLD mean    0.0851
+[alex_nolg_ad-seed0/score-sym] done in 4s
+
+1 unit(s) complete.
+summarise with: python task_runners/run_task.py lg-angle-matrix-alex --aggregate
+
+--- unit 3
+smoke mode: 2 epochs, 2 candidates, 4 targets, one seed
+
+=== unit alex_A3-seed0  ->  /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0
+[alex_A3-seed0/train] $ python -u -m alignn.inverse.train_csp --data-dir /data/ccamp104/csp_smoke_lgmatrix/alex/data/alex --output /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0 --epochs 2 --seed 0 --ablation A3 --alignn-layers 3 --gcn-layers 3 --hidden-features 256 --knn 12 --num-steps 1000 --batch-size 64 --lr 1e-3 --augment 0 --device cuda --log-every 25 --select-on structural
+train=6603 val=825
+normalizer: {"lattice_mean": [0.9141413569450378, 0.9141413569450378, 0.9141413569450378, 0.0, 0.0, 0.0], "lattice_std": [0.26006534695625305, 0.26006534695625305, 0.26006534695625305, 0.20201514661312103, 0.20201514661312103, 0.20201514661312103], "prop_mean": 2.454956837375865, "prop_std": 4.082666975406004}
+ablation A3: proposed: explicit angular denoising + smooth topology
+denoiser: {"hidden_features": 256, "alignn_layers": 3, "gcn_layers": 3, "knn": 12, "num_steps": 1000, "angle_diffusion": true, "angle_feedback": true, "topology": "radius", "gate_pair_messages": true}
+parameters: 3.86M  modalities: ['prop', 'composition']
+/home/ccamp104/repositories/alignn-csp-ablation/alignn/alignn/inverse/train_csp.py:446: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  agg[k] += float(losses[k])
+epoch     1  train 8.1274 (lat 0.5746 frac 0.7230)  val 9.6595 (lat 0.9764 frac 0.8312) ang 0.3226/0.3712  best 9.2883  4s
+    frac vs baseline: [1-300) 0.987->0.982  [300-600) 0.987->0.983  [600-800) 0.954->0.951  [800-1000) 0.249->0.249
+done in 8s  best structural val 9.1731 at epoch 2
+[alex_A3-seed0/train] done in 12s
+[alex_A3-seed0/generate] $ python -u /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/generate_benchmark.py --checkpoint /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0/best_model.pt --data-dir /data/ccamp104/csp_smoke_lgmatrix/alex/data/alex --split test --output-csv /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0/bench/nosym/pred.csv --num-candidates 2 --guidance 2.0 --relax cell --rank energy --relax-steps 20 --seed 0 --device cuda --save-candidates /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0/bench/nosym/candidates.json --prescreen-keep 2 --steps 50 --limit 4
+model modalities=['prop', 'composition'] active=all
+4 targets, 2 candidates each
+  sampled chunk 1/1 (8 structures, 1s)
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+  relax/rank done in 12s
+  best candidate converged for 0/4 targets
+wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0/bench/nosym/pred.csv (4 rows)
+[alex_A3-seed0/generate] done in 17s
+[alex_A3-seed0/symmetrize] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/symmetrize.sh --csv /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0/bench/nosym/pred.csv --out /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0/bench/sym/pred.csv --symprec 0.1
+symprec=0.1: changed 4 rows -> /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0/bench/sym/pred.csv
+[alex_A3-seed0/symmetrize] done in 1s
+[alex_A3-seed0/score-nosym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0/bench/nosym/pred.csv
+=== /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0/bench/nosym/pred.csv
+Loaded 4 rows from pred.csv
+Computing MAE / KLD ...
+Computing AtomGen RMSE (StructureMatcher) ...
+Computing ccRMSE/AMD (k=100) ...
+Computing crystal-system MAE (symprec=0.1, kmin=10) ...
+✓ wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0/bench/nosym/metrics.json
+  match_rate  0.0   (0/4)
+  RMSD        None
+  ccRMSD      2.069068498604815
+  MAE abc     2.3334
+  MAE angles  12.6659
+  KLD mean    0.0800
+[alex_A3-seed0/score-nosym] done in 3s
+[alex_A3-seed0/score-sym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0/bench/sym/pred.csv
+=== /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0/bench/sym/pred.csv
+Loaded 4 rows from pred.csv
+Computing MAE / KLD ...
+Computing AtomGen RMSE (StructureMatcher) ...
+Computing ccRMSE/AMD (k=100) ...
+Computing crystal-system MAE (symprec=0.1, kmin=10) ...
+✓ wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_A3/seed0/bench/sym/metrics.json
+  match_rate  0.0   (0/4)
+  RMSD        None
+  ccRMSD      2.0690684986048153
+  MAE abc     2.3334
+  MAE angles  12.6659
+  KLD mean    0.0800
+[alex_A3-seed0/score-sym] done in 2s
+
+1 unit(s) complete.
+summarise with: python task_runners/run_task.py lg-angle-matrix-alex --aggregate
+
+--- unit 4
+smoke mode: 2 epochs, 2 candidates, 4 targets, one seed
+
+=== unit alex_nolg_d16-seed0  ->  /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0
+[alex_nolg_d16-seed0/train] $ python -u -m alignn.inverse.train_csp --data-dir /data/ccamp104/csp_smoke_lgmatrix/alex/data/alex --output /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0 --epochs 2 --seed 0 --ablation A0 --alignn-layers 0 --gcn-layers 16 --hidden-features 256 --knn 12 --num-steps 1000 --batch-size 64 --lr 1e-3 --augment 0 --device cuda --log-every 25 --select-on structural
+train=6603 val=825
+normalizer: {"lattice_mean": [0.9141413569450378, 0.9141413569450378, 0.9141413569450378, 0.0, 0.0, 0.0], "lattice_std": [0.26006534695625305, 0.26006534695625305, 0.26006534695625305, 0.20201514661312103, 0.20201514661312103, 0.20201514661312103], "prop_mean": 2.454956837375865, "prop_std": 4.082666975406004}
+ablation A0: baseline: current ALIGNN 2.0 diffusion, angles as features only
+denoiser: {"hidden_features": 256, "alignn_layers": 0, "gcn_layers": 16, "knn": 12, "num_steps": 1000, "angle_diffusion": false, "topology": "knn", "gate_pair_messages": false, "angle_feedback": true}
+parameters: 6.06M  modalities: ['prop', 'composition']
+/home/ccamp104/repositories/alignn-csp-ablation/alignn/alignn/inverse/train_csp.py:446: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  agg[k] += float(losses[k])
+epoch     1  train 7.9639 (lat 0.6384 frac 0.7326)  val 9.2780 (lat 0.9768 frac 0.8301)  best 9.2780  4s
+    frac vs baseline: [1-300) 0.987->0.980  [300-600) 0.987->0.982  [600-800) 0.954->0.951  [800-1000) 0.249->0.249
+done in 8s  best structural val 9.1580 at epoch 2
+[alex_nolg_d16-seed0/train] done in 13s
+[alex_nolg_d16-seed0/generate] $ python -u /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/generate_benchmark.py --checkpoint /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0/best_model.pt --data-dir /data/ccamp104/csp_smoke_lgmatrix/alex/data/alex --split test --output-csv /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0/bench/nosym/pred.csv --num-candidates 2 --guidance 2.0 --relax cell --rank energy --relax-steps 20 --seed 0 --device cuda --save-candidates /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0/bench/nosym/candidates.json --prescreen-keep 2 --steps 50 --limit 4
+model modalities=['prop', 'composition'] active=all
+4 targets, 2 candidates each
+  sampled chunk 1/1 (8 structures, 1s)
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+  relax/rank done in 13s
+  best candidate converged for 0/4 targets
+wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0/bench/nosym/pred.csv (4 rows)
+[alex_nolg_d16-seed0/generate] done in 18s
+[alex_nolg_d16-seed0/symmetrize] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/symmetrize.sh --csv /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0/bench/nosym/pred.csv --out /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0/bench/sym/pred.csv --symprec 0.1
+symprec=0.1: changed 4 rows -> /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0/bench/sym/pred.csv
+[alex_nolg_d16-seed0/symmetrize] done in 1s
+[alex_nolg_d16-seed0/score-nosym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0/bench/nosym/pred.csv
+=== /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0/bench/nosym/pred.csv
+Loaded 4 rows from pred.csv
+Computing MAE / KLD ...
+Computing AtomGen RMSE (StructureMatcher) ...
+Computing ccRMSE/AMD (k=100) ...
+Computing crystal-system MAE (symprec=0.1, kmin=10) ...
+✓ wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0/bench/nosym/metrics.json
+  match_rate  0.0   (0/4)
+  RMSD        None
+  ccRMSD      2.0741370286922933
+  MAE abc     2.3895
+  MAE angles  13.7658
+  KLD mean    0.0822
+[alex_nolg_d16-seed0/score-nosym] done in 3s
+[alex_nolg_d16-seed0/score-sym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0/bench/sym/pred.csv
+=== /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0/bench/sym/pred.csv
+Loaded 4 rows from pred.csv
+Computing MAE / KLD ...
+Computing AtomGen RMSE (StructureMatcher) ...
+Computing ccRMSE/AMD (k=100) ...
+Computing crystal-system MAE (symprec=0.1, kmin=10) ...
+✓ wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_d16/seed0/bench/sym/metrics.json
+  match_rate  0.0   (0/4)
+  RMSD        None
+  ccRMSD      2.074137028692294
+  MAE abc     2.3895
+  MAE angles  13.7658
+  KLD mean    0.0822
+[alex_nolg_d16-seed0/score-sym] done in 3s
+
+1 unit(s) complete.
+summarise with: python task_runners/run_task.py lg-angle-matrix-alex --aggregate
+
+--- unit 5
+smoke mode: 2 epochs, 2 candidates, 4 targets, one seed
+
+=== unit alex_nolg_ad_d16-seed0  ->  /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0
+[alex_nolg_ad_d16-seed0/train] $ python -u -m alignn.inverse.train_csp --data-dir /data/ccamp104/csp_smoke_lgmatrix/alex/data/alex --output /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0 --epochs 2 --seed 0 --ablation A3 --alignn-layers 0 --gcn-layers 16 --hidden-features 256 --knn 12 --num-steps 1000 --batch-size 64 --lr 1e-3 --augment 0 --device cuda --log-every 25 --select-on structural
+train=6603 val=825
+normalizer: {"lattice_mean": [0.9141413569450378, 0.9141413569450378, 0.9141413569450378, 0.0, 0.0, 0.0], "lattice_std": [0.26006534695625305, 0.26006534695625305, 0.26006534695625305, 0.20201514661312103, 0.20201514661312103, 0.20201514661312103], "prop_mean": 2.454956837375865, "prop_std": 4.082666975406004}
+ablation A3: proposed: explicit angular denoising + smooth topology
+denoiser: {"hidden_features": 256, "alignn_layers": 0, "gcn_layers": 16, "knn": 12, "num_steps": 1000, "angle_diffusion": true, "angle_feedback": true, "topology": "radius", "gate_pair_messages": true}
+parameters: 6.17M  modalities: ['prop', 'composition']
+/home/ccamp104/repositories/alignn-csp-ablation/alignn/alignn/inverse/train_csp.py:446: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  agg[k] += float(losses[k])
+epoch     1  train 8.2036 (lat 0.6254 frac 0.7234)  val 9.6292 (lat 0.9767 frac 0.8287) ang 0.3447/0.3654  best 9.2638  4s
+    frac vs baseline: [1-300) 0.987->0.979  [300-600) 0.987->0.980  [600-800) 0.954->0.949  [800-1000) 0.249->0.249
+done in 8s  best structural val 9.1194 at epoch 2
+[alex_nolg_ad_d16-seed0/train] done in 12s
+[alex_nolg_ad_d16-seed0/generate] $ python -u /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/generate_benchmark.py --checkpoint /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0/best_model.pt --data-dir /data/ccamp104/csp_smoke_lgmatrix/alex/data/alex --split test --output-csv /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0/bench/nosym/pred.csv --num-candidates 2 --guidance 2.0 --relax cell --rank energy --relax-steps 20 --seed 0 --device cuda --save-candidates /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0/bench/nosym/candidates.json --prescreen-keep 2 --steps 50 --limit 4
+model modalities=['prop', 'composition'] active=all
+4 targets, 2 candidates each
+  sampled chunk 1/1 (8 structures, 1s)
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+dir_path /home/ccamp104/.cache/atomgptlab/alignn_ff/matpes_r2scan
+  relax/rank done in 12s
+  best candidate converged for 0/4 targets
+wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0/bench/nosym/pred.csv (4 rows)
+[alex_nolg_ad_d16-seed0/generate] done in 16s
+[alex_nolg_ad_d16-seed0/symmetrize] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/symmetrize.sh --csv /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0/bench/nosym/pred.csv --out /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0/bench/sym/pred.csv --symprec 0.1
+symprec=0.1: changed 4 rows -> /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0/bench/sym/pred.csv
+[alex_nolg_ad_d16-seed0/symmetrize] done in 1s
+[alex_nolg_ad_d16-seed0/score-nosym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0/bench/nosym/pred.csv
+=== /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0/bench/nosym/pred.csv
+Loaded 4 rows from pred.csv
+Computing MAE / KLD ...
+Computing AtomGen RMSE (StructureMatcher) ...
+Computing ccRMSE/AMD (k=100) ...
+Computing crystal-system MAE (symprec=0.1, kmin=10) ...
+✓ wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0/bench/nosym/metrics.json
+  match_rate  0.0   (0/4)
+  RMSD        None
+  ccRMSD      2.426994251168842
+  MAE abc     2.3501
+  MAE angles  9.5801
+  KLD mean    0.0882
+[alex_nolg_ad_d16-seed0/score-nosym] done in 3s
+[alex_nolg_ad_d16-seed0/score-sym] $ bash /home/ccamp104/repositories/alignn-csp-ablation/alignn/scripts/atombench/score.sh /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0/bench/sym/pred.csv
+=== /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0/bench/sym/pred.csv
+Loaded 4 rows from pred.csv
+Computing MAE / KLD ...
+Computing AtomGen RMSE (StructureMatcher) ...
+Computing ccRMSE/AMD (k=100) ...
+Computing crystal-system MAE (symprec=0.1, kmin=10) ...
+✓ wrote /data/ccamp104/csp_smoke_lgmatrix/alex/train_smoke/alex_nolg_ad_d16/seed0/bench/sym/metrics.json
+  match_rate  0.0   (0/4)
+  RMSD        None
+  ccRMSD      2.4269942511688423
+  MAE abc     2.3501
+  MAE angles  9.5801
+  KLD mean    0.0882
+[alex_nolg_ad_d16-seed0/score-sym] done in 3s
+
+1 unit(s) complete.
+summarise with: python task_runners/run_task.py lg-angle-matrix-alex --aggregate
+
+=== what came out
+  nolg:
+      3.7509 M params  alignn=0 gcn=9  angle_diffusion=False  topology=knn  select_on=structural
+      final val: structural=9.193207085132597  angle=0.0  total=9.1932069338285
+      CSV header: id,target,prediction   (AtomBench needs id,target,prediction)
+      metrics.json: yes
+  A0:
+      3.7899 M params  alignn=3 gcn=3  angle_diffusion=False  topology=knn  select_on=structural
+      final val: structural=9.185828419832083  angle=0.0  total=9.185828355642466
+      CSV header: id,target,prediction   (AtomBench needs id,target,prediction)
+      metrics.json: yes
+  nolg_ad:
+      3.8559 M params  alignn=0 gcn=9  angle_diffusion=True  topology=radius  select_on=structural
+      final val: structural=9.168551981449129  angle=0.3610792618531447  total=9.529631247887245
+      CSV header: id,target,prediction   (AtomBench needs id,target,prediction)
+      metrics.json: yes
+  A3:
+      3.8559 M params  alignn=3 gcn=3  angle_diffusion=True  topology=radius  select_on=structural
+      final val: structural=9.173118545458866  angle=0.3645413265778468  total=9.537659718440128
+      CSV header: id,target,prediction   (AtomBench needs id,target,prediction)
+      metrics.json: yes
+  nolg_d16:
+      6.0607 M params  alignn=0 gcn=16  angle_diffusion=False  topology=knn  select_on=structural
+      final val: structural=9.158018501905294  angle=0.0  total=9.158018405620869
+      CSV header: id,target,prediction   (AtomBench needs id,target,prediction)
+      metrics.json: yes
+  nolg_ad_d16:
+      6.1658 M params  alignn=0 gcn=16  angle_diffusion=True  topology=radius  select_on=structural
+      final val: structural=9.119352964254526  angle=0.36030033230781555  total=9.479653358459473
+      CSV header: id,target,prediction   (AtomBench needs id,target,prediction)
+      metrics.json: yes
+
+=== canonicalisation of PREDICTIONS (the other half of the requirement)
+Traceback (most recent call last):
+  File "<stdin>", line 8, in <module>
+  File "/data/ccamp104/envs/csp-score/lib/python3.11/site-packages/pymatgen/core/structure.py", line 3079, in from_str
+    struct = dispatch_read_str(handler, input_string, primitive=primitive, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/ccamp104/envs/csp-score/lib/python3.11/site-packages/pymatgen/io/registry.py", line 484, in dispatch_read_str
+    return handler.read_str(input_string, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/ccamp104/envs/csp-score/lib/python3.11/site-packages/pymatgen/io/vasp/__init__.py", line 38, in _poscar_read_str
+    return Poscar.from_str(
+           ^^^^^^^^^^^^^^^^
+  File "/data/ccamp104/envs/csp-score/lib/python3.11/site-packages/pymatgen/io/vasp/inputs.py", line 368, in from_str
+    scale: float = float(lines[1])
+                         ~~~~~^^^
+IndexError: list index out of range
+
+smoke complete.  These numbers mean nothing scientifically -- 2 epochs,
+2 candidates, 4 targets.  They mean the pipeline runs end to end.

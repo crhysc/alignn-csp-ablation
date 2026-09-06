@@ -1,0 +1,430 @@
+schema: alignn-csp-ablation/ablation-metadata/v1
+identity:
+  experiment_set: lgmatrix
+  experiment_set_title: line graph x bond-angle diffusion, crossed (3x2 after the state matrix)
+  harness_dir: supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026
+  dataset_key: alex
+  dataset: Alexandria DS-A/DS-B (AtomBench split)
+  run_id: 2026-09-02_lgmatrix
+  arm: nolg
+  config_dir: alex_nolg
+  seed: 0
+  unit: alex_nolg-seed0
+  task: lg-angle-matrix-alex
+  cell_label: null
+  matrix: null
+  status: complete
+description: 'baseline: current ALIGNN 2.0 diffusion, angles as features only'
+differentiators:
+  angular_tier: none
+  angle_mode: 'off'
+  ablation_key: A0
+  line_graph: false
+  alignn_layers: 0
+  gcn_layers: 9
+  topology: knn
+  gate_pair_messages: false
+  angle_feedback: true
+  angle_basis: null
+  angle_state_basis: fourier
+  angle_state_harmonics: 8
+  angle_loss_weighting: relevance
+  angle_weight: 1.0
+  seed: 0
+  epochs: 1000
+  n_parameters: 3750854
+what_this_cell_tests:
+- 'Baseline of both 2x2s: no angular channel, no line graph (9 pair convs, parameter-matched), hard kNN
+  topology.'
+- Shared by config name between MATRIX and MATRIX_STATE; trained once.
+model_config_verbatim:
+  epochs: 1000
+  batch_size: 64
+  lr: 0.001
+  weight_decay: 1.0e-05
+  hidden_features: 256
+  alignn_layers: 0
+  gcn_layers: 9
+  knn: 12
+  num_steps: 1000
+  sigma_min: 0.005
+  sigma_max: 0.5
+  angle_sigma_min: 0.005
+  angle_sigma_max: 0.5
+  prop_dropout: 0.15
+  composition_dropout: 0.1
+  lattice_weight: 1.0
+  frac_weight: 10.0
+  ablation: A0
+  angle_mode: 'off'
+  angle_diffusion: false
+  angle_feedback: true
+  topology: knn
+  radius_cutoff: null
+  envelope_exponent: null
+  gate_pair_messages: false
+  angle_basis: null
+  angle_state_basis: fourier
+  angle_state_harmonics: 8
+  angle_loss_weighting: relevance
+  angle_weight: 1.0
+  select_on: structural
+  early_stop_patience: 0
+  ema_decay: 0.999
+  grad_clip: 1.0
+  augment: 0
+  init_from: null
+  seed: 0
+  log_every: 25
+  n_parameters: 3750854
+training:
+  optimizer: AdamW
+  lr_peak: 0.001
+  schedule: OneCycleLR pct_start=0.05
+  weight_decay: 1.0e-05
+  grad_clip: 1.0
+  batch_size: 64
+  epochs: 1000
+  ema_decay: 0.999
+  loss_weights:
+    lattice: 1.0
+    frac: 10.0
+    angle: 1.0
+  checkpoint_selection: structural
+  augment: 0
+  history:
+    epochs_recorded: 1000
+    selected_epoch_argmin_structural: 298
+    val_at_selected:
+      loss: 5.717820717738225
+      loss_structural: 5.717820660426066
+      loss_lattice: 0.09416444714252765
+      loss_frac: 0.5623656213283539
+      loss_angle: 0.0
+    train_at_selected:
+      loss: 5.181587042716833
+      loss_lattice: 0.08361560865663566
+      loss_frac: 0.5097971446812153
+      loss_angle: 0.0
+    argmin_total_epoch: 298
+    val_at_argmin_total:
+      loss: 5.717820717738225
+      loss_structural: 5.717820660426066
+      loss_lattice: 0.09416444714252765
+      loss_frac: 0.5623656213283539
+      loss_angle: 0.0
+    val_final:
+      loss: 7.661850269024189
+      loss_structural: 7.6618502254669485
+      loss_lattice: 0.11798299505160405
+      loss_frac: 0.7543867230415344
+      loss_angle: 0.0
+    note: best_model.pt is the argmin of val loss_structural (select_on=structural); the two argmins differ
+      in the independent-mode cells.
+data:
+  repo_dir: datasets/alexandria_dsab
+  split_meta:
+    dataset: alexandria_DS-A_DS-B
+    target_key: Tc
+    seed: 123
+    max_size: 8253
+    n_train: 6603
+    n_val: 825
+    n_test: 825
+    hash10_ids: '5703564835'
+  canonical_basis: primitive + Niggli (AtomBench scoring basis); augmentation off because of it
+generation:
+  num_candidates: 32
+  guidance: 2.0
+  n_corrector: 1
+  step_lr: 1.0e-05
+  relax: cell
+  relax_steps: 200
+  relax_fmax: 0.05
+  rank: energy
+  prescreen_keep: 4
+  max_batch_nodes: 4096
+  seed: 0
+  use_ema: 1
+  symprec: 0.1
+  symprec_chosen_on_validation: false
+  sampler_version: pre-quarantine
+  candidates_dropped_as_diverged: null
+metrics:
+  variant_sym:
+    match_rate: 0.589091
+    n_matched: 486
+    n_total: 825
+    rmsd_cartesian_A: 0.026595
+    rmsd_normalized: 0.006159
+    ccrmse: 0.3038214457486031
+    mae_lattice_lengths_A: 0.484459
+    mae_lattice_angles_deg: 8.283153
+    kld_mean: 0.020017
+    full:
+      benchmark_name: sym
+      KLD:
+        a: 0.012578845915628238
+        b: 0.012975913026416735
+        c: 0.03450253790579669
+        alpha: 0.019777564852343627
+        beta: 0.018382369476322186
+        gamma: 0.02188225175022397
+      MAE:
+        average_mae:
+          a: 0.32757864159613137
+          b: 0.3385008824634577
+          c: 0.7872987885635564
+          alpha: 8.72135119959613
+          beta: 7.985154458955634
+          gamma: 8.142954312531234
+      RMSE:
+        AtomGen:
+          mean_normalized_cartesian_rms: 0.006159
+          mean_cartesian_rms_angstrom: 0.026595
+          match_rate: 0.589091
+          stol: 0.5
+          n_matched: 486
+          n_total: 825
+      ccRMSE:
+        value: 0.3038214457486031
+        amd_k: 100
+        n_eval: 825
+      crystal_system_mae:
+        by_system:
+        - crystal_system: cubic
+          n_reconstructions: 260
+          mae:
+            a: 0.306174
+            b: 0.20796
+            c: 0.314321
+            alpha: 8.740613
+            beta: 8.943977
+            gamma: 7.606106
+        - crystal_system: hexagonal
+          n_reconstructions: 59
+          mae:
+            a: 0.224663
+            b: 0.432531
+            c: 1.498229
+            alpha: 11.915265
+            beta: 6.444752
+            gamma: 14.853258
+        - crystal_system: trigonal
+          n_reconstructions: 66
+          mae:
+            a: 0.177436
+            b: 0.17311
+            c: 0.731397
+            alpha: 12.644605
+            beta: 9.838313
+            gamma: 20.572671
+        - crystal_system: tetragonal
+          n_reconstructions: 427
+          mae:
+            a: 0.366418
+            b: 0.422271
+            c: 0.976243
+            alpha: 7.606834
+            beta: 7.422621
+            gamma: 5.718067
+        - crystal_system: orthorhombic
+          n_reconstructions: 13
+          mae:
+            a: 0.709288
+            b: 0.610721
+            c: 1.098027
+            alpha: 10.530198
+            beta: 4.868481
+            gamma: 4.968983
+        symprec: 0.1
+        kmin: 10
+  variant_nosym:
+    match_rate: 0.6
+    n_matched: 495
+    n_total: 825
+    rmsd_cartesian_A: 0.034642
+    rmsd_normalized: 0.00815
+    ccrmse: 0.3032599550425883
+    mae_lattice_lengths_A: 0.484598
+    mae_lattice_angles_deg: 12.98523
+    kld_mean: 0.026481
+    full:
+      benchmark_name: nosym
+      KLD:
+        a: 0.01255391797950356
+        b: 0.012928368678959625
+        c: 0.034461133778960325
+        alpha: 0.03342424200191208
+        beta: 0.02798536142182317
+        gamma: 0.03753301245438456
+      MAE:
+        average_mae:
+          a: 0.3286296391795055
+          b: 0.3383079308988488
+          c: 0.7868555058651564
+          alpha: 13.45774140516544
+          beta: 12.330696193985398
+          gamma: 13.167251467942538
+      RMSE:
+        AtomGen:
+          mean_normalized_cartesian_rms: 0.00815
+          mean_cartesian_rms_angstrom: 0.034642
+          match_rate: 0.6
+          stol: 0.5
+          n_matched: 495
+          n_total: 825
+      ccRMSE:
+        value: 0.3032599550425883
+        amd_k: 100
+        n_eval: 825
+      crystal_system_mae:
+        by_system:
+        - crystal_system: cubic
+          n_reconstructions: 260
+          mae:
+            a: 0.310684
+            b: 0.20938
+            c: 0.314069
+            alpha: 20.184343
+            beta: 20.715071
+            gamma: 20.530208
+        - crystal_system: hexagonal
+          n_reconstructions: 59
+          mae:
+            a: 0.223675
+            b: 0.433336
+            c: 1.495928
+            alpha: 17.984403
+            beta: 6.235046
+            gamma: 20.661969
+        - crystal_system: trigonal
+          n_reconstructions: 66
+          mae:
+            a: 0.17716
+            b: 0.172927
+            c: 0.730416
+            alpha: 16.390996
+            beta: 13.465317
+            gamma: 32.49306
+        - crystal_system: tetragonal
+          n_reconstructions: 427
+          mae:
+            a: 0.365972
+            b: 0.421014
+            c: 0.976073
+            alpha: 8.307033
+            beta: 8.188629
+            gamma: 4.90936
+        - crystal_system: orthorhombic
+          n_reconstructions: 13
+          mae:
+            a: 0.706332
+            b: 0.608644
+            c: 1.09594
+            alpha: 12.67068
+            beta: 2.598657
+            gamma: 5.017946
+        symprec: 0.1
+        kmin: 10
+  variant_raw: null
+  variant_rawsym: null
+  note: sym/nosym are AFTER 32-candidate ALIGNN-FF prescreen+relaxation; raw/rawsym (the generator alone)
+    are not yet produced -- see NEXT_TASK.md
+compute:
+  stages:
+    generate:
+      elapsed_s: 4721.6
+      host: atomgptlab04.wse.jhu.edu
+    score-nosym:
+      elapsed_s: 11.3
+      host: atomgptlab04.wse.jhu.edu
+    score-sym:
+      elapsed_s: 9.3
+      host: atomgptlab04.wse.jhu.edu
+    symmetrize:
+      elapsed_s: 6.0
+      host: atomgptlab04.wse.jhu.edu
+    train:
+      elapsed_s: 3883.4
+      host: atomgptlab04.wse.jhu.edu
+  gpu_hours_billed: 2.3977
+  hardware:
+    gpu: NVIDIA GB10
+    hosts:
+    - atomgptlab04.wse.jhu.edu
+    site: atomgptlab (JHU WSE), 2x NVIDIA GB10, aarch64 GPU nodes
+  slurm_jobs:
+  - jobid: 12962
+    log: supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/00_provenance/logs/csp-lg-angle-matrix-alex-u0-12962.out
+    host: atomgptlab04.wse.jhu.edu
+    gpu: NVIDIA GB10
+    stages_run:
+    - train
+    - generate
+    - symmetrize
+    - score-nosym
+    - score-sym
+    failed_stage: null
+    sacct:
+      jobid: '12962'
+      name: csp-lg-angle-matrix-alex-u0
+      state: COMPLETED
+      exit: 0:0
+      partition: gpu
+      nodes: atomgptlab04
+      start: '2026-09-04T02:34:28'
+      end: '2026-09-04T04:58:22'
+      elapsed: 02:23:54
+      req_tres: billing=16,cpu=16,mem=96G,node=1
+    dropped_diverged: null
+code:
+  alignn_repo: https://github.com/crhysc/alignn
+  alignn_branch: lg-angle-diffusion-matrix
+  alignn_commit_archived: f8121f4e4c850a8fb31015081cec73dde9c6515e
+  note: jobs executed the live working tree; at run time it was fb151f6 plus the uncommitted changes later
+    committed as f8121f4 (independent angular state, MATRIX_STATE, sampler quarantine).
+artifacts:
+  dvc_tracked_dir: supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs
+  files:
+  - name: bench_nosym.csv
+    bytes: 649594
+    sha256: ca456a62dfb5eb07280a840561fc5a1db6950c6f5c554893ea4b6ac03325a61e
+  - name: bench_sym.csv
+    bytes: 691717
+    sha256: fef95214e13000abb95a6f1ca00ae81c95de850cc93effd0177733606843401f
+  - name: best_model.pt
+    bytes: 30132319
+    sha256: 0a1aa3215392678235810f97a2168f3a211d223de15fc7afa42924f678703af1
+  - name: candidates_nosym.json
+    bytes: 304419
+    sha256: 94329006a8febb6668bc6edb0d2245b9216501a3bca951df453eabf647babf10
+  - name: config.json
+    bytes: 1090
+    sha256: b2e8a8d1566d1d14be8baed6b80c111dd1a78a0ab86e72b89faf3342493f67f8
+  - name: generation_config.json
+    bytes: 743
+    sha256: c61ad7bd06eb9b386dc7e42945dd38612f458e3f1571b5b861eb3d2e230381e3
+  - name: gpu_trace.csv
+    bytes: 20880
+    sha256: d016bd30aa421d325a0e3c0957851223ced4803618346530187865818365ff97
+  - name: history.json
+    bytes: 306012
+    sha256: 73d1a02439562e122f6d1ab289d180ebf07078ee03962921862470fca6227202
+  - name: last_model.pt
+    bytes: 30132319
+    sha256: 15c7f776773d563f8663ab1a46ac9048be6ba3b9893197443dbb91c3bd516337
+  - name: metrics_nosym.json
+    bytes: 2264
+    sha256: c21e70ecb379f1fd475eaa9b09de81515f31b58ee80fb8719db9300344548dd7
+  - name: metrics_sym.json
+    bytes: 2268
+    sha256: 40cb84a8831c3e45c710048a44a07fb5f17ad94f2dd463108f881d84390e99d8
+  missing:
+  - bench_raw.csv
+  - metrics_raw.json
+  - bench_rawsym.csv
+  - metrics_rawsym.json
+  - angle_eval.json
+  - angle_eval_rawsym.json
+  manifest_sha256_agrees: true

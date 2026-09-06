@@ -1,0 +1,106 @@
+gpu_sampler: device 'NVIDIA GB10'
+gpu_sampler: pid 2907565 -> /home/ccamp104/repositories/alignn-csp-ablation/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/_gputrace/csp-aggregate-lg-angle-state-matrix-alex__12972__0.csv
+repo:      /home/ccamp104/repositories/alignn-csp-ablation/alignn
+runs:      /data/ccamp104/alignn_csp_lgmatrix/jarvis
+python:    /data/ccamp104/envs/alignn2/bin/python
+host:      atomgptlab04.wse.jhu.edu
+job:       12972 array element none
+
+=== lg-angle-state-matrix-alex  (/data/ccamp104/alignn_csp_lgmatrix/alex)
+
+lg-angle-state-matrix-alex: Line graph x independently diffused bond-angle state (B3), crossed 2x2, on Alexandria DS-A/B.
+reproduces: Table 3 (tab:inverse_ablation), angular state, on the larger split
+variant: sym   groups: 4   with results: 4
+
+
+group                                  loss            match             RMSD           ccRMSD          MAE abc          MAE ang              KLD   n
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+neither                               5.718           0.5891            0.027            0.304            0.484             8.28           0.0200   1
+line graph                            4.278           0.5661            0.025            0.318            0.533             8.82           0.0217   1
+angle state                           6.018           0.5903            0.025            0.307            0.478             8.51           0.0199   1
+line graph + angle state              5.349           0.5515            0.030            0.319            0.513             9.47           0.0215   1
+
+  neither                   no angular channel at all; nine pair-graph convolutions (manuscript Table 3, arm B)
+  line graph                angles as ALIGNN input features, no angular objective (manuscript Table 3, arm A; = A0)
+  angle state               the bond-angle field as an independently diffused state with no line graph: the persistent triplet set is embedded, supervised with a score-matching loss, and coupled to coordinates through the shared trunk only (= B3 at alignn_layers=0)
+  line graph + angle state  the proposed model: state is (F, L, Theta), independently corrupted, persistent triplets, smooth relevance gates, one joint denoiser, coupled through angles -> bonds -> atoms (= B3)
+
+individual runs
+  neither                            alex_nolg-seed0          loss 5.718  match 0.5891  RMSD 0.027  ccRMSD 0.304  MAE abc 0.484  MAE ang 8.28  KLD 0.0200
+  line graph                         alex_A0-seed0            loss 4.278  match 0.5661  RMSD 0.025  ccRMSD 0.318  MAE abc 0.533  MAE ang 8.82  KLD 0.0217
+  angle state                        alex_nolg_b3-seed0       loss 6.018  match 0.5903  RMSD 0.025  ccRMSD 0.307  MAE abc 0.478  MAE ang 8.51  KLD 0.0199
+  line graph + angle state           alex_B3-seed0            loss 5.349  match 0.5515  RMSD 0.030  ccRMSD 0.319  MAE abc 0.513  MAE ang 9.47  KLD 0.0215
+
+training cost
+  arm                           params     wall time  x vs first
+  neither                       3.75 M         1h04m        1.00
+  line graph                    3.79 M         1h03m        0.99
+  angle state                   3.85 M         1h07m        1.04
+  line graph + angle state      3.85 M         1h05m        1.02
+
+comparisons  (change of the second arm relative to the first)
+
+  line graph, without an angle state
+    neither  ->  line graph
+      loss                  5.718 ->             4.278   -25.2%  better
+      match                0.5891 ->            0.5661    -3.9%  worse
+      RMSD                  0.027 ->             0.025    -4.7%  better
+      ccRMSD                0.304 ->             0.318    +4.6%  worse
+      MAE abc               0.484 ->             0.533   +10.1%  worse
+      MAE ang                8.28 ->              8.82    +6.5%  worse
+      KLD                  0.0200 ->            0.0217    +8.5%  worse
+
+  line graph, with an angle state
+    angle state  ->  line graph + angle state
+      loss                  6.018 ->             5.349   -11.1%  better
+      match                0.5903 ->            0.5515    -6.6%  worse
+      RMSD                  0.025 ->             0.030   +21.7%  worse
+      ccRMSD                0.307 ->             0.319    +4.0%  worse
+      MAE abc               0.478 ->             0.513    +7.3%  worse
+      MAE ang                8.51 ->              9.47   +11.3%  worse
+      KLD                  0.0199 ->            0.0215    +7.7%  worse
+
+  angle state, without a line graph
+    neither  ->  angle state
+      loss                  5.718 ->             6.018    +5.3%  worse
+      match                0.5891 ->            0.5903    +0.2%  better
+      RMSD                  0.027 ->             0.025    -6.9%  better
+      ccRMSD                0.304 ->             0.307    +1.1%  worse
+      MAE abc               0.484 ->             0.478    -1.3%  better
+      MAE ang                8.28 ->              8.51    +2.7%  worse
+      KLD                  0.0200 ->            0.0199    -0.5%  better
+
+  angle state, with a line graph
+    line graph  ->  line graph + angle state
+      loss                  4.278 ->             5.349   +25.0%  worse
+      match                0.5661 ->            0.5515    -2.6%  worse
+      RMSD                  0.025 ->             0.030   +18.9%  worse
+      ccRMSD                0.318 ->             0.319    +0.5%  worse
+      MAE abc               0.533 ->             0.513    -3.8%  better
+      MAE ang                8.82 ->              9.47    +7.4%  worse
+      KLD                  0.0217 ->            0.0215    -1.2%  better
+
+  both together, against neither
+    neither  ->  line graph + angle state
+      loss                  5.718 ->             5.349    -6.5%  better
+      match                0.5891 ->            0.5515    -6.4%  worse
+      RMSD                  0.027 ->             0.030   +13.3%  worse
+      ccRMSD                0.304 ->             0.319    +5.1%  worse
+      MAE abc               0.484 ->             0.513    +5.9%  worse
+      MAE ang                8.28 ->              9.47   +14.4%  worse
+      KLD                  0.0200 ->            0.0215    +7.2%  worse
+
+% ---- LaTeX ----
+\begin{tabular}{lccccccc}
+\hline
+Run & Denoising loss $\downarrow$ & Match rate $\uparrow$ & Coordinate RMSD (\AA) $\downarrow$ & ccRMSD $\downarrow$ & Lattice MAE, $abc$ (\AA) $\downarrow$ & Lattice MAE, angles ($^{\circ}$) $\downarrow$ & KLD $\downarrow$ \\
+\hline
+neither & $5.718$ & $0.5891$ & $0.027$ & $0.304$ & $0.484$ & $8.28$ & $0.0200$ \\
+line graph & $4.278$ & $0.5661$ & $0.025$ & $0.318$ & $0.533$ & $8.82$ & $0.0217$ \\
+angle state & $6.018$ & $0.5903$ & $0.025$ & $0.307$ & $0.478$ & $8.51$ & $0.0199$ \\
+line graph + angle state & $5.349$ & $0.5515$ & $0.030$ & $0.319$ & $0.513$ & $9.47$ & $0.0215$ \\
+\hline
+\end{tabular}
+
+
+=== lg-angle-state-matrix-alex complete: 2026-09-04T20:07:44-04:00
