@@ -48,6 +48,9 @@ RUN_FILES = {
     "bench/rawsym/pred.csv": "bench_rawsym.csv",
     "bench/rawsym/metrics.json": "metrics_rawsym.json",
     "bench/rawsym/angle_eval.json": "angle_eval_rawsym.json",
+    # Every sampled candidate before relaxation (generate_benchmark.py
+    # --save-raw-candidates); absent for runs from before 2026-09-06.
+    "bench/nosym/raw_candidates.csv": "raw_candidates.csv",
     "history.json": "history.json",
     "config.json": "config.json",
 }

@@ -17,7 +17,6 @@ https://github.com/crhysc/alignn-csp-ablation (read `PROJECT_STATE.md` there).
 ```
 lgmatrix/<dataset>/<arm>_seed0/
   best_model.pt          EMA weights at the epoch of minimum validation structural loss (what was benchmarked)
-  last_model.pt          weights at the final epoch (3000 jarvis / 1000 alex; heavily overfit, kept for completeness)
   config.json            every hyperparameter the run was trained with, incl. angle_mode and n_parameters
   history.json           per-epoch train/val losses (total, lattice, frac, angle, structural)
   metrics_sym.json       AtomBench metrics, symmetrised post-relaxation pipeline

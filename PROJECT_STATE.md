@@ -31,6 +31,8 @@ generator's own output without the force field, which was never saved.
 ```
 PROJECT_STATE.md              <- this file: the state of everything
 NEXT_TASK.md                  <- the one open job (regenerate unrelaxed predictions)
+INSTALL.md                    <- exact build on a new cluster: envs, data pull, checkpoints, running the generation
+envs/observed-*.txt           <- package lists of the environments the results were produced with
 README.md                     <- original layout/setup notes (install.sh, site.env)
 HANDOFF.md, HANDOFF2.md       <- the two design briefs that produced the independent angular state
 methods_inverse_rewrite.tex   <- (untracked, like current_manuscript: manuscript prose) axiomatic methods rewrite, 2026-09-04
@@ -48,7 +50,7 @@ supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/   <- experim
     ablations/<arm>_seed<N>.yaml   <- one exhaustive record per ablation run (git)
     ablations/INDEX.md             <- table of the runs in this results dir (git)
     00_provenance/                 <- sbatch files, SLURM job ids, manifest with sha256s, job logs (git)
-    10_runs/  (.dvc)               <- weights, predictions, metrics, histories, stage timings, GPU traces (DVC)
+    10_runs/  (.dvc)               <- best_model.pt, predictions, metrics, histories, stage timings, GPU traces (DVC)
     _gputrace/ (.dvc)              <- raw nvidia-smi traces per job (DVC)
     20_benchmarks*, 40_stats, 50_costs, 60_report   <- analysis tiers (git)
 hf/cards/                     <- README cards for the Hugging Face repos (git); hf/model, hf/datasets are staging (ignored)
@@ -115,6 +117,8 @@ decide it.
 
 ## 6. Restoring the full state on a new machine
 
+The exact, step-by-step build is in **`INSTALL.md`**. The short form:
+
 ```bash
 git clone --recurse-submodules https://github.com/crhysc/alignn-csp-ablation.git
 cd alignn-csp-ablation
@@ -143,7 +147,7 @@ met. Both harnesses' `env.sh` source `site.env` automatically.
 | thing | location |
 |---|---|
 | this repo | https://github.com/crhysc/alignn-csp-ablation (public) — branch `main` |
-| model code | https://github.com/crhysc/alignn (public) — branch `lg-angle-diffusion-matrix`, pinned by the submodule at `f8121f4` |
+| model code | https://github.com/crhysc/alignn (public) — branch `lg-angle-diffusion-matrix`, pinned by the submodule at `04ba46a` |
 | DVC remote (what `dvc pull` reads) | Hugging Face dataset repo `<HF_NAMESPACE>/alignn-csp-ablation-dvc` — content-addressed; `tools/hf_sync.sh pull` |
 | checkpoints, browsable | Hugging Face model repo `<HF_NAMESPACE>/alignn-csp-angular-ablations` — one folder per (set, dataset, cell) with config, history, metrics, `ABLATION.yaml` |
 | datasets, browsable | Hugging Face dataset repo `<HF_NAMESPACE>/alignn-csp-ablation-datasets` |
@@ -190,9 +194,8 @@ transport. `.dvc/config` names the remote `hfmirror`.
 
 ## 10. Pending on atomgptlab when this was written
 
-SLURM arrays `13199` (jarvis) and `13200` (alex), `csp-lgm-unrelaxed`, six
-elements each, PENDING behind another user's queue. They are the generation in
-`NEXT_TASK.md`. If that task is done elsewhere, `scancel 13199 13200`.
+Nothing. The unrelaxed-generation arrays (13199, 13200) were cancelled on
+2026-09-06 so that work moves to the new cluster; see `NEXT_TASK.md`.
 
 ## 11. Tooling on this machine
 

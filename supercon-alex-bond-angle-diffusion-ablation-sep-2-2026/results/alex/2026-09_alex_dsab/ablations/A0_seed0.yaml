@@ -147,7 +147,7 @@ compute:
 code:
   alignn_repo: https://github.com/crhysc/alignn
   alignn_branch: lg-angle-diffusion-matrix
-  alignn_commit_archived: f8121f4e4c850a8fb31015081cec73dde9c6515e
+  alignn_commit_archived: 04ba46afa3c41fbf247ec426887910da49b0f81f
   note: jobs executed the live working tree; at run time it was fb151f6 plus the uncommitted changes later
     committed as f8121f4 (independent angular state, MATRIX_STATE, sampler quarantine).
 artifacts:

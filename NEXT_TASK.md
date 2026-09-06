@@ -36,13 +36,9 @@ loss) for all twelve cells are DVC-tracked under each results directory's
 `10_runs/<arm>/seed0/` and mirrored to Hugging Face (see `PROJECT_STATE.md`
 for the namespace). Nothing needs retraining.
 
-On atomgptlab two SLURM job arrays were submitted on 2026-09-06 to do this
-(`13199` jarvis, `13200` alex, six elements each) and were still PENDING behind
-another user's queue when this repo was packaged. If they complete there, the
-outputs land in the run trees at `/data/ccamp104/alignn_csp_lgmatrix/<ds>/train/<cell>/seed0/bench/{raw,rawsym}/`
-and need `python collect.py --force` + `dvc add` + `dvc push` to enter this repo.
-If this task is done on the new cluster instead, cancel those (`scancel 13199 13200`)
-so two copies do not race.
+On atomgptlab two SLURM arrays were submitted for this on 2026-09-06 and then
+**cancelled** the same day (jobs 13199, 13200) so the work could move to the
+new cluster. Nothing partial exists; this task starts from the checkpoints.
 
 ## The job
 
@@ -117,16 +113,16 @@ runs — so tables can be pulled as soon as scoring finishes.
   while *reducing* match rate. The unrelaxed scores are what decide whether the
   angular channel changes the generator's geometry or only the training loss.
 
-## Fix the root cause while you are there
+## The root cause is fixed (alignn commit after f8121f4)
 
-Add an option to `alignn/scripts/atombench/generate_benchmark.py` that writes
-every sampled candidate (pre-relaxation POSCAR, target id, candidate index,
-`diverged` flag) to a file before `parallel_rank` runs — a few MB per run — and
-turn it on in `task_runners/tasks.py`'s `generate_stage`. Then this task never
-recurs. Keep the default off so already-collected runs stay comparable, and
-re-run the `alignn/tests/test_inverse_angle_*.py` suites afterwards
-(`/data/ccamp104/envs/csp-test-x86/bin/python -m pytest` on atomgptlab, or any
-CPU torch env).
+`generate_benchmark.py --save-raw-candidates PATH` now writes every sampled
+candidate (target id, candidate index, `diverged` flag, POSCAR) before any
+prescreen or relaxation, and `task_runners/tasks.py` passes it for every
+generate stage (`bench/nosym/raw_candidates.csv`, collected as
+`raw_candidates.csv`). `scripts/atombench/raw_from_candidates.py` turns that
+file into an AtomBench `pred.csv` from candidate 0 per target, so from now on
+the generator-alone benchmark is a scoring step, not a regeneration. The
+twelve existing runs predate the flag, which is why this task exists.
 
 ## Pitfalls that cost time last week (all documented in `PROJECT_STATE.md`)
 

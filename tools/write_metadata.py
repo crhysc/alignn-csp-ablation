@@ -384,7 +384,7 @@ def stage_hf(run_rec: dict, rundir: Path):
     idn = run_rec["identity"]
     dest = ROOT / "hf" / "model" / idn["experiment_set"] / idn["dataset_key"] / f"{idn['arm']}_seed{idn['seed']}"
     dest.mkdir(parents=True, exist_ok=True)
-    for name in ("best_model.pt", "last_model.pt", "config.json", "history.json", "metrics_sym.json",
+    for name in ("best_model.pt", "config.json", "history.json", "metrics_sym.json",
                  "metrics_nosym.json", "generation_config.json"):
         src = rundir / name
         if src.exists():
