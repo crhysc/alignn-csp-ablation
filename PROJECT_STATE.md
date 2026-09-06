@@ -123,7 +123,7 @@ The exact, step-by-step build is in **`INSTALL.md`**. The short form:
 git clone --recurse-submodules https://github.com/crhysc/alignn-csp-ablation.git
 cd alignn-csp-ablation
 python -m venv .tools && .tools/bin/pip install dvc huggingface_hub     # or any env with both
-export HF_NAMESPACE=<HF_NAMESPACE>                                      # see §7
+export HF_NAMESPACE=crhysc
 bash tools/hf_sync.sh pull        # downloads the DVC remote from the Hub, points DVC at it, `dvc pull`
 bash install.sh                   # training/scoring envs, AtomBench clone, site.env with this site's paths
 ```
@@ -148,14 +148,13 @@ met. Both harnesses' `env.sh` source `site.env` automatically.
 |---|---|
 | this repo | https://github.com/crhysc/alignn-csp-ablation (public) — branch `main` |
 | model code | https://github.com/crhysc/alignn (public) — branch `lg-angle-diffusion-matrix`, pinned by the submodule at `04ba46a` |
-| DVC remote (what `dvc pull` reads) | Hugging Face dataset repo `<HF_NAMESPACE>/alignn-csp-ablation-dvc` — content-addressed; `tools/hf_sync.sh pull` |
-| checkpoints, browsable | Hugging Face model repo `<HF_NAMESPACE>/alignn-csp-angular-ablations` — one folder per (set, dataset, cell) with config, history, metrics, `ABLATION.yaml` |
-| datasets, browsable | Hugging Face dataset repo `<HF_NAMESPACE>/alignn-csp-ablation-datasets` |
+| DVC remote (what `dvc pull` reads) | Hugging Face dataset repo `crhysc/alignn-csp-ablation-dvc` — content-addressed; `tools/hf_sync.sh pull` |
+| checkpoints, browsable | Hugging Face model repo `crhysc/alignn-csp-angular-ablations` — one folder per (set, dataset, cell) with config, history, metrics, `ABLATION.yaml` |
+| datasets, browsable | Hugging Face dataset repo `crhysc/alignn-csp-ablation-datasets` |
 | on atomgptlab only | run trees `/data/ccamp104/alignn_csp_lgmatrix/{jarvis,alex}`, data store `/data/ccamp104/alignn_csp/*/data`, envs `/data/ccamp104/envs/*`, DVC remote dir `/data/ccamp104/dvc-remote/alignn-csp-ablation` |
 | on WVU Dolly Sods only | the A-suite jarvis checkpoints (`/scratch/crc00042/alignn_csp`) |
 
-`<HF_NAMESPACE>` is a placeholder until the first `tools/hf_publish.sh` run
-records it (the script prints the `sed` that does so).
+Published 2026-09-06 under https://huggingface.co/crhysc (public).
 
 DVC note: DVC has no native Hugging Face remote (dvc 3.67, checked
 2026-09-06), so the remote is a plain directory mirrored to a Hub dataset repo
