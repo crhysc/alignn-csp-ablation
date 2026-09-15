@@ -30,3 +30,7 @@ slurm-*.out
 /.dvc-remote/
 # The tooling venv, if someone builds it in-tree.
 /.tools/
+
+# tools/check_atombench_splits.sh work tree: AtomBench checkouts, jarvis-tools,
+# dft_3d and the regenerated splits (its reports go to atombench_split_check/).
+/.atombench-split-check/

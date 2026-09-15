@@ -1,0 +1,6 @@
+# tools/check_atombench_splits.sh, 2026-09-15T13:56:15-04:00 on login04
+# alignn-csp-ablation 2a77b64; atombench 324ed9d1d04ed947788a8435b8fc2e7dcfc76ea3
+# jarvis-tools: 2026.1.10 2026.6.12 (Alexandria: 2026.1.10)
+PASS  jarvis__atombench-324ed9d__jarvis-tools-2026.1.10
+PASS  jarvis__atombench-324ed9d__jarvis-tools-2026.6.12
+PASS  alex__atombench-324ed9d

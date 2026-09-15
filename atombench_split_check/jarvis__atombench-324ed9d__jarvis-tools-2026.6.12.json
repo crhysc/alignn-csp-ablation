@@ -1,0 +1,197 @@
+{
+  "label": "jarvis__atombench-324ed9d__jarvis-tools-2026.6.12",
+  "alignn_csp_dir": "<REPO>/datasets/jarvis_supercon3d",
+  "atombench_dirs": {
+    "atomgpt": "<WORK>/splits/jarvis-324ed9d-jt2026.6.12/atomgpt",
+    "cdvae": "<WORK>/splits/jarvis-324ed9d-jt2026.6.12/cdvae",
+    "flowmm": "<WORK>/splits/jarvis-324ed9d-jt2026.6.12/flowmm"
+  },
+  "strict_order": true,
+  "alignn_csp_split": {
+    "n_train": 847,
+    "n_val": 105,
+    "n_test": 103,
+    "hash10_ids": "3fd288e327"
+  },
+  "atomgpt_hash10_ids": "3fd288e327",
+  "structure_matcher": {
+    "ltol": 0.02,
+    "stol": 0.05,
+    "angle_tol": 1.0,
+    "primitive_cell": true,
+    "scale": false
+  },
+  "models": [
+    {
+      "model": "CDVAE",
+      "n_test_atombench": 103,
+      "n_test_alignn_csp": 103,
+      "common": 103,
+      "only_alignn_csp": [],
+      "only_atombench": [],
+      "same_order": true,
+      "atombench_test_in_alignn_csp_train": [],
+      "atombench_test_in_alignn_csp_val": [],
+      "alignn_csp_test_in_atombench_train": [],
+      "property_compared": true,
+      "property_mismatch": [],
+      "crystal_compared": true,
+      "crystal_mismatch": [],
+      "crystal_unparsable": [],
+      "crystal_rms_max": 1.4753086370974435e-05,
+      "passed": true
+    },
+    {
+      "model": "FlowMM",
+      "n_test_atombench": 103,
+      "n_test_alignn_csp": 103,
+      "common": 103,
+      "only_alignn_csp": [],
+      "only_atombench": [],
+      "same_order": true,
+      "atombench_test_in_alignn_csp_train": [],
+      "atombench_test_in_alignn_csp_val": [],
+      "alignn_csp_test_in_atombench_train": [],
+      "property_compared": true,
+      "property_mismatch": [],
+      "crystal_compared": true,
+      "crystal_mismatch": [],
+      "crystal_unparsable": [],
+      "crystal_rms_max": 1.4753086370974435e-05,
+      "passed": true
+    },
+    {
+      "model": "AtomGPT",
+      "n_test_atombench": 103,
+      "n_test_alignn_csp": 103,
+      "common": 103,
+      "only_alignn_csp": [],
+      "only_atombench": [],
+      "same_order": true,
+      "atombench_test_in_alignn_csp_train": [],
+      "atombench_test_in_alignn_csp_val": [],
+      "alignn_csp_test_in_atombench_train": [],
+      "property_compared": true,
+      "property_mismatch": [],
+      "crystal_compared": true,
+      "crystal_mismatch": [],
+      "crystal_unparsable": [],
+      "crystal_rms_max": 1.2979519869273895e-06,
+      "passed": true
+    }
+  ],
+  "bench_csvs": [
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/A0/seed0/bench_nosym.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/A0/seed0/bench_raw.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/A0/seed0/bench_sym.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/A3/seed0/bench_nosym.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/A3/seed0/bench_raw.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/A3/seed0/bench_sym.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/B3/seed0/bench_nosym.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/B3/seed0/bench_raw.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/B3/seed0/bench_sym.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/nolg_ad/seed0/bench_nosym.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/nolg_ad/seed0/bench_raw.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/nolg_ad/seed0/bench_sym.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/nolg_b3/seed0/bench_nosym.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/nolg_b3/seed0/bench_raw.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/nolg_b3/seed0/bench_sym.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/nolg/seed0/bench_nosym.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/nolg/seed0/bench_raw.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/jarvis/2026-09-02_lgmatrix/10_runs/nolg/seed0/bench_sym.csv",
+      "rows": 103,
+      "target_mismatch": [],
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "hard_failures": [],
+  "leak_summaries": [],
+  "leak_hashes": []
+}

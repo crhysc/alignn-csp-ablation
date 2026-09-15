@@ -1,0 +1,197 @@
+{
+  "label": "alex__atombench-324ed9d",
+  "alignn_csp_dir": "<REPO>/datasets/alexandria_dsab",
+  "atombench_dirs": {
+    "atomgpt": "<WORK>/splits/alex-324ed9d-jt2026.1.10/atomgpt",
+    "cdvae": "<WORK>/splits/alex-324ed9d-jt2026.1.10/cdvae",
+    "flowmm": "<WORK>/splits/alex-324ed9d-jt2026.1.10/flowmm"
+  },
+  "strict_order": true,
+  "alignn_csp_split": {
+    "n_train": 6603,
+    "n_val": 825,
+    "n_test": 825,
+    "hash10_ids": "5703564835"
+  },
+  "atomgpt_hash10_ids": "5703564835",
+  "structure_matcher": {
+    "ltol": 0.02,
+    "stol": 0.05,
+    "angle_tol": 1.0,
+    "primitive_cell": true,
+    "scale": false
+  },
+  "models": [
+    {
+      "model": "CDVAE",
+      "n_test_atombench": 825,
+      "n_test_alignn_csp": 825,
+      "common": 825,
+      "only_alignn_csp": [],
+      "only_atombench": [],
+      "same_order": true,
+      "atombench_test_in_alignn_csp_train": [],
+      "atombench_test_in_alignn_csp_val": [],
+      "alignn_csp_test_in_atombench_train": [],
+      "property_compared": true,
+      "property_mismatch": [],
+      "crystal_compared": true,
+      "crystal_mismatch": [],
+      "crystal_unparsable": [],
+      "crystal_rms_max": 3.274001780103169e-05,
+      "passed": true
+    },
+    {
+      "model": "FlowMM",
+      "n_test_atombench": 825,
+      "n_test_alignn_csp": 825,
+      "common": 825,
+      "only_alignn_csp": [],
+      "only_atombench": [],
+      "same_order": true,
+      "atombench_test_in_alignn_csp_train": [],
+      "atombench_test_in_alignn_csp_val": [],
+      "alignn_csp_test_in_atombench_train": [],
+      "property_compared": true,
+      "property_mismatch": [],
+      "crystal_compared": true,
+      "crystal_mismatch": [],
+      "crystal_unparsable": [],
+      "crystal_rms_max": 3.274001780103169e-05,
+      "passed": true
+    },
+    {
+      "model": "AtomGPT",
+      "n_test_atombench": 825,
+      "n_test_alignn_csp": 825,
+      "common": 825,
+      "only_alignn_csp": [],
+      "only_atombench": [],
+      "same_order": true,
+      "atombench_test_in_alignn_csp_train": [],
+      "atombench_test_in_alignn_csp_val": [],
+      "alignn_csp_test_in_atombench_train": [],
+      "property_compared": true,
+      "property_mismatch": [],
+      "crystal_compared": true,
+      "crystal_mismatch": [],
+      "crystal_unparsable": [],
+      "crystal_rms_max": 8.799217381078304e-06,
+      "passed": true
+    }
+  ],
+  "bench_csvs": [
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/A0/seed0/bench_nosym.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/A0/seed0/bench_raw.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/A0/seed0/bench_sym.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/A3/seed0/bench_nosym.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/A3/seed0/bench_raw.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/A3/seed0/bench_sym.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/B3/seed0/bench_nosym.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/B3/seed0/bench_raw.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/B3/seed0/bench_sym.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/nolg_ad/seed0/bench_nosym.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/nolg_ad/seed0/bench_raw.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/nolg_ad/seed0/bench_sym.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/nolg_b3/seed0/bench_nosym.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/nolg_b3/seed0/bench_raw.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/nolg_b3/seed0/bench_sym.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/nolg/seed0/bench_nosym.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/nolg/seed0/bench_raw.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    },
+    {
+      "path": "<REPO>/supercon-alex-bond-angle-diffusion-line-graph-ablations-sep-2-2026/results/alex/2026-09-02_lgmatrix/10_runs/nolg/seed0/bench_sym.csv",
+      "rows": 825,
+      "target_mismatch": [],
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "hard_failures": [],
+  "leak_summaries": [],
+  "leak_hashes": []
+}

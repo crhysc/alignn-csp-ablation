@@ -1,0 +1,58 @@
+spglib: ssm_get_exact_positions failed.
+spglib: get_bravais_exact_positions_and_lattice failed.
+spglib: ssm_get_exact_positions failed.
+spglib: get_bravais_exact_positions_and_lattice failed.
+spglib: ssm_get_exact_positions failed.
+spglib: get_bravais_exact_positions_and_lattice failed.
+spglib: ssm_get_exact_positions failed.
+spglib: get_bravais_exact_positions_and_lattice failed.
+spglib: ssm_get_exact_positions failed.
+spglib: get_bravais_exact_positions_and_lattice failed.
+spglib: ssm_get_exact_positions failed.
+spglib: get_bravais_exact_positions_and_lattice failed.
+spglib: ssm_get_exact_positions failed.
+spglib: get_bravais_exact_positions_and_lattice failed.
+spglib: ssm_get_exact_positions failed.
+spglib: get_bravais_exact_positions_and_lattice failed.
+spglib: ssm_get_exact_positions failed.
+spglib: get_bravais_exact_positions_and_lattice failed.
+[OK] ALIGNN-CSP JSONs reproduce split_meta.json hash10_ids=5703564835
+[OK] Within-family split disjointness and de-duplication checks passed.
+[OK] Cross-model split equivalence checks passed (using the requested mapping).
+[OK] AtomGPT id_prop.csv and ALIGNN-CSP share hash10_ids=5703564835
+[OK] ALIGNN-CSP vs CDVAE: identical split, properties and crystals
+[OK] ALIGNN-CSP vs FlowMM: identical split, properties and crystals
+[OK] ALIGNN-CSP vs AtomGPT: identical split, properties and crystals
+
+ALIGNN-CSP split against each AtomBench model's split
+  AtomBench model  n_test  n_csp  common  only_csp  only_atombench  order  atombench_test∈csp_trn/val  csp_test∈atombench_trn  Tc≠  crystal≠  rms_max 
+  ---------------  ------  -----  ------  --------  --------------  -----  --------------------------  ----------------------  ---  --------  --------
+  CDVAE            825     825    825     0         0               same   0                           0                       0    0         3.27e-05
+  FlowMM           825     825    825     0         0               same   0                           0                       0    0         3.27e-05
+  AtomGPT          825     825    825     0         0               same   0                           0                       0    0         8.80e-06
+
+[OK] bench CSV 10_runs/A0/seed0/bench_nosym.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/A0/seed0/bench_raw.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/A0/seed0/bench_sym.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/A3/seed0/bench_nosym.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/A3/seed0/bench_raw.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/A3/seed0/bench_sym.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/B3/seed0/bench_nosym.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/B3/seed0/bench_raw.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/B3/seed0/bench_sym.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/nolg_ad/seed0/bench_nosym.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/nolg_ad/seed0/bench_raw.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/nolg_ad/seed0/bench_sym.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/nolg_b3/seed0/bench_nosym.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/nolg_b3/seed0/bench_raw.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/nolg_b3/seed0/bench_sym.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/nolg/seed0/bench_nosym.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/nolg/seed0/bench_raw.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] bench CSV 10_runs/nolg/seed0/bench_sym.csv: 825 rows == ALIGNN-CSP test set, targets identical
+[OK] CDVAE: no leakage detected across train/val/test (by id, CIF-hash, structure-hash)
+[OK] FlowMM: no leakage detected across train/val/test (by id, CIF-hash, structure-hash)
+[OK] ALIGNN-CSP: no leakage detected across train/val/test (by id, JSON-hash, structure-hash)
+report written to <REPO>/atombench_split_check/alex__atombench-324ed9d.json
+
+✓ All reviewer-facing split/leakage checks passed ✅
+
